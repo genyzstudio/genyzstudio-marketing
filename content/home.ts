@@ -10,12 +10,12 @@ export const home = {
     { label: "Hỏi đáp", href: "#hoi-dap" },
   ],
   hero: {
-    eyebrow: "MỘT Ý TƯỞNG NHỎ. MỘT KHỞI ĐẦU MỚI.",
+    eyebrow: "HỌC LÀM VIDEO AI · BẰNG TIẾNG VIỆT",
     title: "Tự tay làm", highlight: "video AI", ending: "đầu tiên.",
     description: "Bắt đầu từ con số 0, cùng hướng dẫn bằng tiếng Việt.",
-    explore: "Khám phá lộ trình", caption: "Một ý tưởng về Việt Nam, một khung hình mới.",
+    explore: "Xem video của studio", caption: "Phim hoạt hình của GenYZ Studio",
     imageLabel: "Hình minh hoạ tạo bằng AI · Không phải sản phẩm học viên",
-    alt: "Hình minh hoạ AI: một người đứng trên đỉnh núi nhìn xuống thung lũng Việt Nam trong ánh bình minh.",
+    alt: "Khung hình từ phim The Legend of Titus do GenYZ Studio thực hiện: một sinh vật màu xanh trong khu rừng.",
   },
   reassurance: ["Không cần biết lập trình", "Giải thích bằng tiếng Việt", "Học qua từng bước thực hành"],
   outcomes: {

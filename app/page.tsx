@@ -14,28 +14,26 @@ export default function Home() {
     <Header />
     <main id="main">
       <section className="hero shell" aria-labelledby="hero-title">
+        <Image src="/images/titus.jpg" alt={home.hero.alt} fill preload sizes="100vw" className="hero-image" />
         <div className="hero-copy">
           <p className="eyebrow"><span className="tiny-line" />{home.hero.eyebrow}</p>
-          <h1 id="hero-title">{home.hero.title}<br /><span className="coral-text">{home.hero.highlight}</span> {home.hero.ending}</h1>
+          <h1 id="hero-title">{home.hero.title} <span>{home.hero.highlight}</span><br />{home.hero.ending}</h1>
           <p className="hero-description">{home.hero.description}</p>
-          <div className="hero-actions"><Registration url={siteConfig.contact.zaloUrl} /><a href="#lo-trinh" className="text-link">{home.hero.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
+          <div className="hero-actions"><Registration url={siteConfig.contact.zaloUrl} /><a href="#san-pham" className="hero-watch">{home.hero.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
         </div>
-        <figure className="hero-visual">
-          <div className="hero-image-wrap"><Image src="/images/hero-vietnam.webp" alt={home.hero.alt} width={1536} height={1024} preload sizes="(max-width: 760px) 100vw, 54vw" className="hero-image" /></div>
-          <figcaption><span>{home.hero.caption}</span><span>{home.hero.imageLabel}</span></figcaption>
-        </figure>
+        <a href="#san-pham" className="hero-film"><FilmStrip size={20} aria-hidden="true" /><span>{home.hero.caption}<strong>The Legend of Titus<ArrowUpRight size={16} aria-hidden="true" /></strong></span></a>
       </section>
       <div className="reassurance shell">{home.reassurance.map(text => <span key={text}><Check size={18} weight="bold" aria-hidden="true" />{text}</span>)}<span className="reassurance-note">Bắt đầu đơn giản. Sáng tạo theo cách của bạn.</span></div>
 
+      <Showcase />
+
       <section id="ket-qua" className="section shell outcomes" aria-labelledby="outcomes-title">
-        <div className="outcomes-intro"><p className="eyebrow">{home.outcomes.eyebrow}</p><h2 id="outcomes-title">{home.outcomes.title}</h2><p className="section-description">{home.outcomes.description}</p><a href="#workshop" className="text-link">Bắt đầu với workshop miễn phí<ArrowUpRight size={20} aria-hidden="true" /></a></div>
+        <div className="outcomes-intro"><h2 id="outcomes-title">{home.outcomes.title}</h2><p className="section-description">{home.outcomes.description}</p><a href="#workshop" className="text-link">Bắt đầu với workshop miễn phí<ArrowUpRight size={20} aria-hidden="true" /></a></div>
         <div className="outcome-list">{home.outcomes.items.map((item, i) => {
           const Icon = [ChatCircleText, FrameCorners, FilmStrip][i];
           return <article key={item.title} className="outcome-item"><div className="icon-tile"><Icon size={26} weight="light" aria-hidden="true" /></div><div><h3>{item.title}</h3><p>{item.text}</p></div></article>;
         })}</div>
       </section>
-
-      <Showcase />
 
       <section className="process-section" aria-labelledby="process-title"><div className="shell section">
         <div className="section-heading"><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
@@ -57,7 +55,7 @@ export default function Home() {
         <div className="workshop-card"><div className="tuition"><span>{home.workshop.tuition}</span><strong>{home.workshop.price}<Sparkle size={28} weight="light" aria-hidden="true" /></strong></div><WorkshopDetails workshop={siteConfig.workshop} /><Registration url={siteConfig.contact.zaloUrl} /><p className="interest-note">{home.workshop.interest}</p><p className="cost-note">{home.workshop.costs}</p></div>
       </div></section>
 
-      <section className="shell skool-section" aria-labelledby="skool-title"><div className="skool-icon"><BookOpen size={36} weight="light" aria-hidden="true" /></div><div><p className="eyebrow">{home.skool.label}</p><h2 id="skool-title">{home.skool.title}</h2><p>{siteConfig.skool.status === "available" ? home.skool.availableDescription : home.skool.description}</p></div>{siteConfig.skool.status === "available" && siteConfig.skool.url ? <a className="text-link" href={siteConfig.skool.url} target="_blank" rel="noopener noreferrer">{home.skool.link}<ArrowUpRight size={18} aria-hidden="true" /></a> : <span className="status-label">{home.skool.soon}</span>}</section>
+      <section className="shell skool-section" aria-labelledby="skool-title"><div className="skool-icon"><BookOpen size={36} weight="light" aria-hidden="true" /></div><div><h2 id="skool-title">{home.skool.title}</h2><p>{siteConfig.skool.status === "available" ? home.skool.availableDescription : home.skool.description}</p></div>{siteConfig.skool.status === "available" && siteConfig.skool.url ? <a className="text-link" href={siteConfig.skool.url} target="_blank" rel="noopener noreferrer">{home.skool.link}<ArrowUpRight size={18} aria-hidden="true" /></a> : <span className="status-label">{home.skool.soon}</span>}</section>
 
       <section id="hoi-dap" className="section shell faq-section" aria-labelledby="faq-title"><div><h2 id="faq-title">{home.faq.title}</h2><p className="section-description">{home.faq.description}</p><Lightbulb className="faq-lightbulb" size={72} weight="thin" aria-hidden="true" /></div><div className="faq-list">{home.faq.items.map(item => <details key={item.question} name="faq"><summary>{item.question}<Plus size={20} aria-hidden="true" /></summary><p>{item.answer}</p></details>)}</div></section>
 

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: home.metadata.title, description: home.metadata.description, images: ["/images/social-preview.jpg"] },
   robots: { index: canIndex(), follow: canIndex() },
 };
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#ffffff" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: [{ media: "(prefers-color-scheme: light)", color: "#faf9f6" }, { media: "(prefers-color-scheme: dark)", color: "#131313" }] };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="vi"><body>{children}</body></html>;
 }

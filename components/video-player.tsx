@@ -23,7 +23,7 @@ export function VideoPlayer({ video }: { video: StudioVideo }) {
       <iframe src={embed} title={`${video.title} — ${video.platform}`} allow="encrypted-media; fullscreen; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
       <button ref={closeRef} className="video-close" aria-label={`${showcaseCopy.close}: ${video.title}`} onClick={() => setActive(false)}><X size={18} aria-hidden="true" /></button>
     </> : <button ref={posterRef} className="video-poster" onClick={() => setActive(true)} aria-label={`${showcaseCopy.load}: ${video.title}`}>
-      {video.thumbnail && <Image src={video.thumbnail} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />}
+      {video.thumbnail && <Image src={video.thumbnail} alt="" fill sizes="(max-width: 760px) 100vw, 65vw" />}
       <span className="video-play"><Play size={24} weight="fill" aria-hidden="true" /></span>
       <span className="video-load-label">{showcaseCopy.load}</span>
     </button>}
