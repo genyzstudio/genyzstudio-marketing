@@ -1,14 +1,13 @@
 import type { NextConfig } from "next";
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { siteConfig } from "./config/site";
 import { studioVideos } from "./content/showcase";
 import { validateShowcase } from "./lib/showcase";
-import { canIndex, isPreview, validateSite } from "./lib/site";
+import { canIndex, validateSite } from "./lib/site";
 
-export default function config(phase: string): NextConfig {
-  const errors = [...validateSite(siteConfig, phase === PHASE_PRODUCTION_BUILD && !isPreview()), ...validateShowcase(studioVideos)];
+export default function config(): NextConfig {
+  const errors = [...validateSite(siteConfig), ...validateShowcase(studioVideos)];
   for (const video of studioVideos) {
     if (video.previewSrc && !existsSync(path.join(process.cwd(), "public", video.previewSrc))) errors.push(`Studio video preview missing: ${video.previewSrc}`);
     if (video.thumbnail && !existsSync(path.join(process.cwd(), "public", video.thumbnail))) errors.push(`Studio video thumbnail missing: ${video.thumbnail}`);

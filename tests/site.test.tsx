@@ -26,16 +26,15 @@ test("Zalo rejects unsafe, misleading and incomplete URLs", () => {
   for (const url of ["", "http://zalo.me/example", "https://zalo.me", "https://zalo.me/", "https://zalo.me.evil.test/example", "https://zalo.me@evil.test/example", "javascript:alert(1)", "https://zalo.me:444/example", "https://user:pass@zalo.me/example"]) assert.equal(isZaloUrl(url), false, url);
   for (const url of ["https://zalo.me/example", "https://zalo.me/g/example"]) assert.equal(isZaloUrl(url), true, url);
 });
-test("production requires Zalo; preview accepts empty configuration", () => {
+test("empty Zalo allows hosting while configured invalid destinations are rejected", () => {
   const config = emptyConfig();
-  assert.deepEqual(validateSite(config, false), []);
-  assert.ok(validateSite(config, true).some(error => error.includes("contact.zaloUrl")));
+  assert.deepEqual(validateSite(config), []);
   config.contact.zaloUrl = "https://zalo.me/example";
-  assert.deepEqual(validateSite(config, true), []);
+  assert.deepEqual(validateSite(config), []);
   config.contact.zaloUrl = "bad-link";
-  assert.ok(validateSite(config, false).length);
+  assert.ok(validateSite(config).length);
 });
-test("Vercel production cannot bypass launch gate with preview flag", () => {
+test("Vercel production indexing cannot be changed with local preview flag", () => {
   assert.equal(isPreview({ VERCEL_ENV: "production", SITE_BUILD_MODE: "preview" }), false);
   assert.equal(isPreview({ VERCEL_ENV: "preview" }), true);
   assert.equal(isPreview({ SITE_BUILD_MODE: "preview" }), true);
@@ -77,7 +76,7 @@ test("optional settings cannot silently introduce unsafe destinations", () => {
   config.siteUrl = "https://example.com/path";
   config.workshop.capacity = -1;
   config.skool.status = "available";
-  const errors = validateSite(config, false);
+  const errors = validateSite(config);
   for (const field of ["qrImage", "socialLinks", "siteUrl", "capacity", "skool.url"]) assert.ok(errors.some(error => error.includes(field)), field);
 });
 

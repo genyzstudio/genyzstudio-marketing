@@ -13,13 +13,13 @@ export function isZaloUrl(value: string): boolean {
   return /^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\/?$/.test(path);
 }
 export function isPreview(env: Environment = process.env): boolean {
-  // A Vercel production deployment can never bypass the launch check.
+  // Vercel determines indexing and canonical URLs regardless of the local preview flag.
   if (env.VERCEL_ENV) return env.VERCEL_ENV !== "production";
   return env.SITE_BUILD_MODE === "preview";
 }
-export function validateSite(config: SiteConfig, requireLaunch: boolean): string[] {
+export function validateSite(config: SiteConfig): string[] {
   const errors: string[] = [];
-  if ((requireLaunch || config.contact.zaloUrl) && !isZaloUrl(config.contact.zaloUrl)) errors.push("contact.zaloUrl: enter a real HTTPS profile/group URL on zalo.me before production launch.");
+  if (config.contact.zaloUrl && !isZaloUrl(config.contact.zaloUrl)) errors.push("contact.zaloUrl: enter a real HTTPS profile/group URL on zalo.me to enable registration.");
   if (config.siteUrl && (!isHttpsUrl(config.siteUrl) || new URL(config.siteUrl).pathname !== "/" || new URL(config.siteUrl).search || new URL(config.siteUrl).hash)) errors.push("siteUrl: use an HTTPS origin without a path, query or fragment.");
   if (config.contact.qrImage && (!/^\/images\/[a-zA-Z0-9_/-]+\.(png|jpg|jpeg|webp)$/.test(config.contact.qrImage) || !config.contact.zaloUrl)) errors.push("contact.qrImage: use a local /images/ PNG/JPEG/WebP path and configure zaloUrl first.");
   if (config.contact.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(config.contact.email)) errors.push("contact.email: enter a valid public email address.");

@@ -19,7 +19,7 @@ Edit **config/site.ts**. This is public configuration, not a secrets file. Rebui
 
 | Setting | What to enter |
 | --- | --- |
-| `contact.zaloUrl` | Your verified HTTPS profile or group URL on `zalo.me`. Required for production. |
+| `contact.zaloUrl` | Your verified HTTPS profile or group URL on `zalo.me`. Optional; leave empty to host with registration closed. |
 | `contact.qrImage` | Optional `/images/zalo-qr.png` (or JPEG/WebP). Put the real matching QR image in `public/images/`. Requires a Zalo link. |
 | `contact.email` | Public contact email. Currently `genyzstudio@gmail.com`, approved by the owner. |
 | `contact.phone` | Optional public number; hidden when empty. No personal Zalo account details have been copied into this setting. |
@@ -33,14 +33,14 @@ Edit **config/site.ts**. This is public configuration, not a secrets file. Rebui
 
 Empty optional details stay hidden. A configured but malformed destination fails validation even in previews. Do not put example or placeholder Zalo destinations into the live configuration.
 
-`npm run build` intentionally fails until the real Zalo URL is configured. For review before launch:
+`npm run build` permits an empty Zalo URL and keeps registration closed. Invalid non-empty URLs still fail validation. For a noindex review build:
 
 ```sh
 npm run build:preview
 npm start
 ```
 
-This produces an optimized build with registration closed and `noindex` metadata. On Vercel, preview deployments are detected using `VERCEL_ENV=preview`. Production deployments always enforce the Zalo requirement, even if `SITE_BUILD_MODE=preview` is accidentally set. URL validation checks format; the owner must verify that the final destination belongs to the studio and can receive enquiries.
+This produces an optimized build with registration closed and `noindex` metadata. On Vercel, preview deployments are detected using `VERCEL_ENV=preview`. Production can be hosted before registration opens. URL validation checks format; the owner must verify that the final destination belongs to the studio and can receive enquiries.
 
 ## Edit Vietnamese copy and studio videos
 
@@ -60,15 +60,15 @@ npm run typecheck
 npm run build:preview
 ```
 
-Tests cover registration states, URL safety, production-gate bypass protection, optional contact/workshop visibility, and environment-aware metadata. For live launch, configure the real Zalo URL and run `npm run build` as well.
+Tests cover registration states, URL safety, production/preview environment detection, optional contact/workshop visibility, and environment-aware metadata. Run `npm run build` to verify production readiness. Configure the real Zalo URL when registration should open.
 
 ## Vercel
 
 Import this directory as a Next.js project or run `vercel deploy --target preview`. Use `npm run build` as the build command; do not configure a preview-only build command in project settings. Default Next.js output settings are correct. No environment secrets are needed.
 
 1. Review a preview deployment on desktop and mobile. Previews have `noindex, nofollow` metadata and headers, disallow crawling and emit an empty sitemap. Noindex is not access control; use Vercel deployment protection if previews must be private.
-2. Configure the real Zalo URL. Check that every registration action opens the intended profile/group and that any QR matches it. Fill only confirmed workshop details.
-3. Deploy production with `vercel --prod`. This fails if launch settings are incomplete. Vercel provides a `.vercel.app` domain.
+2. Leave Zalo empty to launch with registration closed, or configure the real Zalo URL to open registration. Check that every registration action opens the intended profile/group and that any QR matches it. Fill only confirmed workshop details.
+3. Deploy production with `vercel --prod`. This rejects malformed configured destinations; empty Zalo is allowed. Vercel provides a `.vercel.app` domain.
 4. Check the deployed homepage, registration destination, contact email, image loading, menu, FAQs, canonical metadata, `/robots.txt` and `/sitemap.xml`.
 5. Later add your custom domain in Vercel, follow its DNS instructions, update `siteUrl`, and redeploy.
 
