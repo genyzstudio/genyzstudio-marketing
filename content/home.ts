@@ -4,7 +4,7 @@ export const home = {
     description: "Bắt đầu làm video AI cùng GenYZ Studio. Hướng dẫn bằng tiếng Việt, lộ trình dễ hiểu và workshop nhập môn miễn phí dành cho người mới.",
   },
   nav: [
-    { label: "Bạn sẽ học gì?", href: "#ket-qua" },
+    { label: "Video của studio", href: "#san-pham" },
     { label: "Lộ trình", href: "#lo-trinh" },
     { label: "Workshop miễn phí", href: "#workshop" },
     { label: "Hỏi đáp", href: "#hoi-dap" },

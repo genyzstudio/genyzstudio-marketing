@@ -35,6 +35,8 @@ export default function Home() {
         })}</div>
       </section>
 
+      <Showcase />
+
       <section className="process-section" aria-labelledby="process-title"><div className="shell section">
         <div className="section-heading"><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
         <div className="process-grid">
@@ -44,7 +46,6 @@ export default function Home() {
         </div><p className="figure-note">{home.process.note}</p>
       </div></section>
 
-      <Showcase />
 
       <section id="lo-trinh" className="section shell journey" aria-labelledby="journey-title">
         <div className="journey-intro"><span className="section-icon"><BookOpen size={28} weight="light" aria-hidden="true" /></span><h2 id="journey-title">{home.journey.title}</h2><p className="section-description">{home.journey.description}</p><a href="#workshop" className="text-link">Thử bước đầu tiên<ArrowDown size={18} aria-hidden="true" /></a></div>

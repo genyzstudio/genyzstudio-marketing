@@ -1,6 +1,5 @@
-/** Only publish studio-owned or permission-cleared work. Add public video URLs.
- * Keep empty until the owner's channel/video links are confirmed.
- * Store thumbnails locally in public/images; do not include private account data.
+/** Public studio-owned videos verified on @GenYZStudio and @genyzstudio.
+ * Covers are local copies of the videos' public thumbnails; see docs/video-sources.md.
  */
 export interface StudioVideo {
   title: string;
@@ -8,11 +7,41 @@ export interface StudioVideo {
   platform: "YouTube" | "TikTok";
   url: string;
   thumbnail: string;
+  lesson?: string;
 }
-export const studioVideos: StudioVideo[] = [];
+export const studioVideos: StudioVideo[] = [
+  {
+    title: "The Legend of Titus",
+    description: "Cuộc phiêu lưu của chú mèo Titus và những người bạn. Quan sát cách nhân vật, bối cảnh và các cảnh quay cùng tạo nên một câu chuyện hoạt hình.",
+    lesson: "Kể chuyện qua nhiều cảnh",
+    platform: "YouTube",
+    url: "https://www.youtube.com/watch?v=VzmqrgQumGo",
+    thumbnail: "/images/titus.jpg",
+  },
+  {
+    title: "Clever Little Rat: Through the Button Bridge",
+    description: "Leo, Mio và Pip cùng vượt qua cây cầu nhỏ. Một ví dụ để quan sát chuyển động nhân vật và cách sắp xếp hành động trong một cảnh ngắn.",
+    lesson: "Nhân vật & chuyển động",
+    platform: "YouTube",
+    url: "https://www.youtube.com/watch?v=1_EZiRh8o_o",
+    thumbnail: "/images/button-bridge.jpg",
+  },
+  {
+    title: "Clever Little Rat: The First Clues",
+    description: "Một mẩu vụn vàng, một dải ruy băng và dấu chân bí ẩn. Xem cách những chi tiết nhỏ gợi tò mò trong một đoạn hoạt hình trên TikTok.",
+    lesson: "Chi tiết & nhịp kể",
+    platform: "TikTok",
+    url: "https://www.tiktok.com/@genyzstudio/video/7681309763950447893",
+    thumbnail: "/images/first-clues.jpg",
+  },
+];
 export const showcaseCopy = {
   eyebrow: "SẢN PHẨM CỦA GENYZ STUDIO",
-  title: "Những câu chuyện đã thành hình.",
-  description: "Khám phá các video do GenYZ Studio thực hiện. Đây là sản phẩm của studio, không phải bài tập hay kết quả học viên.",
+  title: "Từ ý tưởng đến những câu chuyện thật sự.",
+  description: "Xem các video hoạt hình do GenYZ Studio thực hiện, rồi khám phá điều bạn có thể học từ mỗi ví dụ. Đây là sản phẩm của studio, không phải kết quả học viên hay cam kết đầu ra của workshop.",
   watch: "Xem trên",
+  load: "Mở video",
+  close: "Đóng trình phát",
+  playerNote: "Nhấn mở video để tải trình phát YouTube hoặc TikTok. Nếu video không phát, bạn có thể xem trực tiếp trên nền tảng.",
+  channels: "Khám phá thêm từ studio",
 };

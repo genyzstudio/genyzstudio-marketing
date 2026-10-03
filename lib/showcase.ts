@@ -1,5 +1,6 @@
 import type { StudioVideo } from "../content/showcase";
 import { isHttpsUrl } from "./site";
+import { getVideoEmbed } from "./video";
 
 export function validateShowcase(videos: StudioVideo[]): string[] {
   const errors: string[] = [];
@@ -8,6 +9,7 @@ export function validateShowcase(videos: StudioVideo[]): string[] {
     const field = `studioVideos[${index}]`;
     const hosts = video.platform === "YouTube" ? ["www.youtube.com", "youtube.com", "youtu.be"] : video.platform === "TikTok" ? ["www.tiktok.com", "tiktok.com", "vm.tiktok.com", "vt.tiktok.com"] : [];
     if (!hosts.some(host => isHttpsUrl(video.url, host)) || new URL(video.url).pathname === "/") errors.push(`${field}.url: enter an HTTPS video URL on the selected YouTube/TikTok platform.`);
+    if (!getVideoEmbed(video)) errors.push(`${field}.url: use a direct YouTube watch/shorts URL or TikTok /@name/video/id URL.`);
     if (!video.title.trim() || !video.description.trim()) errors.push(`${field}: provide a title and description.`);
     if (seen.has(video.url)) errors.push(`${field}.url: duplicate video URL.`);
     seen.add(video.url);

@@ -1,6 +1,6 @@
 # GenYZ Studio
 
-Vietnamese-first marketing site for beginner AI video training. Next.js App Router, TypeScript, Tailwind CSS, mostly static server-rendered content. No accounts, database, payments, analytics cookies or registration storage. Registration happens on Zalo.
+Vietnamese-first marketing site for beginner AI video training. Next.js App Router, TypeScript, Tailwind CSS, mostly static server-rendered content. No accounts, database, payments, first-party analytics cookies or registration storage. Third-party video players load only when activated. Registration happens on Zalo.
 
 ## Run locally
 
@@ -45,7 +45,7 @@ This produces an optimized build with registration closed and `noindex` metadata
 ## Edit Vietnamese copy and studio videos
 
 - `content/home.ts`: Vietnamese copy, FAQs, programme and workshop descriptions.
-- `content/showcase.ts`: add verified, studio-owned YouTube/TikTok videos to `studioVideos`. The section is hidden until entries exist. Build validation checks matching HTTPS YouTube/TikTok hosts and local thumbnail file existence. Each entry has `title`, `description`, `platform`, `url`, and an optional local `thumbnail` path (empty string if none). Links open the platform; no tracking embeds or autoplay.
+- `content/showcase.ts`: add verified, studio-owned YouTube/TikTok videos to `studioVideos`. The section is hidden until entries exist. Build validation checks matching HTTPS YouTube/TikTok hosts and local thumbnail file existence. Each entry has `title`, `description`, `platform`, `url`, an optional `lesson` label, and an optional local `thumbnail` path (empty string if none). Verified videos have click-to-load YouTube/TikTok players and direct platform links as fallback. No player requests before activation and no autoplay. Descriptions explain learning points without promising workshop outcomes.
 - `public/images/`: owned/permission-cleared illustrations, thumbnails and QR code.
 - `app/globals.css`: typography, spacing, responsive layout and colour palette.
 

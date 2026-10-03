@@ -83,15 +83,31 @@ test("optional settings cannot silently introduce unsafe destinations", () => {
 
 test("studio video validation accepts only matching public platform links", async () => {
   const { validateShowcase } = await import("../lib/showcase");
-  const video = { title: "Studio example", description: "Studio-owned film", platform: "YouTube" as const, url: "https://www.youtube.com/watch?v=example", thumbnail: "" };
+  const video = { title: "Studio example", description: "Studio-owned film", platform: "YouTube" as const, url: "https://www.youtube.com/watch?v=VzmqrgQumGo", thumbnail: "" };
   assert.deepEqual(validateShowcase([video]), []);
-  for (const url of ["javascript:alert(1)", "https://youtube.com.evil.test/watch", "https://www.tiktok.com/@example/video/123", "https://www.youtube.com/"]) assert.ok(validateShowcase([{ ...video, url }]).length, url);
-  assert.deepEqual(validateShowcase([{ ...video, platform: "TikTok", url: "https://www.tiktok.com/@example/video/123" }]), []);
+  for (const url of ["javascript:alert(1)", "https://youtube.com.evil.test/watch", "https://www.tiktok.com/@example/video/7681309763950447893", "https://www.youtube.com/"]) assert.ok(validateShowcase([{ ...video, url }]).length, url);
+  assert.deepEqual(validateShowcase([{ ...video, platform: "TikTok", url: "https://www.tiktok.com/@example/video/7681309763950447893" }]), []);
 });
 test("studio thumbnails must be local image paths and duplicate videos are rejected", async () => {
   const { validateShowcase } = await import("../lib/showcase");
-  const video = { title: "Studio example", description: "Studio-owned film", platform: "YouTube" as const, url: "https://youtu.be/example", thumbnail: "/images/example.webp" };
+  const video = { title: "Studio example", description: "Studio-owned film", platform: "YouTube" as const, url: "https://youtu.be/VzmqrgQumGo", thumbnail: "/images/example.webp" };
   assert.deepEqual(validateShowcase([video]), []);
   for (const thumbnail of ["https://outside.test/image.jpg", "/images/../../private.png", "/images/example.svg"]) assert.ok(validateShowcase([{ ...video, thumbnail }]).length, thumbnail);
   assert.ok(validateShowcase([video, video]).some(error => error.includes("duplicate")));
+});
+
+test("embed URLs are derived from supported IDs, never arbitrary destinations", async () => {
+  const { getVideoEmbed } = await import("../lib/video");
+  assert.equal(getVideoEmbed({ platform: "YouTube", url: "https://www.youtube.com/watch?v=VzmqrgQumGo" }), "https://www.youtube-nocookie.com/embed/VzmqrgQumGo?rel=0&hl=vi");
+  assert.match(getVideoEmbed({ platform: "TikTok", url: "https://www.tiktok.com/@genyzstudio/video/7681309763950447893" }) || "", /^https:\/\/www.tiktok.com\/player\/v1\/7681309763950447893\?/);
+  for (const url of ["https://youtu.be/bad", "https://www.youtube.com/@GenYZStudio", "https://www.youtube.com/watch?v=../../bad", "https://evil.test/watch?v=VzmqrgQumGo"]) assert.equal(getVideoEmbed({ platform: "YouTube", url }), null);
+});
+test("video players render local posters and no third-party iframe before interaction", async () => {
+  const { VideoPlayer } = await import("../components/video-player");
+  const { studioVideos } = await import("../content/showcase");
+  for (const video of studioVideos) {
+    const html = renderToStaticMarkup(<VideoPlayer video={video} />);
+    assert.match(html, /Mở video/);
+    assert.doesNotMatch(html, /<iframe/);
+  }
 });

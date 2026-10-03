@@ -16,7 +16,10 @@ export const siteConfig: SiteConfig = {
     qrImage: "",
     phone: "",
     email: "genyzstudio@gmail.com",
-    socialLinks: [],
+    socialLinks: [
+      { label: "YouTube", url: "https://www.youtube.com/@GenYZStudio" },
+      { label: "TikTok", url: "https://www.tiktok.com/@genyzstudio" },
+    ],
   },
   workshop: {
     city: "",

@@ -193,3 +193,22 @@ a.button:hover { background: #b63727; border-color: #b63727; transform: translat
 }
 @media (max-width: 380px) { .hero-image-wrap { height: 300px; } .hero-actions { flex-direction: column; align-items: flex-start; } h1 { font-size: 39px; } .workshop-card { padding: 20px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.showcase-section { border-top: 1px solid var(--line); }
+.showcase-section .section-description { max-width: 690px; }
+.video-player { aspect-ratio: 16/10; min-height: 210px; position: relative; background: #202622; border-radius: 8px; }
+.video-poster { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 0; color: white; background: transparent; border-radius: inherit; overflow: hidden; }
+.showcase-card .video-poster img { height: 100%; object-fit: cover; border-radius: 8px; }
+.video-poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 30%, rgb(0 0 0 / .48)); }
+.video-play { position: absolute; z-index: 1; inset: 0; margin: auto; width: 58px; height: 58px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgb(255 255 255 / .95); color: var(--ink); transition: transform .2s; }
+.video-poster:hover .video-play { transform: scale(1.1); }
+.video-load-label { position: absolute; z-index: 1; bottom: 15px; left: 0; width: 100%; font-size: 12px; font-weight: 500; }
+.video-player iframe { width: 100%; height: 100%; border: 0; position: absolute; inset: 0; border-radius: inherit; }
+.video-close { position: absolute; top: -13px; right: -13px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: white; color: var(--ink); border: 1px solid var(--line); z-index: 2; box-shadow: 0 2px 6px #0002; }
+.video-meta { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; color: var(--muted); font-size: 10px; }
+.video-meta > span:last-child { display: inline-flex; align-items: center; gap: 6px; }
+.showcase-card h3 { margin-top: 10px; }
+.video-privacy-note { margin-top: 28px; font-size: 11px; color: var(--muted); text-align: center; }
+.showcase-channels { display: flex; gap: 25px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+.showcase-channels > span { color: var(--muted); font-size: 12px; }
+@media (max-width: 760px) { .showcase-grid { gap: 34px; } .video-player { aspect-ratio: 16/10; } .showcase-channels { gap: 10px 24px; } .showcase-channels > span { flex-basis: 100%; text-align: center; } }
