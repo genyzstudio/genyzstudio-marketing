@@ -28,3 +28,9 @@ The native player loops silently, pauses offscreen or when the page is hidden, p
 ## Technique gallery
 
 The hero now presents two native Clever Little Rat excerpts and the existing click-to-load Titus YouTube player. Vietnamese teaching labels are editable in `content/hero-gallery.ts`. Scene 06's script documents the wide establishing shot, bridge-level tracking and character-scale consistency. The second excerpt uses source 00:23–00:36 from the same finished Scene 06 export. Titus is described as an example for observing world-building and connections between scenes, not as evidence of a particular generation tool. No local Titus export was found; its verified public studio link is retained. Only the first local clip autoplays. Both honor reduced motion and pause offscreen.
+
+## Consolidated single-player gallery
+
+Verified the public YouTube videos tab and TikTok profile on 2026-10-04. Added Missing Royal Bell (YouTube `3MRIcRKAgmM`), Zodiac Calendar Awakens (YouTube `LVj-obJOR-E`) and Morning Routine (TikTok `7677089767347014928`). Covers came from observed public YouTube thumbnails for those same films. The gallery uses six distinct films, not both excerpts of Button Bridge or multiple copies from different platforms. Content is now maintained only in `content/showcase.ts`.
+
+The repeated showcase section and old hero-gallery content file were removed. The `#san-pham` navigation anchor now targets the single gallery. Previous/next wrap through the playlist; selectable thumbnails support Left/Right/Home/End. Only the selected player is mounted, and changing selection unmounts the old native video or iframe. There is no timed slide advancement.

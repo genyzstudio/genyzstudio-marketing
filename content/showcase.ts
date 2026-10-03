@@ -8,6 +8,7 @@ export interface StudioVideo {
   url: string;
   thumbnail: string;
   lesson?: string;
+  previewSrc?: string;
 }
 export const studioVideos: StudioVideo[] = [
   {
@@ -24,7 +25,8 @@ export const studioVideos: StudioVideo[] = [
     lesson: "Nhân vật & chuyển động",
     platform: "YouTube",
     url: "https://www.youtube.com/watch?v=1_EZiRh8o_o",
-    thumbnail: "/images/button-bridge.jpg",
+    thumbnail: "/images/studio-reel.jpg",
+    previewSrc: "/videos/studio-reel.mp4",
   },
   {
     title: "Clever Little Rat: The First Clues",
@@ -34,6 +36,10 @@ export const studioVideos: StudioVideo[] = [
     url: "https://www.tiktok.com/@genyzstudio/video/7681309763950447893",
     thumbnail: "/images/first-clues.jpg",
   },
+  { title: "Clever Little Rat: The Missing Royal Bell", description: "Chiếc chuông hoàng gia biến mất. Quan sát cách một vấn đề dẫn nhân vật bước vào câu chuyện.", lesson: "Mở đầu & tình huống", platform: "YouTube", url: "https://www.youtube.com/watch?v=3MRIcRKAgmM", thumbnail: "/images/royal-bell.jpg" },
+  { title: "Clever Little Rat: The Zodiac Calendar Awakens", description: "Một cuốn lịch kỳ diệu mở cánh cửa đến vương quốc chuột. Quan sát cách bối cảnh đưa người xem vào thế giới mới.", lesson: "Bối cảnh & thế giới", platform: "YouTube", url: "https://www.youtube.com/watch?v=LVj-obJOR-E", thumbnail: "/images/zodiac.jpg" },
+  { title: "Leo & Mio’s Morning Routine", description: "Một buổi sáng qua âm nhạc và hoạt hình. Mở video để quan sát cách hành động và nhịp nhạc kể câu chuyện quen thuộc.", lesson: "Âm nhạc & nhịp dựng", platform: "TikTok", url: "https://www.tiktok.com/@genyzstudio/video/7677089767347014928", thumbnail: "/images/morning.jpg" },
+
 ];
 export const showcaseCopy = {
   eyebrow: "SẢN PHẨM CỦA GENYZ STUDIO",

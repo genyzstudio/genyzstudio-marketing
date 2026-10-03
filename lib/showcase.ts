@@ -13,6 +13,7 @@ export function validateShowcase(videos: StudioVideo[]): string[] {
     if (!video.title.trim() || !video.description.trim()) errors.push(`${field}: provide a title and description.`);
     if (seen.has(video.url)) errors.push(`${field}.url: duplicate video URL.`);
     seen.add(video.url);
+    if (video.previewSrc && !/^\/videos\/[a-zA-Z0-9_-]+\.mp4$/.test(video.previewSrc)) errors.push(`${field}.previewSrc: use a local /videos/ MP4 path.`);
     if (video.thumbnail && !/^\/images\/[a-zA-Z0-9_/-]+\.(png|jpg|jpeg|webp)$/.test(video.thumbnail)) errors.push(`${field}.thumbnail: use a local /images/ PNG/JPEG/WebP path or leave empty.`);
   });
   return errors;

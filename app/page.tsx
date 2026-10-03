@@ -7,7 +7,6 @@ import { WorkshopDetails } from "@/components/workshop-details";
 import { siteConfig } from "@/config/site";
 import { home } from "@/content/home";
 import { HeroGallery } from "@/components/hero-gallery";
-import { Showcase } from "@/components/showcase";
 
 export default function Home() {
   return <>
@@ -23,7 +22,6 @@ export default function Home() {
       </section>
       <div className="reassurance shell">{home.reassurance.map(text => <span key={text}><Check size={18} weight="bold" aria-hidden="true" />{text}</span>)}<span className="reassurance-note">Bắt đầu đơn giản. Sáng tạo theo cách của bạn.</span></div>
 
-      <Showcase />
 
       <section id="ket-qua" className="section shell outcomes" aria-labelledby="outcomes-title">
         <div className="outcomes-intro"><h2 id="outcomes-title">{home.outcomes.title}</h2><p className="section-description">{home.outcomes.description}</p><a href="#workshop" className="text-link">Bắt đầu với workshop miễn phí<ArrowUpRight size={20} aria-hidden="true" /></a></div>

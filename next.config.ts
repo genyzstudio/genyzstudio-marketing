@@ -10,6 +10,7 @@ import { canIndex, isPreview, validateSite } from "./lib/site";
 export default function config(phase: string): NextConfig {
   const errors = [...validateSite(siteConfig, phase === PHASE_PRODUCTION_BUILD && !isPreview()), ...validateShowcase(studioVideos)];
   for (const video of studioVideos) {
+    if (video.previewSrc && !existsSync(path.join(process.cwd(), "public", video.previewSrc))) errors.push(`Studio video preview missing: ${video.previewSrc}`);
     if (video.thumbnail && !existsSync(path.join(process.cwd(), "public", video.thumbnail))) errors.push(`Studio video thumbnail missing: ${video.thumbnail}`);
   }
   if (siteConfig.contact.qrImage && !existsSync(path.join(process.cwd(), "public", siteConfig.contact.qrImage))) errors.push("contact.qrImage: the configured image is missing from public/.");
