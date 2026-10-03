@@ -18,3 +18,9 @@ Covers are copies of the public poster images observed on those channel/video pa
 Players load only after a visitor presses “Mở video”. YouTube uses youtube-nocookie.com; TikTok uses its official player/v1 endpoint. No autoplay. Direct source links remain available if embedding is blocked, a video is removed, or a platform requires authentication. Third-party player privacy behavior applies after activation.
 
 Implementation references: https://developers.google.com/youtube/player_parameters and https://developers.tiktok.com/docs/en/embed-player.
+
+## Native hero reel
+
+The hero uses a 24-second silent excerpt (source time 00:03–00:27) from the finished studio export `Clever Little Rat/exports/final-video/scene-06-capcut-final-2026-09-20.mp4`. It depicts the Button Bridge scene linked to the existing studio YouTube example. Original export remains unchanged. Delivery file: `public/videos/studio-reel.mp4`, H.264, 1280px wide, no audio, fast-start metadata. The matching poster is `public/images/studio-reel.jpg`.
+
+The native player loops silently, pauses offscreen or when the page is hidden, preserves manual pause, and does not automatically start with reduced motion enabled. A manual playback button and a direct full-film YouTube link remain available. The showcase YouTube/TikTok players retain click-to-load behavior.

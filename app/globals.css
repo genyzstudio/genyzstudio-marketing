@@ -205,3 +205,28 @@ a.button:hover { background:#ad3323; transform:translateY(-2px); }
  .footer { align-items:flex-start; flex-direction:column; padding-block:32px; gap:20px; } .footer-right { text-align:left; }
 }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } }
+
+/* Cinema hero: native video stays behind the readable teaching offer. */
+.hero { min-height:600px; height:min(780px,calc(100svh - 112px)); padding:58px 54px 132px; }
+.hero::after { pointer-events:none; background:linear-gradient(90deg,rgba(5,12,15,.88),rgba(5,12,15,.46) 58%,rgba(5,12,15,.14)),linear-gradient(0deg,rgba(5,12,15,.92),transparent 65%); }
+.hero-motion { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:-2; }
+.hero-cinema-bar { position:absolute; left:40px; right:40px; bottom:26px; display:flex; justify-content:space-between; align-items:center; gap:24px; border-top:1px solid #ffffff38; padding-top:22px; }
+.hero-film-credit { display:flex; align-items:center; gap:14px; }
+.hero-film-credit span:not(.cinema-indicator) { font-size:9px; letter-spacing:1.5px; color:#d9dcd9; }
+.hero-film-credit strong { display:block; margin-top:6px; font-size:16px; font-weight:500; }
+.cinema-indicator { width:8px; height:8px; background:#ffa48e; border-radius:50%; }
+.hero-playback { display:flex; align-items:center; gap:12px; }
+.hero-playback-note { max-width:230px; color:#d9dcd9; font-size:10px; line-height:1.6; margin-right:8px; }
+.cinema-control { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 14px; border:1px solid #ffffff65; border-radius:8px; background:#10181ac9; color:#fff; font-size:11px; white-space:nowrap; }
+.cinema-control:hover { background:#303a3d; border-color:#fff; }
+@media(max-width:1100px) { .hero-copy { padding-bottom:0; } .hero-playback-note { display:none; } }
+@media(max-width:760px) {
+ .hero { padding:24px 24px 172px; min-height:690px; height:auto; }
+ .hero-copy { padding-top:155px; }
+ .hero::after { background:linear-gradient(0deg,rgba(5,12,15,.97),rgba(5,12,15,.68) 62%,rgba(5,12,15,.18)); }
+ .hero-motion { object-position:42% center; }
+ .hero-cinema-bar { left:24px; right:24px; bottom:20px; flex-direction:column; align-items:flex-start; gap:16px; padding-top:16px; }
+ .hero-film-credit strong { font-size:14px; }
+ .hero-playback { gap:8px; flex-wrap:wrap; }
+ .cinema-control { padding-inline:10px; font-size:10px; }
+}
