@@ -230,3 +230,57 @@ a.button:hover { background:#ad3323; transform:translateY(-2px); }
  .hero-playback { gap:8px; flex-wrap:wrap; }
  .cinema-control { padding-inline:10px; font-size:10px; }
 }
+
+/* Film-study gallery: moving images are the hero, with teaching notes alongside. */
+.coral-text { color:var(--accent); }
+.gallery-hero { padding-top:40px; }
+.gallery-intro { display:flex; justify-content:space-between; align-items:flex-end; gap:48px; margin-bottom:40px; }
+.gallery-intro h1 { font-size:clamp(38px,4.2vw,60px); line-height:1.16; letter-spacing:-2.4px; }
+.gallery-intro .eyebrow { margin-bottom:18px; color:var(--muted); }
+.gallery-intro-action { max-width:330px; padding-bottom:5px; }
+.gallery-intro-action p { font-size:14px; color:var(--muted); margin-bottom:18px; }
+.gallery-intro-action .text-link { margin-left:16px; font-size:11px; }
+.gallery-heading { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-block:18px; border-top:1px solid var(--line); }
+.gallery-heading p { color:var(--muted); font-size:12px; }
+.gallery-heading > span { color:var(--muted); font-size:9px; letter-spacing:1.5px; white-space:nowrap; }
+.technique-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:20px; align-items:start; }
+.technique-card { min-width:0; }
+.native-gallery-player,.technique-card > .video-player { height:330px; aspect-ratio:auto; position:relative; border-radius:12px; background:#161917; }
+.native-gallery-player { overflow:hidden; }
+.gallery-motion { display:block; height:100%; width:100%; object-fit:cover; }
+.gallery-player-controls { position:absolute; bottom:0; left:0; right:0; padding:40px 12px 12px; background:linear-gradient(transparent,#000c); }
+.gallery-player-controls .hero-playback { flex-wrap:wrap; gap:6px; }
+.gallery-player-controls .hero-playback-note { display:none; }
+.gallery-player-controls .cinema-control { font-size:10px; padding:10px; }
+.technique-caption { padding:18px 2px 0; }
+.technique-caption > span { font-size:10px; color:var(--accent); }
+.technique-caption h2 { margin-top:8px; font-size:22px; line-height:1.4; letter-spacing:-.7px; }
+.technique-caption p { margin-top:10px; font-size:12px; color:var(--muted); }
+.technique-caption small { display:block; margin-top:16px; font-size:11px; }
+.technique-caption .text-link { font-size:11px; }
+.gallery-note { margin:24px 0; font-size:10px; color:var(--muted); max-width:780px; }
+@media(max-width:1100px) {
+ .gallery-intro { gap:30px; }
+ .technique-grid { grid-template-columns:1.2fr 1fr 1fr; gap:16px; }
+ .native-gallery-player,.technique-card > .video-player { height:285px; }
+ .gallery-player-controls .cinema-control { font-size:9px; padding-inline:8px; }
+ .technique-caption h2 { font-size:19px; }
+}
+@media(max-width:760px) {
+ .gallery-hero { padding-top:28px; }
+ .gallery-intro { display:block; margin-bottom:26px; }
+ .gallery-intro h1 { font-size:40px; letter-spacing:-1.8px; }
+ .gallery-intro .eyebrow { font-size:8px; letter-spacing:.6px; }
+ .gallery-intro-action { margin-top:20px; max-width:none; }
+ .gallery-intro-action p { font-size:13px; margin-bottom:14px; }
+ .gallery-heading > span { display:none; }
+ .technique-grid { grid-template-columns:1fr; gap:30px; }
+ .native-gallery-player,.technique-card > .video-player { height:auto; aspect-ratio:16/10; }
+ .technique-caption h2 { font-size:23px; }
+ .technique-caption p { font-size:13px; }
+ .gallery-note { font-size:11px; }
+}
+
+.technique-card { position:relative; }
+.technique-caption > span { position:absolute; top:14px; left:14px; z-index:1; padding:7px 10px; border:1px solid #ffffff40; border-radius:6px; background:#121917df; color:#fff; pointer-events:none; }
+.gallery-player-controls .playback-error { display:block; color:#fff; }

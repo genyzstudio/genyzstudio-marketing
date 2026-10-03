@@ -24,3 +24,7 @@ Implementation references: https://developers.google.com/youtube/player_paramete
 The hero uses a 24-second silent excerpt (source time 00:03–00:27) from the finished studio export `Clever Little Rat/exports/final-video/scene-06-capcut-final-2026-09-20.mp4`. It depicts the Button Bridge scene linked to the existing studio YouTube example. Original export remains unchanged. Delivery file: `public/videos/studio-reel.mp4`, H.264, 1280px wide, no audio, fast-start metadata. The matching poster is `public/images/studio-reel.jpg`.
 
 The native player loops silently, pauses offscreen or when the page is hidden, preserves manual pause, and does not automatically start with reduced motion enabled. A manual playback button and a direct full-film YouTube link remain available. The showcase YouTube/TikTok players retain click-to-load behavior.
+
+## Technique gallery
+
+The hero now presents two native Clever Little Rat excerpts and the existing click-to-load Titus YouTube player. Vietnamese teaching labels are editable in `content/hero-gallery.ts`. Scene 06's script documents the wide establishing shot, bridge-level tracking and character-scale consistency. The second excerpt uses source 00:23–00:36 from the same finished Scene 06 export. Titus is described as an example for observing world-building and connections between scenes, not as evidence of a particular generation tool. No local Titus export was found; its verified public studio link is retained. Only the first local clip autoplays. Both honor reduced motion and pause offscreen.

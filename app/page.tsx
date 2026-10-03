@@ -6,7 +6,7 @@ import { ContactDetails } from "@/components/contact-details";
 import { WorkshopDetails } from "@/components/workshop-details";
 import { siteConfig } from "@/config/site";
 import { home } from "@/content/home";
-import { HeroVideo } from "@/components/hero-video";
+import { HeroGallery } from "@/components/hero-gallery";
 import { Showcase } from "@/components/showcase";
 
 export default function Home() {
@@ -14,15 +14,12 @@ export default function Home() {
     <a className="skip-link" href="#main">{home.footer.skip}</a>
     <Header />
     <main id="main">
-      <section className="hero shell" aria-labelledby="hero-title">
-        <HeroVideo />
-        <div className="hero-copy">
-          <p className="eyebrow"><span className="tiny-line" />{home.hero.eyebrow}</p>
-          <h1 id="hero-title">{home.hero.title} <span>{home.hero.highlight}</span><br />{home.hero.ending}</h1>
-          <p className="hero-description">{home.hero.description}</p>
-          <div className="hero-actions"><Registration url={siteConfig.contact.zaloUrl} /><a href="#san-pham" className="hero-watch">{home.hero.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
+      <section className="gallery-hero shell" aria-labelledby="hero-title">
+        <div className="gallery-intro">
+          <div><p className="eyebrow"><span className="tiny-line" />{home.hero.eyebrow}</p><h1 id="hero-title">{home.hero.title} <span className="coral-text">{home.hero.highlight}</span><br />{home.hero.ending}</h1></div>
+          <div className="gallery-intro-action"><p>{home.hero.description}</p><Registration url={siteConfig.contact.zaloUrl} /><a className="text-link" href="#lo-trinh">Khám phá cách học<ArrowDown size={18} aria-hidden="true" /></a></div>
         </div>
-
+        <HeroGallery />
       </section>
       <div className="reassurance shell">{home.reassurance.map(text => <span key={text}><Check size={18} weight="bold" aria-hidden="true" />{text}</span>)}<span className="reassurance-note">Bắt đầu đơn giản. Sáng tạo theo cách của bạn.</span></div>
 
