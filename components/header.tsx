@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { List, X, ArrowUpRight } from "@phosphor-icons/react";
 import { home } from "@/content/home";
 
 export function Wordmark() {
-  return <span className="wordmark">gen<span className="wordmark-yz">yz</span><span className="wordmark-studio">studio<span className="brand-dot">.</span></span></span>;
+  return <span className="brand-lockup"><Image className="brand-characters" src="/images/brand/leo-mio.webp" alt="" width={64} height={64} sizes="(max-width: 760px) 54px, 80px" /><span className="wordmark">gen<span className="wordmark-yz">yz</span><span className="wordmark-studio">studio<span className="brand-dot">.</span></span></span></span>;
 }
 export function Header() {
   const [open, setOpen] = useState(false);
