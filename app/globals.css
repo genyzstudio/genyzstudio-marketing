@@ -310,3 +310,5 @@ a.button:active { transform:translateY(1px); }
   .board-wide .board-frame { flex-basis:auto; }
   .board-wide .board-caption { border-left:0; border-top:1px solid var(--line); padding:18px 22px 22px; }
 }
+.wip-section { border-top:1px solid var(--line); }
+.board-plan-light img { background:#f4efe6; }

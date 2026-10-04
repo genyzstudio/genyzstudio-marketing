@@ -39,6 +39,16 @@ export const home = {
     result: { label: "Trong phim hoàn chỉnh", title: "Through the Button Bridge", text: "Cảnh 6 được dựng thành tập phim 45 giây, công khai trên YouTube và TikTok từ ngày 20/9/2026.", alt: "Khung hình từ phim Clever Little Rat: Through the Button Bridge của GenYZ Studio.", link: "Xem phim trong thư viện" },
     note: "Tất cả là sản phẩm của studio cho cùng một cảnh, không phải bài làm của học viên.",
   },
+  wip: {
+    title: "Đang thực hiện:\nCoco và Pip ở nông trại.",
+    description: "Một dự án chưa phát hành, làm trên hai công cụ. Bảng kế hoạch được làm trên OpenArt, các cảnh quay được tạo trên Google Flow. Câu chuyện: chiếc còi vàng của chú gà Coco biến mất, và nông trại chìm trong đêm dài không có bình minh.",
+    board: { label: "Bảng kế hoạch", meta: "OpenArt", title: "Năm nhịp cắt cho một cảnh", text: "Mỗi nhịp ghi ống kính, thời lượng và chuyển động máy quay. Bảng còn có tham chiếu nhân vật, sơ đồ bối cảnh nhìn từ trên xuống và ghi chú ánh sáng.", image: "/images/process/coco-pip-farm-board.webp", width: 1400, height: 933, alt: "Bảng kế hoạch cảnh EXT. THE FARM trên OpenArt: tham chiếu nhân vật Coco và Pip, sơ đồ nông trại, năm khung phân cảnh có ống kính và thời lượng, ghi chú ánh sáng." },
+    clips: [
+      { label: "Nhịp 1", meta: "Google Flow", title: "Pip lao ra từ đống rơm", text: "Cùng nhịp truyện với cut 1 trên bảng: Pip xuất hiện và dừng lại trước mặt Coco.", src: "/media/process/coco-pip-cut1-pip.mp4", poster: "/media/process/coco-pip-cut1-pip.webp", alt: "Cảnh tạo bằng AI trên Google Flow: chú chuột hamster Pip đội mũ thám hiểm đứng trước chú gà Coco đang dang cánh trong nông trại ban đêm." },
+      { label: "Nhịp 3", meta: "Google Flow", title: "Coco kể về chiếc còi vàng", text: "Cùng nhịp truyện với cut 3 trên bảng, nhưng ở cỡ cảnh trung thay vì cận cảnh.", src: "/media/process/coco-pip-cut3-coco.mp4", poster: "/media/process/coco-pip-cut3-coco.webp", alt: "Cảnh tạo bằng AI trên Google Flow: chú gà Coco đứng giữa nông trại lúc 2 giờ 30 sáng, giơ cánh chỉ lên bầu trời tối." },
+    ],
+    note: "Các cảnh trên Google Flow được tạo ngày 6/7/2026, trước khi bảng kế hoạch trên OpenArt được làm lại ngày 21/7/2026. Đây là sản phẩm của studio, chưa phát hành.",
+  },
   journey: {
     title: "Đi từng bước.\nHiểu rồi mới đi tiếp.",
     description: "Lộ trình chương trình đầy đủ, từ làm quen với AI đến hoàn thiện một video ngắn. Workshop nhập môn là bước khởi đầu để bạn trải nghiệm cách học.",

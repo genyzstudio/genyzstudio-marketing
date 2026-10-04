@@ -48,4 +48,13 @@ The behind-the-scenes section now follows one shot of the published *Clever Litt
 - Shot plan: `scenes/scene-06/dashboard/scene-06-shot-02-dashboard.png` (labelled an archive layout study), exported as `public/images/process/s06-shot02-plan.webp`.
 - AI-generated shot: `scenes/scene-06/videos/scene-06-shot-02-video.mp4`, re-encoded silent as `public/media/process/s06-shot02-shot.mp4`.
 
-The copy does not claim the order in which these were produced or that this exact clip is the cut used in the episode; it states they are studio materials for the same shot. The Mio sheet and Scene 7 storyboard images are no longer used and were removed. The OpenArt "EXT. THE FARM" shot-plan board was reviewed but not downloaded (not approved).
+The copy does not claim the order in which these were produced or that this exact clip is the cut used in the episode; it states they are studio materials for the same shot. The Mio sheet and Scene 7 storyboard images are no longer used and were removed. 
+
+## Coco and Pip farm, work in progress (2026-10-04)
+
+Unreleased project shown as work in progress. Downloaded with the owner's approval:
+
+- OpenArt shot plan "EXT. THE FARM" (GPT Image 2, created 2026-07-21, GenYZ Studio workspace, project Zodiac Village) into `production/openart/coco-pip-ext-farm-shot-plan-2026-07-21.png`; web copy `public/images/process/coco-pip-farm-board.webp`.
+- Google Flow, project of 2026-07-06 (night farm): "Pip hamster explorer hat Coco" (8 s) and "Coco explains missing Golden Whistle" (10 s), 720p originals, into `production/flow/`; silent 960px web copies `public/media/process/coco-pip-cut1-pip.mp4` and `coco-pip-cut3-coco.mp4`. Google's Veo/Flow watermarks are kept.
+
+The Flow shots predate the OpenArt board, so the page says they share story beats (cuts 1 and 3) and states both dates; it does not present the board as the plan the shots were generated from. A third Flow take ("no music", Pip close-up) was offered but not approved and was not downloaded.
