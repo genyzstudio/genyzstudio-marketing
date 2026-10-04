@@ -1,18 +1,18 @@
 export const home = {
   metadata: {
     title: "Học làm video AI cho người mới bắt đầu | GenYZ Studio",
-    description: "Bắt đầu làm video AI cùng GenYZ Studio. Hướng dẫn bằng tiếng Việt, lộ trình dễ hiểu và workshop nhập môn miễn phí dành cho người mới.",
+    description: "Bắt đầu làm video AI cùng GenYZ Studio. Hướng dẫn bằng tiếng Việt, lộ trình dễ hiểu và workshop nhập môn dành cho người mới.",
   },
   nav: [
     { label: "Video của studio", href: "#san-pham" },
-    { label: "Workshop miễn phí", href: "#workshop" },
+    { label: "Workshop nhập môn", href: "#workshop" },
     { label: "Lộ trình", href: "#lo-trinh" },
     { label: "Hỏi đáp", href: "#hoi-dap" },
   ],
   hero: {
     title: "Tự tay làm video AI đầu tiên.",
-    description: "Workshop nhập môn miễn phí, học trực tiếp cùng người hướng dẫn. Bắt đầu từ con số 0, giải thích bằng tiếng Việt.",
-    ctaNote: "Miễn phí. Lịch học được gửi qua Zalo.",
+    description: "Workshop nhập môn, học trực tiếp cùng người hướng dẫn. Bắt đầu từ con số 0, giải thích bằng tiếng Việt.",
+    ctaNote: "Lịch học được gửi qua Zalo.",
     turnaround: { alt: "Leo, nhân vật chính của phim Clever Little Rat, nhìn từ phía trước, bên trái, phía sau và bên phải.", caption: "Leo được thiết kế từ bốn góc trước khi lên phim. Đây là bảng nhân vật thật của Clever Little Rat." },
     caption: "Phim của GenYZ Studio",
     silentExcerpt: "Trích đoạn không có âm thanh",
@@ -44,8 +44,8 @@ export const home = {
   },
   journey: {
     title: "Đi từng bước.\nHiểu rồi mới đi tiếp.",
-    description: "Lộ trình chương trình đầy đủ, từ làm quen với AI đến hoàn thiện một video ngắn. Workshop miễn phí là bước khởi đầu để bạn trải nghiệm cách học.",
-    workshopTag: "Có trong workshop miễn phí",
+    description: "Lộ trình chương trình đầy đủ, từ làm quen với AI đến hoàn thiện một video ngắn. Workshop nhập môn là bước khởi đầu để bạn trải nghiệm cách học.",
+    workshopTag: "Có trong workshop nhập môn",
     steps: [
       { inWorkshop: true, title: "Ý tưởng & câu lệnh", tag: "Bắt đầu từ nền tảng", text: "Hiểu AI làm được gì, chọn một ý tưởng vừa sức và viết câu lệnh đầu tiên. Giải thích thuật ngữ tiếng Anh bằng ví dụ tiếng Việt." },
       { inWorkshop: false, title: "Tạo hình ảnh", tag: "Xây dựng khung hình", text: "Mô tả chủ thể, không gian và ánh sáng. Thử chỉnh câu lệnh để hình ảnh gần với ý tưởng hơn, đồng thời giữ nhân vật nhất quán." },
@@ -63,7 +63,7 @@ export const home = {
     labels: { format: "Hình thức", city: "Địa điểm", venue: "Địa chỉ", date: "Lịch học", duration: "Thời lượng", capacity: "Số chỗ", seats: "người" },
     tuition: "Học phí workshop", price: "Miễn phí",
     interest: "Đăng ký quan tâm chưa đồng nghĩa với xác nhận chỗ học. Lịch, địa điểm và hướng dẫn chuẩn bị sẽ được trao đổi qua Zalo khi có thông tin.",
-    costs: "Học phí miễn phí không bao gồm phí thuê bao hoặc lượt tạo của các công cụ AI bên thứ ba. Yêu cầu công cụ sẽ được thông báo trước buổi học.",
+    costs: "Workshop không thu học phí, nhưng chưa bao gồm phí thuê bao hoặc lượt tạo của các công cụ AI bên thứ ba. Yêu cầu công cụ sẽ được thông báo trước buổi học.",
   },
   instructor: { title: "Người hướng dẫn", photoAlt: "Ảnh người hướng dẫn workshop" },
   skool: {
@@ -78,7 +78,7 @@ export const home = {
       { question: "Tôi chưa từng dùng AI. Có học được không?", answer: "Có. Workshop nhập môn dành cho người mới bắt đầu. Bạn sẽ được làm quen với quy trình, thuật ngữ và cách viết câu lệnh qua ví dụ đơn giản. Không cần biết lập trình hay có kinh nghiệm làm phim." },
       { question: "Tiếng Anh của tôi chưa tốt thì sao?", answer: "Nội dung được giải thích bằng tiếng Việt. Tên công cụ và một số nút bấm vẫn có thể hiển thị bằng tiếng Anh; chúng sẽ được giải thích theo ngữ cảnh. Bạn sẽ học cách hiểu và điều chỉnh câu lệnh, không chỉ sao chép những đoạn tiếng Anh khó hiểu." },
       { question: "Tôi cần chuẩn bị thiết bị gì?", answer: "Nên có laptop kết nối Internet để thuận tiện thực hành. Danh sách tài khoản và công cụ cần dùng sẽ được thông báo trước buổi học. Đừng vội mua thiết bị hoặc đăng ký gói công cụ trả phí chỉ để chuẩn bị." },
-      { question: "Workshop miễn phí có bao gồm phí công cụ AI không?", answer: "Không. Miễn phí ở đây là học phí buổi workshop nhập môn. Một số công cụ AI có thể giới hạn lượt dùng miễn phí hoặc yêu cầu trả phí. Các yêu cầu và chi phí liên quan sẽ được thông báo trước để bạn cân nhắc." },
+      { question: "Workshop có bao gồm phí công cụ AI không?", answer: "Không. Workshop nhập môn không thu học phí, nhưng phí công cụ AI là riêng. Một số công cụ AI có thể giới hạn lượt dùng miễn phí hoặc yêu cầu trả phí. Các yêu cầu và chi phí liên quan sẽ được thông báo trước để bạn cân nhắc." },
       { question: "Workshop tổ chức ở đâu, khi nào?", answer: "Thông tin mới nhất nằm trong mục Workshop trên trang này. Nếu hiển thị “Sẽ thông báo”, lịch hoặc địa điểm chưa được xác nhận. Bạn có thể đăng ký quan tâm qua Zalo để trao đổi khi có lịch phù hợp." },
       { question: "Nhắn Zalo có nghĩa là tôi đã giữ được chỗ chưa?", answer: "Chưa. Tin nhắn Zalo là bước đăng ký quan tâm. Chỗ học chỉ được xác nhận sau khi bạn và người hướng dẫn thống nhất buổi học cụ thể." },
       { question: "Workshop có dạy toàn bộ lộ trình không?", answer: "Workshop là buổi trải nghiệm nhập môn, tập trung vào cách bắt đầu. Lộ trình đầy đủ trên trang mô tả hướng học dài hơn. Khoá tự học trên Skool là lựa chọn riêng; thông tin sẽ được cập nhật khi sẵn sàng." },
