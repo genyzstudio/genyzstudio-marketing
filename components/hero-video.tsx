@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useSilentAutoplay } from "@/lib/use-silent-autoplay";
 import { Pause, Play, ArrowUpRight } from "@phosphor-icons/react";
 import { getHome, type Locale } from "@/content/locales";
 
@@ -8,47 +9,10 @@ import { getHome, type Locale } from "@/content/locales";
 export function HeroVideo({ src, poster, title, url, autoPlay = false, locale = "vi" }: { src: string; poster: string; title: string; url: string; autoPlay?: boolean; locale?: Locale }) {
   const home = getHome(locale);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const intent = useRef(false);
-  const [playing, setPlaying] = useState(false);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    intent.current = autoPlay && !preference.matches;
-    let visible = true;
-    const sync = () => {
-      if (intent.current && visible && !document.hidden) {
-        void video.play().catch(() => { /* Keep the poster and manual play control when autoplay is blocked. */ });
-      } else video.pause();
-    };
-    const changePreference = () => { intent.current = autoPlay && !preference.matches; sync(); };
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }, { threshold: 0 });
-    observer.observe(video);
-    preference.addEventListener("change", changePreference);
-    document.addEventListener("visibilitychange", sync);
-    return () => {
-      observer.disconnect();
-      preference.removeEventListener("change", changePreference);
-      document.removeEventListener("visibilitychange", sync);
-      video.pause();
-    };
-  }, [autoPlay]);
-
-  const toggle = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (!video.paused) { intent.current = false; video.pause(); }
-    else {
-      intent.current = true;
-      try { await video.play(); setFailed(false); }
-      catch { intent.current = false; setFailed(true); }
-    }
-  };
+  const { playing, failed, toggle, events } = useSilentAutoplay(videoRef, autoPlay);
 
   return <div className="native-gallery-player">
-    <video ref={videoRef} className="gallery-motion" muted loop playsInline preload="none" poster={poster} aria-hidden="true" onPlaying={() => setPlaying(true)} onPause={() => setPlaying(false)} onError={() => { setFailed(true); setPlaying(false); }}>
+    <video ref={videoRef} className="gallery-motion" muted loop playsInline preload="none" poster={poster} aria-hidden="true" {...events}>
       <source src={src} type="video/mp4" />
     </video>
     <div className="gallery-player-controls">
