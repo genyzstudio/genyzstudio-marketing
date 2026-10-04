@@ -334,3 +334,10 @@ a.button:hover { background:#ad3323; transform:translateY(-2px); }
 .footer .brand-lockup .wordmark-studio { font-size:19px; }
 @media(max-width:1000px) and (min-width:761px) { .desktop-nav { gap:12px; } .header-inner { gap:16px; } .header-contact { padding-inline:10px; gap:8px; } .brand-lockup .wordmark { font-size:25px; } .brand-characters { width:56px; height:56px; } }
 @media(max-width:760px) { .brand-characters { width:54px; height:54px; } .brand-lockup { gap:6px; } .brand-lockup .wordmark { font-size:27px; } .brand-lockup .wordmark-studio { font-size:15px; } .header-inner { gap:12px; } .footer .brand-characters { width:72px; height:72px; } .footer .brand-lockup .wordmark { font-size:30px; } }
+
+/* Language links remain visible independently of the mobile menu. */
+.language-switch { display:flex; align-items:center; gap:2px; flex-shrink:0; }
+.language-switch a { display:grid; place-items:center; min-width:40px; min-height:44px; font-size:12px; border-radius:6px; }
+.language-switch a[aria-current="page"] { color:var(--accent); font-weight:700; background:var(--paper-deep, #f1ede7); }
+@media (max-width:1100px) and (min-width:761px) { .header-contact { display:none; } .header-inner { gap:12px; } .desktop-nav { gap:14px; } }
+@media (max-width:760px) { .language-switch { margin-left:auto; } .language-switch a { min-width:34px; } .header-inner { gap:6px; } }

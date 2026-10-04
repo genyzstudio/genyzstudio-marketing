@@ -1,7 +1,8 @@
 import type { SiteConfig } from "@/config/site";
-import { home } from "@/content/home";
+import { getHome, type Locale } from "@/content/locales";
 
-export function WorkshopDetails({ workshop }: { workshop: SiteConfig["workshop"] }) {
+export function WorkshopDetails({ workshop, locale = "vi" }: { workshop: SiteConfig["workshop"]; locale?: Locale }) {
+  const home = getHome(locale);
   const { labels, pending, format } = home.workshop;
   const rows = [
     [labels.format, format], [labels.city, workshop.city || pending],

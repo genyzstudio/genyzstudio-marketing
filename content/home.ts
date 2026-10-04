@@ -1,6 +1,6 @@
 export const home = {
   metadata: {
-    title: "GenYZ Studio — Tự tay làm video AI đầu tiên",
+    title: "Học làm video AI cho người mới bắt đầu | GenYZ Studio",
     description: "Bắt đầu làm video AI cùng GenYZ Studio. Hướng dẫn bằng tiếng Việt, lộ trình dễ hiểu và workshop nhập môn miễn phí dành cho người mới.",
   },
   nav: [

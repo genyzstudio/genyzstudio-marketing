@@ -91,3 +91,11 @@ Later add a custom domain in the Pages project, follow Cloudflare's DNS instruct
 ## Dependency notes
 
 Runtime dependencies pass `npm audit --omit=dev`. The current Next.js lint toolchain requires ESLint 9; ESLint 10 is incompatible with its React plugin. npm reports the upstream `braces` nested-pattern denial-of-service advisory through this development-only lint dependency chain. No patched `braces` release was available at implementation time; this code is not shipped in the browser or used to process visitor input. Recheck the advisory when updating the lint toolchain rather than applying npm's suggested downgrade of Next.js tooling.
+
+## Languages and search metadata
+
+Vietnamese stays at `/`; English is at `/en`. Both are exported as complete HTML pages with their own root `lang`, canonical URL, translated title/description and reciprocal `hreflang` links. The language switcher uses ordinary crawlable links and does not redirect based on browser language. The English page describes the same workshop taught in Vietnamese; it does not promise instruction in English.
+
+Edit Vietnamese content in `content/home.ts`, English in `content/home-en.ts`, shared UI labels in `content/locales.ts`, and English film descriptions in `content/showcase-en.ts`. Keep all film translations current when adding videos. `lib/seo.ts` generates metadata and factual Organization/WebSite/WebPage JSON-LD. Both locales appear in the production sitemap; preview noindex protection remains enabled. We do not publish Event dates, reviews, credentials or Course offers that have not been confirmed.
+
+After launch, the owner can verify `genyzstudio.com` in Google Search Console and submit `https://genyzstudio.com/sitemap.xml`. Search indexing and rankings are controlled by search engines, not by deployment.

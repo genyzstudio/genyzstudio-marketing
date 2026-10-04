@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play, ArrowUpRight } from "@phosphor-icons/react";
-import { home } from "@/content/home";
+import { getHome, type Locale } from "@/content/locales";
 
 /** A silent, first-party studio excerpt. Motion is optional, never required to read the page. */
-export function HeroVideo({ src, poster, title, url, autoPlay = false }: { src: string; poster: string; title: string; url: string; autoPlay?: boolean }) {
+export function HeroVideo({ src, poster, title, url, autoPlay = false, locale = "vi" }: { src: string; poster: string; title: string; url: string; autoPlay?: boolean; locale?: Locale }) {
+  const home = getHome(locale);
   const videoRef = useRef<HTMLVideoElement>(null);
   const intent = useRef(false);
   const [playing, setPlaying] = useState(false);
