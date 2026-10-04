@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Check, Plus } from "@phosphor-icons/react/dist/ssr";
 import { Header, Wordmark } from "@/components/header";
@@ -11,12 +12,18 @@ import { structuredData } from "@/lib/seo";
 import { HeroGallery } from "@/components/hero-gallery";
 import { HeroRegistration } from "@/components/hero-registration";
 import { StickyRegistration } from "@/components/sticky-registration";
+import { LoopClip } from "@/components/loop-clip";
+
+const PROCESS_STEPS = 5;
+
+function BoardCaption({ label, step, children }: { label: string; step: number; children: ReactNode }) {
+  return <div className="board-caption"><div className="board-meta"><strong>{label}</strong><span>{step}/{PROCESS_STEPS}</span></div>{children}</div>;
+}
 
 export function HomePage({ locale }: { locale: Locale }) {
   const home = getHome(locale);
   const copy = interfaceCopy[locale];
   const zaloUrl = siteConfig.contact.zaloUrl;
-  const processCount = home.process.steps.length + 2;
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)).replace(/</g, "\\u003c") }} />
     <a className="skip-link" href="#main">{home.footer.skip}</a>
@@ -60,17 +67,25 @@ export function HomePage({ locale }: { locale: Locale }) {
       <section className="section process-section" aria-labelledby="process-title"><div className="shell">
         <div className="section-intro wide"><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
         <ol className="board">
-          {home.process.steps.map((step, i) => <li key={step.label} className="board-panel">
-            <div className="board-frame"><Image src={step.image} alt={step.alt} width={step.width} height={step.height} sizes="(max-width: 760px) 100vw, 50vw" /></div>
-            <div className="board-caption"><div className="board-meta"><strong>{step.label}</strong><span>{i + 1}/{processCount}</span></div><h3>{step.title}</h3><p>{step.text}</p></div>
-          </li>)}
           <li className="board-panel">
-            <div className="board-frame board-script"><blockquote lang="en">{home.process.prompt}</blockquote></div>
-            <div className="board-caption"><div className="board-meta"><strong>{home.process.promptLabel}</strong><span>{processCount - 1}/{processCount}</span></div><p>{home.process.promptNote}</p></div>
+            <div className="board-frame board-script"><blockquote lang="en">{home.process.prompt.body}</blockquote></div>
+            <BoardCaption label={home.process.prompt.label} step={1}><p>{home.process.prompt.text}</p></BoardCaption>
           </li>
           <li className="board-panel">
+            <div className="board-frame"><LoopClip locale={locale} src={home.process.blocking.src} poster={home.process.blocking.poster} label={home.process.blocking.alt} /></div>
+            <BoardCaption label={home.process.blocking.label} step={2}><h3>{home.process.blocking.title}</h3><p>{home.process.blocking.text}</p></BoardCaption>
+          </li>
+          <li className="board-panel">
+            <div className="board-frame board-plan"><Image src={home.process.plan.image} alt={home.process.plan.alt} width={home.process.plan.width} height={home.process.plan.height} sizes="(max-width: 760px) 100vw, 50vw" /></div>
+            <BoardCaption label={home.process.plan.label} step={3}><h3>{home.process.plan.title}</h3><p>{home.process.plan.text}</p></BoardCaption>
+          </li>
+          <li className="board-panel">
+            <div className="board-frame"><LoopClip locale={locale} src={home.process.shot.src} poster={home.process.shot.poster} label={home.process.shot.alt} /></div>
+            <BoardCaption label={home.process.shot.label} step={4}><h3>{home.process.shot.title}</h3><p>{home.process.shot.text}</p></BoardCaption>
+          </li>
+          <li className="board-panel board-wide">
             <div className="board-frame"><Image src="/images/studio-reel.jpg" alt={home.process.result.alt} width={1280} height={720} sizes="(max-width: 760px) 100vw, 50vw" /></div>
-            <div className="board-caption"><div className="board-meta"><strong>{home.process.result.label}</strong><span>{processCount}/{processCount}</span></div><h3>{home.process.result.title}</h3><p>{home.process.result.text}</p><a className="text-link" href="#san-pham">{home.process.result.link}</a></div>
+            <BoardCaption label={home.process.result.label} step={5}><h3>{home.process.result.title}</h3><p>{home.process.result.text}</p><a className="text-link" href="#san-pham">{home.process.result.link}</a></BoardCaption>
           </li>
         </ol>
         <p className="figure-note">{home.process.note}</p>

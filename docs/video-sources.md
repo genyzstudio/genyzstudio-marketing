@@ -38,3 +38,14 @@ The repeated showcase section and old hero-gallery content file were removed. Th
 ## Behind-the-scenes process images
 
 Added 2026-10-04 from the studio's own Clever Little Rat production repository. `public/images/process/leo-turnaround.webp` is the full-body row of the approved Leo sheet (`characters/leo-character-sheet.png`, approved 2026-09-28), with the baked-in "FULL BODY" label painted out in the backdrop colour; it is used in the hero. `public/images/process/mio-character-sheet.webp` is the approved Mio sheet (`characters/mio-character-sheet.png`), used for the character-sheet step. `public/images/process/scene-07-storyboard.webp` is the approved Scene 7 board 1 (`scenes/scene-07/dashboard/scene-07-board-01-dashboard.png`). The quoted prompt is an excerpt of `production/prompts/scene-07-seedance-25-approved-boards-v1/scene-07-board-01-seedance-25.txt`. The finished-film frame reuses the Button Bridge cover (`studio-reel.jpg`). Existing Scene 7 shot videos predate the approved sheet and board, so they are not shown as that storyboard's output. The page notes that the material spans several production stages.
+
+## Scene 6, shot 2 case study (2026-10-04)
+
+The behind-the-scenes section now follows one shot of the published *Clever Little Rat: Through the Button Bridge* (scene 6, public on YouTube `1_EZiRh8o_o` and TikTok since 2026-09-20 per `exports/final-video/scene-06-publication-2026-09-20.json`).
+
+- Prompt: excerpt of Smartshot 46 in `scripts/scene-06.md`.
+- 3D blocking: `scene-06-shot-02-blocking-v1`, downloaded with the owner's approval from the Google Flow project "Episode 1 — The Clever Little Rat" (GenYZ Studio account) into `production/flow/`, then re-encoded silent at 960px as `public/media/process/s06-shot02-blocking.mp4`.
+- Shot plan: `scenes/scene-06/dashboard/scene-06-shot-02-dashboard.png` (labelled an archive layout study), exported as `public/images/process/s06-shot02-plan.webp`.
+- AI-generated shot: `scenes/scene-06/videos/scene-06-shot-02-video.mp4`, re-encoded silent as `public/media/process/s06-shot02-shot.mp4`.
+
+The copy does not claim the order in which these were produced or that this exact clip is the cut used in the episode; it states they are studio materials for the same shot. The Mio sheet and Scene 7 storyboard images are no longer used and were removed. The OpenArt "EXT. THE FARM" shot-plan board was reviewed but not downloaded (not approved).
