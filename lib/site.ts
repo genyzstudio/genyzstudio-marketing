@@ -10,7 +10,7 @@ export function isHttpsUrl(value: string, host?: string): boolean {
 export function isZaloUrl(value: string): boolean {
   if (!isHttpsUrl(value, "zalo.me")) return false;
   const path = new URL(value).pathname;
-  return /^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\/?$/.test(path);
+  return /^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\/?$/.test(path) || /^\/\+\d{8,15}\/?$/.test(path);
 }
 export function isPreview(env: Environment = process.env): boolean {
   // Vercel determines indexing and canonical URLs regardless of the local preview flag.

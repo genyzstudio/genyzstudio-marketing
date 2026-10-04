@@ -11,7 +11,7 @@ export const siteConfig: SiteConfig = {
   // Your Vercel production domain (https://...) or future custom domain.
   siteUrl: "",
   contact: {
-    zaloUrl: "",
+    zaloUrl: "https://zalo.me/+84934191468",
     // Optional file under public/, e.g. /images/zalo-qr.png.
     qrImage: "",
     phone: "",

@@ -16,15 +16,15 @@ test("registration stays closed without a destination", () => {
   assert.doesNotMatch(html, /href=/);
 });
 test("registration uses the exact configured Zalo destination", () => {
-  const url = "https://zalo.me/g/example";
+  const url = "https://zalo.me/+84934191468";
   const html = renderToStaticMarkup(<Registration url={url} />);
   assert.match(html, /Đăng ký quan tâm qua Zalo/);
   assert.ok(html.includes(`href="${url}"`));
   assert.match(html, /rel="noopener noreferrer"/);
 });
 test("Zalo rejects unsafe, misleading and incomplete URLs", () => {
-  for (const url of ["", "http://zalo.me/example", "https://zalo.me", "https://zalo.me/", "https://zalo.me.evil.test/example", "https://zalo.me@evil.test/example", "javascript:alert(1)", "https://zalo.me:444/example", "https://user:pass@zalo.me/example"]) assert.equal(isZaloUrl(url), false, url);
-  for (const url of ["https://zalo.me/example", "https://zalo.me/g/example"]) assert.equal(isZaloUrl(url), true, url);
+  for (const url of ["", "http://zalo.me/example", "https://zalo.me", "https://zalo.me/", "https://zalo.me.evil.test/example", "https://zalo.me@evil.test/example", "javascript:alert(1)", "https://zalo.me:444/example", "https://zalo.me/+invalid", "https://zalo.me/+123", "https://user:pass@zalo.me/example"]) assert.equal(isZaloUrl(url), false, url);
+  for (const url of ["https://zalo.me/example", "https://zalo.me/g/example", "https://zalo.me/+84934191468"]) assert.equal(isZaloUrl(url), true, url);
 });
 test("empty Zalo allows hosting while configured invalid destinations are rejected", () => {
   const config = emptyConfig();
