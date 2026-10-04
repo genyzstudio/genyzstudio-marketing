@@ -288,9 +288,10 @@ a.button:hover { background:#ad3323; transform:translateY(-2px); }
 .gallery-player-controls .playback-error { display:block; color:#fff; }
 
 /* One film at a time, with a browsable contact sheet. */
-.film-gallery { padding-bottom:12px; }
-.film-gallery-heading { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-block:18px; }
-.film-gallery-heading > span { font-size:10px; letter-spacing:1.7px; color:var(--muted); }
+/* Films always play on a dark cinema band, whatever the visitor's theme; the box-shadow/clip-path pair bleeds the band edge to edge without horizontal overflow. */
+.film-gallery { color-scheme:dark; --bg:#131313; --ink:#f2f1ec; --muted:#aaa9a3; --accent:#ff8c75; --line:#353532; --soft:#1c1c1b; --surface:#232322; --accent-soft:#352723; color:var(--ink); background:var(--bg); box-shadow:0 0 0 100vmax var(--bg); clip-path:inset(0 -100vmax); padding-block:12px 36px; }
+.film-gallery-heading { display:flex; justify-content:space-between; align-items:center; padding-block:18px; }
+.film-gallery-heading > span { font-size:12px; letter-spacing:1.7px; color:var(--muted); }
 .film-navigation { display:flex; align-items:center; gap:8px; }
 .film-counter { font-size:12px; font-variant-numeric:tabular-nums; color:var(--muted); margin-right:16px; }
 .film-navigation button { width:44px; height:44px; display:grid; place-items:center; border:1px solid var(--line); border-radius:50%; background:var(--surface); color:var(--ink); }
