@@ -21,7 +21,8 @@ test('English page includes translated navigation, disclosures, gallery and regi
   const html = renderToStaticMarkup(<HomePage locale="en" />);
   for (const text of ['Create your first', 'Express interest via Zalo', 'To be announced', 'Coming soon', 'Previous video', 'Next video', 'Open menu', 'Vietnamese', 'Free tuition does not include']) assert.ok(html.includes(text), text);
   for (const text of ['Đăng ký', 'Sẽ thông báo', 'Video tiếp theo', 'Liên hệ', 'Tạm dừng']) assert.ok(!html.includes(text), text);
-  assert.equal((html.match(/href="https:\/\/zalo.me\/0358155746"/g) || []).length, 3);
+  // Hero, workshop and contact buttons, plus the header and sticky mobile registration links.
+  assert.equal((html.match(/href="https:\/\/zalo.me\/0358155746"/g) || []).length, 5);
   assert.match(html, /href="\/en"[^>]*aria-current="page"/);
   assert.match(html, /href="\/" lang="vi"/);
 });

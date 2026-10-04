@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, ChatCircleText, FilmStrip, MagicWand, Sparkle, Plus, BookOpen, Lightbulb, FrameCorners } from "@phosphor-icons/react/dist/ssr";
+import { ArrowDown, ArrowUp, ArrowUpRight, Check, ChatCircleText, FilmStrip, MagicWand, Sparkle, Plus, BookOpen, Lightbulb, FrameCorners } from "@phosphor-icons/react/dist/ssr";
 import { Header, Wordmark } from "@/components/header";
 import { Registration } from "@/components/registration";
 import { ContactDetails } from "@/components/contact-details";
@@ -8,6 +8,8 @@ import { siteConfig } from "@/config/site";
 import { getHome, interfaceCopy, type Locale } from "@/content/locales";
 import { structuredData } from "@/lib/seo";
 import { HeroGallery } from "@/components/hero-gallery";
+import { HeroRegistration } from "@/components/hero-registration";
+import { StickyRegistration } from "@/components/sticky-registration";
 
 export function HomePage({ locale }: { locale: Locale }) {
   const home = getHome(locale);
@@ -15,12 +17,12 @@ export function HomePage({ locale }: { locale: Locale }) {
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)).replace(/</g, "\\u003c") }} />
     <a className="skip-link" href="#main">{home.footer.skip}</a>
-    <Header locale={locale} />
+    <Header locale={locale} registrationUrl={siteConfig.contact.zaloUrl} />
     <main id="main">
       <section className="gallery-hero shell" aria-labelledby="hero-title">
         <div className="gallery-intro">
           <div><p className="eyebrow"><span className="tiny-line" />{home.hero.eyebrow}</p><h1 id="hero-title">{home.hero.title} <span className="coral-text">{home.hero.highlight}</span><br />{home.hero.ending}</h1></div>
-          <div className="gallery-intro-action"><p>{home.hero.description}</p><Registration locale={locale} url={siteConfig.contact.zaloUrl} /><a className="text-link" href="#lo-trinh">{copy.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
+          <div className="gallery-intro-action"><p>{home.hero.description}</p><HeroRegistration locale={locale} url={siteConfig.contact.zaloUrl} /><a className="text-link" href="#lo-trinh">{copy.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
         </div>
         <HeroGallery locale={locale} />
       </section>
@@ -36,12 +38,12 @@ export function HomePage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="process-section" aria-labelledby="process-title"><div className="shell section">
-        <div className="section-heading"><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
-        <div className="process-grid">
-          <div className="prompt-card"><div className="process-label"><ChatCircleText size={20} aria-hidden="true" />{home.process.promptLabel}</div><p>“{home.process.prompt}”</p><span className="prompt-footer">{copy.prompt}</span></div>
-          <figure className="process-frame"><Image src="/images/hero-vietnam.webp" alt={copy.imageAlt} width={768} height={512} sizes="(max-width: 760px) 100vw, 38vw" /><figcaption>{home.process.imageLabel}</figcaption></figure>
-          <div className="motion-card"><div className="process-label"><FilmStrip size={20} aria-hidden="true" />{home.process.motionLabel}</div><div className="motion-symbol" aria-hidden="true"><ArrowRight size={54} weight="thin" /></div><p>{home.process.motion}</p></div>
-        </div><p className="figure-note">{home.process.note}</p>
+        <div className="section-heading"><p className="eyebrow"><span className="tiny-line" />{home.process.eyebrow}</p><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
+        <ol className="process-steps">
+          {home.process.steps.map(step => <li key={step.label} className="process-step"><figure className="process-frame"><Image src={step.image} alt={step.alt} width={step.width} height={step.height} sizes="(max-width: 760px) 100vw, 50vw" /></figure><div className="process-step-copy"><div className="process-label">{step.label}</div><h3>{step.title}</h3><p>{step.text}</p></div></li>)}
+          <li className="process-step prompt-step"><div className="prompt-card"><div className="process-label"><ChatCircleText size={20} aria-hidden="true" />{home.process.promptLabel}</div><blockquote lang="en">{home.process.prompt}</blockquote><span className="prompt-footer">{home.process.promptNote}</span></div></li>
+          <li className="process-step"><figure className="process-frame"><Image src="/images/studio-reel.jpg" alt={home.process.result.alt} width={1280} height={720} sizes="(max-width: 760px) 100vw, 50vw" /></figure><div className="process-step-copy"><div className="process-label"><FilmStrip size={20} aria-hidden="true" />{home.process.result.label}</div><h3>{home.process.result.title}</h3><p>{home.process.result.text}</p><a className="text-link" href="#san-pham">{home.process.result.link}<ArrowUp size={18} aria-hidden="true" /></a></div></li>
+        </ol><p className="figure-note">{home.process.note}</p>
       </div></section>
 
 
@@ -61,6 +63,7 @@ export function HomePage({ locale }: { locale: Locale }) {
 
       <section id="lien-he" className="contact-section" aria-labelledby="contact-title"><div className="shell contact-inner"><MagicWand size={34} weight="light" aria-hidden="true" /><h2 id="contact-title">{home.contact.title}</h2><p>{home.contact.description}</p><Registration locale={locale} url={siteConfig.contact.zaloUrl} /><p className="contact-note">{home.contact.accountNote}</p><ContactDetails locale={locale} contact={siteConfig.contact} /></div></section>
     </main>
+    <StickyRegistration locale={locale} url={siteConfig.contact.zaloUrl} />
     <footer className="shell footer"><div><a className="brand" href="#" aria-label={copy.top}><Wordmark /></a><p>{home.footer.description}</p></div><div className="footer-right"><a className="text-link" href="#">{home.footer.back}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{home.footer.note}</p><span>© {new Date().getFullYear()} {home.footer.rights}</span></div></footer>
   </>;
 }
