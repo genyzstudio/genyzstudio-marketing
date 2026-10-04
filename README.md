@@ -27,6 +27,7 @@ Edit **config/site.ts**. This is public configuration, not a secrets file. Rebui
 | `workshop.city`, `date` | Leave blank until confirmed. Both display **Sẽ thông báo**. Date is human-readable Vietnamese text; include time zone if relevant. |
 | `workshop.venue`, `duration` | Optional, hidden when empty. |
 | `workshop.capacity` | Positive whole number, or `null` to hide. This is announced capacity, not a live availability counter. |
+| `instructor.name`, `role`, `bio`, `photo` | Real, owner-approved instructor details. The instructor block stays hidden until `name` and `bio` are set. `photo` is an optional local `/images/` PNG/JPEG/WebP. |
 | `skool.status` | `coming-soon` by default. Set `available` only when your own course/community is ready. |
 | `skool.url` | Verified HTTPS course/community URL on `www.skool.com`; required when available. No checkout is implemented. |
 | `siteUrl` | Full HTTPS production origin, no path, query or trailing slash. Set the stable Cloudflare Pages production URL; update after buying a custom domain. |

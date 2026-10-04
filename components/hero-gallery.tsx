@@ -27,7 +27,7 @@ export function HeroGallery({ locale = "vi" }: { locale?: Locale }) {
     if (button && strip) strip.scrollTo({ left: button.offsetLeft - strip.offsetLeft, behavior: "instant" });
     if (focus) previews.current[next]?.focus();
   };
-  return <section id="san-pham" className="film-gallery" aria-label={copy.gallery} aria-roledescription="carousel">
+  return <section id="san-pham" className="film-gallery shell" aria-label={copy.gallery} aria-roledescription="carousel">
     <div className="film-gallery-heading"><span>{home.hero.caption}</span><div className="film-navigation"><span className="film-counter" aria-live="polite">{String(selected + 1).padStart(2, "0")} / {String(films.length).padStart(2, "0")}</span><button type="button" aria-label={copy.previous} onClick={() => select(selected - 1)}><ArrowLeft size={20} /></button><button type="button" aria-label={copy.next} onClick={() => select(selected + 1)}><ArrowRight size={20} /></button></div></div>
     <div className="film-stage">
       <div className="film-screen" key={film.url}>

@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { ArrowDown, ArrowUp, ArrowUpRight, Check, ChatCircleText, FilmStrip, MagicWand, Sparkle, Plus, BookOpen, Lightbulb, FrameCorners } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight, Check, Plus } from "@phosphor-icons/react/dist/ssr";
 import { Header, Wordmark } from "@/components/header";
 import { Registration } from "@/components/registration";
 import { ContactDetails } from "@/components/contact-details";
 import { WorkshopDetails } from "@/components/workshop-details";
+import { Instructor } from "@/components/instructor";
 import { siteConfig } from "@/config/site";
 import { getHome, interfaceCopy, type Locale } from "@/content/locales";
 import { structuredData } from "@/lib/seo";
@@ -14,56 +15,82 @@ import { StickyRegistration } from "@/components/sticky-registration";
 export function HomePage({ locale }: { locale: Locale }) {
   const home = getHome(locale);
   const copy = interfaceCopy[locale];
+  const zaloUrl = siteConfig.contact.zaloUrl;
+  const processCount = home.process.steps.length + 2;
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)).replace(/</g, "\\u003c") }} />
     <a className="skip-link" href="#main">{home.footer.skip}</a>
-    <Header locale={locale} registrationUrl={siteConfig.contact.zaloUrl} />
+    <Header locale={locale} registrationUrl={zaloUrl} />
     <main id="main">
-      <section className="gallery-hero shell" aria-labelledby="hero-title">
-        <div className="gallery-intro">
-          <div><p className="eyebrow"><span className="tiny-line" />{home.hero.eyebrow}</p><h1 id="hero-title">{home.hero.title} <span className="coral-text">{home.hero.highlight}</span><br />{home.hero.ending}</h1></div>
-          <div className="gallery-intro-action"><p>{home.hero.description}</p><HeroRegistration locale={locale} url={siteConfig.contact.zaloUrl} /><a className="text-link" href="#lo-trinh">{copy.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
+      <section className="hero shell" aria-labelledby="hero-title">
+        <div className="hero-grid">
+          <h1 id="hero-title">{home.hero.title}</h1>
+          <div className="hero-action">
+            <p className="hero-lede">{home.hero.description}</p>
+            <HeroRegistration locale={locale} url={zaloUrl} />
+            <ul className="reassurance">{home.reassurance.map(text => <li key={text}><Check size={16} weight="bold" aria-hidden="true" />{text}</li>)}</ul>
+          </div>
         </div>
-        <HeroGallery locale={locale} />
+        <figure className="turnaround">
+          <div className="turnaround-stage"><Image src="/images/process/leo-turnaround.webp" alt={home.hero.turnaround.alt} width={1600} height={560} sizes="(max-width: 760px) 100vw, 1200px" priority /></div>
+          <figcaption>{home.hero.turnaround.caption}</figcaption>
+        </figure>
       </section>
-      <div className="reassurance shell">{home.reassurance.map(text => <span key={text}><Check size={18} weight="bold" aria-hidden="true" />{text}</span>)}<span className="reassurance-note">{copy.reassurance}</span></div>
 
+      <HeroGallery locale={locale} />
 
       <section id="ket-qua" className="section shell outcomes" aria-labelledby="outcomes-title">
-        <div className="outcomes-intro"><h2 id="outcomes-title">{home.outcomes.title}</h2><p className="section-description">{home.outcomes.description}</p><a href="#workshop" className="text-link">{copy.start}<ArrowUpRight size={20} aria-hidden="true" /></a></div>
-        <div className="outcome-list">{home.outcomes.items.map((item, i) => {
-          const Icon = [ChatCircleText, FrameCorners, FilmStrip][i];
-          return <article key={item.title} className="outcome-item"><div className="icon-tile"><Icon size={26} weight="light" aria-hidden="true" /></div><div><h3>{item.title}</h3><p>{item.text}</p></div></article>;
-        })}</div>
+        <div className="section-intro"><h2 id="outcomes-title">{home.outcomes.title}</h2><p className="section-description">{home.outcomes.description}</p><a href="#workshop" className="text-link">{copy.start}</a></div>
+        <ol className="outcome-list">{home.outcomes.items.map(item => <li key={item.title}><h3>{item.title}</h3><p>{item.text}</p></li>)}</ol>
       </section>
 
-      <section className="process-section" aria-labelledby="process-title"><div className="shell section">
-        <div className="section-heading"><p className="eyebrow"><span className="tiny-line" />{home.process.eyebrow}</p><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
-        <ol className="process-steps">
-          {home.process.steps.map(step => <li key={step.label} className="process-step"><figure className="process-frame"><Image src={step.image} alt={step.alt} width={step.width} height={step.height} sizes="(max-width: 760px) 100vw, 50vw" /></figure><div className="process-step-copy"><div className="process-label">{step.label}</div><h3>{step.title}</h3><p>{step.text}</p></div></li>)}
-          <li className="process-step prompt-step"><div className="prompt-card"><div className="process-label"><ChatCircleText size={20} aria-hidden="true" />{home.process.promptLabel}</div><blockquote lang="en">{home.process.prompt}</blockquote><span className="prompt-footer">{home.process.promptNote}</span></div></li>
-          <li className="process-step"><figure className="process-frame"><Image src="/images/studio-reel.jpg" alt={home.process.result.alt} width={1280} height={720} sizes="(max-width: 760px) 100vw, 50vw" /></figure><div className="process-step-copy"><div className="process-label"><FilmStrip size={20} aria-hidden="true" />{home.process.result.label}</div><h3>{home.process.result.title}</h3><p>{home.process.result.text}</p><a className="text-link" href="#san-pham">{home.process.result.link}<ArrowUp size={18} aria-hidden="true" /></a></div></li>
-        </ol><p className="figure-note">{home.process.note}</p>
+      <section id="workshop" className="section workshop-section" aria-labelledby="workshop-title"><div className="shell workshop-grid">
+        <div className="workshop-copy"><h2 id="workshop-title">{home.workshop.title}</h2><p>{home.workshop.description}</p><ul>{home.workshop.items.map(item => <li key={item}><Check size={18} weight="bold" aria-hidden="true" />{item}</li>)}</ul></div>
+        <div className="ticket">
+          <div className="ticket-price"><span>{home.workshop.tuition}</span><strong>{home.workshop.price}</strong></div>
+          <WorkshopDetails locale={locale} workshop={siteConfig.workshop} />
+          <Registration locale={locale} url={zaloUrl} />
+          <p className="ticket-note">{home.workshop.interest}</p>
+          <p className="ticket-note">{home.workshop.costs}</p>
+        </div>
       </div></section>
 
+      <Instructor locale={locale} instructor={siteConfig.instructor} />
+
+      <section className="section process-section" aria-labelledby="process-title"><div className="shell">
+        <div className="section-intro wide"><h2 id="process-title">{home.process.title}</h2><p className="section-description">{home.process.description}</p></div>
+        <ol className="board">
+          {home.process.steps.map((step, i) => <li key={step.label} className="board-panel">
+            <div className="board-frame"><Image src={step.image} alt={step.alt} width={step.width} height={step.height} sizes="(max-width: 760px) 100vw, 50vw" /></div>
+            <div className="board-caption"><div className="board-meta"><strong>{step.label}</strong><span>{i + 1}/{processCount}</span></div><h3>{step.title}</h3><p>{step.text}</p></div>
+          </li>)}
+          <li className="board-panel">
+            <div className="board-frame board-script"><blockquote lang="en">{home.process.prompt}</blockquote></div>
+            <div className="board-caption"><div className="board-meta"><strong>{home.process.promptLabel}</strong><span>{processCount - 1}/{processCount}</span></div><p>{home.process.promptNote}</p></div>
+          </li>
+          <li className="board-panel">
+            <div className="board-frame"><Image src="/images/studio-reel.jpg" alt={home.process.result.alt} width={1280} height={720} sizes="(max-width: 760px) 100vw, 50vw" /></div>
+            <div className="board-caption"><div className="board-meta"><strong>{home.process.result.label}</strong><span>{processCount}/{processCount}</span></div><h3>{home.process.result.title}</h3><p>{home.process.result.text}</p><a className="text-link" href="#san-pham">{home.process.result.link}</a></div>
+          </li>
+        </ol>
+        <p className="figure-note">{home.process.note}</p>
+      </div></section>
 
       <section id="lo-trinh" className="section shell journey" aria-labelledby="journey-title">
-        <div className="journey-intro"><span className="section-icon"><BookOpen size={28} weight="light" aria-hidden="true" /></span><h2 id="journey-title">{home.journey.title}</h2><p className="section-description">{home.journey.description}</p><a href="#workshop" className="text-link">{copy.firstStep}<ArrowDown size={18} aria-hidden="true" /></a></div>
-        <ol className="journey-list">{home.journey.steps.map((step, i) => <li key={step.title}><span className="step-number">0{i + 1}</span><div><span className="step-tag">{step.tag}</span><h3>{step.title}</h3><p>{step.text}</p></div></li>)}</ol>
+        <div className="section-intro"><h2 id="journey-title">{home.journey.title}</h2><p className="section-description">{home.journey.description}</p><a href="#workshop" className="text-link">{copy.firstStep}</a></div>
+        <ol className="journey-list">{home.journey.steps.map((step, i) => <li key={step.title} className={step.inWorkshop ? "in-workshop" : undefined}>
+          <span className="step-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+          <div><p className="step-tag">{step.tag}</p><h3>{step.title}</h3><p>{step.text}</p>{step.inWorkshop && <p className="workshop-badge"><Check size={14} weight="bold" aria-hidden="true" />{home.journey.workshopTag}</p>}</div>
+        </li>)}</ol>
       </section>
 
-      <section id="workshop" className="workshop-section" aria-labelledby="workshop-title"><div className="shell workshop-grid">
-        <div className="workshop-copy"><p className="eyebrow"><Sparkle size={19} weight="fill" aria-hidden="true" />{home.workshop.eyebrow}</p><h2 id="workshop-title">{home.workshop.title}</h2><p>{home.workshop.description}</p><ul>{home.workshop.items.map(item => <li key={item}><Check size={18} aria-hidden="true" />{item}</li>)}</ul></div>
-        <div className="workshop-card"><div className="tuition"><span>{home.workshop.tuition}</span><strong>{home.workshop.price}<Sparkle size={28} weight="light" aria-hidden="true" /></strong></div><WorkshopDetails locale={locale} workshop={siteConfig.workshop} /><Registration locale={locale} url={siteConfig.contact.zaloUrl} /><p className="interest-note">{home.workshop.interest}</p><p className="cost-note">{home.workshop.costs}</p></div>
-      </div></section>
+      <section className="shell skool-section" aria-labelledby="skool-title"><div><h2 id="skool-title">{home.skool.title}</h2><p>{siteConfig.skool.status === "available" ? home.skool.availableDescription : home.skool.description}</p></div>{siteConfig.skool.status === "available" && siteConfig.skool.url ? <a className="text-link" href={siteConfig.skool.url} target="_blank" rel="noopener noreferrer">{home.skool.link}<ArrowUpRight size={16} aria-hidden="true" /></a> : <span className="status-label">{home.skool.soon}</span>}</section>
 
-      <section className="shell skool-section" aria-labelledby="skool-title"><div className="skool-icon"><BookOpen size={36} weight="light" aria-hidden="true" /></div><div><h2 id="skool-title">{home.skool.title}</h2><p>{siteConfig.skool.status === "available" ? home.skool.availableDescription : home.skool.description}</p></div>{siteConfig.skool.status === "available" && siteConfig.skool.url ? <a className="text-link" href={siteConfig.skool.url} target="_blank" rel="noopener noreferrer">{home.skool.link}<ArrowUpRight size={18} aria-hidden="true" /></a> : <span className="status-label">{home.skool.soon}</span>}</section>
+      <section id="hoi-dap" className="section shell faq-section" aria-labelledby="faq-title"><div className="section-intro"><h2 id="faq-title">{home.faq.title}</h2><p className="section-description">{home.faq.description}</p></div><div className="faq-list">{home.faq.items.map(item => <details key={item.question} name="faq"><summary>{item.question}<Plus size={20} aria-hidden="true" /></summary><p>{item.answer}</p></details>)}</div></section>
 
-      <section id="hoi-dap" className="section shell faq-section" aria-labelledby="faq-title"><div><h2 id="faq-title">{home.faq.title}</h2><p className="section-description">{home.faq.description}</p><Lightbulb className="faq-lightbulb" size={72} weight="thin" aria-hidden="true" /></div><div className="faq-list">{home.faq.items.map(item => <details key={item.question} name="faq"><summary>{item.question}<Plus size={20} aria-hidden="true" /></summary><p>{item.answer}</p></details>)}</div></section>
-
-      <section id="lien-he" className="contact-section" aria-labelledby="contact-title"><div className="shell contact-inner"><MagicWand size={34} weight="light" aria-hidden="true" /><h2 id="contact-title">{home.contact.title}</h2><p>{home.contact.description}</p><Registration locale={locale} url={siteConfig.contact.zaloUrl} /><p className="contact-note">{home.contact.accountNote}</p><ContactDetails locale={locale} contact={siteConfig.contact} /></div></section>
+      <section id="lien-he" className="section contact-section" aria-labelledby="contact-title"><div className="shell contact-inner"><h2 id="contact-title">{home.contact.title}</h2><div className="contact-action"><p>{home.contact.description}</p><Registration locale={locale} url={zaloUrl} /><p className="contact-note">{home.contact.accountNote}</p><ContactDetails locale={locale} contact={siteConfig.contact} /></div></div></section>
     </main>
-    <StickyRegistration locale={locale} url={siteConfig.contact.zaloUrl} />
-    <footer className="shell footer"><div><a className="brand" href="#" aria-label={copy.top}><Wordmark /></a><p>{home.footer.description}</p></div><div className="footer-right"><a className="text-link" href="#">{home.footer.back}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{home.footer.note}</p><span>© {new Date().getFullYear()} {home.footer.rights}</span></div></footer>
+    <StickyRegistration locale={locale} url={zaloUrl} />
+    <footer className="shell footer"><div><a className="brand" href="#" aria-label={copy.top}><Wordmark /></a><p>{home.footer.description}</p></div><div className="footer-right"><a className="text-link" href="#">{home.footer.back}</a><p>{home.footer.note}</p><span>© {new Date().getFullYear()} {home.footer.rights}</span></div></footer>
   </>;
 }
