@@ -8,8 +8,8 @@ export interface SiteConfig {
   skool: { status: "coming-soon" | "available"; url: string };
 }
 export const siteConfig: SiteConfig = {
-  // Cloudflare Pages production domain; update when adding a custom domain.
-  siteUrl: "https://genyzstudio-marketing.pages.dev",
+  // Public custom domain connected to Cloudflare Pages.
+  siteUrl: "https://genyzstudio.com",
   contact: {
     zaloUrl: "https://zalo.me/0358155746",
     // Optional file under public/, e.g. /images/zalo-qr.png.
