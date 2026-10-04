@@ -2,12 +2,12 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
 import { siteConfig, type SiteConfig } from "../config/site";
-import { isZaloUrl, isPreview, validateSite, getSiteUrl, canIndex } from "../lib/site";
+import { isZaloUrl, isPreview, validateSite, getSiteUrl, canIndex, staticHeaders } from "../lib/site";
 import { Registration } from "../components/registration";
 import { ContactDetails } from "../components/contact-details";
 import { WorkshopDetails } from "../components/workshop-details";
 
-const emptyConfig = (): SiteConfig => ({ ...structuredClone(siteConfig), contact: { zaloUrl: "", qrImage: "", phone: "", email: "", socialLinks: [] } });
+const emptyConfig = (): SiteConfig => ({ ...structuredClone(siteConfig), siteUrl: "", contact: { zaloUrl: "", qrImage: "", phone: "", email: "", socialLinks: [] } });
 
 test("registration stays closed without a destination", () => {
   const html = renderToStaticMarkup(<Registration url="" />);
@@ -39,6 +39,23 @@ test("Vercel production indexing cannot be changed with local preview flag", () 
   assert.equal(isPreview({ VERCEL_ENV: "preview" }), true);
   assert.equal(isPreview({ SITE_BUILD_MODE: "preview" }), true);
   assert.equal(isPreview({}), false);
+});
+test("Cloudflare main is indexable and previews stay excluded despite local flags", () => {
+  const config = { ...emptyConfig(), siteUrl: "https://studio.pages.dev" };
+  const production = { CF_PAGES: "1", CF_PAGES_BRANCH: "main", CF_PAGES_URL: "https://hash.studio.pages.dev", SITE_BUILD_MODE: "preview" };
+  const preview = { ...production, CF_PAGES_BRANCH: "feature", SITE_BUILD_MODE: "production" };
+  assert.equal(isPreview(production), false);
+  assert.equal(canIndex(production), true);
+  assert.equal(getSiteUrl(config, production), config.siteUrl);
+  assert.equal(isPreview(preview), true);
+  assert.equal(canIndex(preview), false);
+  assert.equal(getSiteUrl(config, preview), preview.CF_PAGES_URL);
+  assert.equal(canIndex({ CF_PAGES: "1" }), false);
+  assert.match(staticHeaders(preview), /X-Robots-Tag: noindex, nofollow/);
+  assert.doesNotMatch(staticHeaders(production), /X-Robots-Tag/);
+  assert.match(staticHeaders(production), /X-Content-Type-Options: nosniff/);
+  assert.equal(canIndex({ SITE_BUILD_MODE: "production" }), true);
+  assert.equal(canIndex({ SITE_BUILD_MODE: "preview" }), false);
 });
 test("unset contact fields render no links or QR", () => {
   assert.equal(renderToStaticMarkup(<ContactDetails contact={emptyConfig().contact} />), "");

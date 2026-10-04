@@ -1,10 +1,10 @@
 # GenYZ Studio
 
-Vietnamese-first marketing site for beginner AI video training. Next.js App Router, TypeScript, Tailwind CSS, mostly static server-rendered content. No accounts, database, payments, first-party analytics cookies or registration storage. Third-party video players load only when activated. Registration happens on Zalo.
+Vietnamese-first marketing site for beginner AI video training. Next.js App Router, TypeScript, Tailwind CSS, fully static HTML export. No accounts, database, payments, first-party analytics cookies or registration storage. Third-party video players load only when activated. Registration happens on Zalo.
 
 ## Run locally
 
-Use Node.js 24 LTS and npm (the Vercel runtime is pinned to Node 24).
+Use Node.js 24 LTS and npm (`.node-version` pins the Cloudflare build version).
 
 ```sh
 npm ci
@@ -29,7 +29,7 @@ Edit **config/site.ts**. This is public configuration, not a secrets file. Rebui
 | `workshop.capacity` | Positive whole number, or `null` to hide. This is announced capacity, not a live availability counter. |
 | `skool.status` | `coming-soon` by default. Set `available` only when your own course/community is ready. |
 | `skool.url` | Verified HTTPS course/community URL on `www.skool.com`; required when available. No checkout is implemented. |
-| `siteUrl` | Full HTTPS production origin, no path, query or trailing slash. Leave blank to use Vercel's production domain automatically; update after buying a custom domain. |
+| `siteUrl` | Full HTTPS production origin, no path, query or trailing slash. Set the stable Cloudflare Pages production URL; update after buying a custom domain. |
 
 Empty optional details stay hidden. A configured but malformed destination fails validation even in previews. Do not put example or placeholder Zalo destinations into the live configuration.
 
@@ -37,10 +37,10 @@ Empty optional details stay hidden. A configured but malformed destination fails
 
 ```sh
 npm run build:preview
-npm start
+npx serve out
 ```
 
-This produces an optimized build with registration closed and `noindex` metadata. On Vercel, preview deployments are detected using `VERCEL_ENV=preview`. Production can be hosted before registration opens. URL validation checks format; the owner must verify that the final destination belongs to the studio and can receive enquiries.
+This produces static files in `out/` with `noindex` metadata; registration still follows the configured Zalo URL. Cloudflare branch previews are detected using `CF_PAGES_BRANCH` (production is `main`). Production can be hosted before registration opens. URL validation checks format; the owner must verify that the final destination belongs to the studio and can receive enquiries.
 
 ## Edit Vietnamese copy and studio videos
 
@@ -62,17 +62,27 @@ npm run build:preview
 
 Tests cover registration states, URL safety, production/preview environment detection, optional contact/workshop visibility, and environment-aware metadata. Run `npm run build` to verify production readiness. Configure the real Zalo URL when registration should open.
 
-## Vercel
+## Cloudflare Pages
 
-Import this directory as a Next.js project or run `vercel deploy --target preview`. Use `npm run build` as the build command; do not configure a preview-only build command in project settings. Default Next.js output settings are correct. No environment secrets are needed.
+Use **Workers & Pages → Create application → Pages → Import an existing Git repository** and select `genyzstudio/genyzstudio-marketing`.
 
-1. Review a preview deployment on desktop and mobile. Previews have `noindex, nofollow` metadata and headers, disallow crawling and emit an empty sitemap. Noindex is not access control; use Vercel deployment protection if previews must be private.
-2. Leave Zalo empty to launch with registration closed, or configure the real Zalo URL to open registration. Check that every registration action opens the intended profile/group and that any QR matches it. Fill only confirmed workshop details.
-3. Deploy production with `vercel --prod`. This rejects malformed configured destinations; empty Zalo is allowed. Vercel provides a `.vercel.app` domain.
-4. Check the deployed homepage, registration destination, contact email, image loading, menu, FAQs, canonical metadata, `/robots.txt` and `/sitemap.xml`.
-5. Later add your custom domain in Vercel, follow its DNS instructions, update `siteUrl`, and redeploy.
+| Setting | Value |
+| --- | --- |
+| Production branch | `main` |
+| Framework preset | Next.js (Static HTML Export) |
+| Build command | `npm run build` |
+| Build output directory | `out` |
+| Node version | `24` (from `.node-version`) |
 
-Search indexing is enabled only for `VERCEL_ENV=production`; local and preview builds are not indexed. Keep Vercel's automatic system environment variables enabled.
+Use the full build command above: it also writes Cloudflare's `out/_headers` file for security and preview indexing. No Workers runtime, database, image transformation service, or secret is required. Images are served directly from the static export. Git pushes trigger Pages rebuilds once Git integration is connected.
+
+Set `config/site.ts` → `siteUrl` to the assigned stable `https://<project>.pages.dev` origin before the production build, so canonical links, social previews and sitemap use the public production domain. `CF_PAGES_URL` supplies branch preview URLs automatically. Only the `main` branch is indexable; branch previews and local builds use noindex metadata/headers, disallow crawling and emit an empty sitemap. Noindex is not access control.
+
+For manual uploads, build with `SITE_BUILD_MODE=production npm run build` and deploy the `out/` directory using `npx wrangler pages deploy out --project-name <project> --branch main`. Always set `siteUrl` before a manual production build. Local preview: `npm run build:preview`, then `npx serve out` (static exports do not use `next start`).
+
+After deploying, check the homepage, all Zalo buttons, image/video loading, gallery controls, mobile menu, FAQs, canonical metadata, `/robots.txt`, `/sitemap.xml`, response headers and the 404 page. Leave the existing Vercel deployment running until the Cloudflare deployment is verified. Retiring Vercel is a separate follow-up.
+
+Later add a custom domain in the Pages project, follow Cloudflare's DNS instructions, update `siteUrl`, and rebuild. See [Cloudflare's static Next.js guide](https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/).
 
 ## Assets
 

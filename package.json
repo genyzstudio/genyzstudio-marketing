@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:preview": "cross-env SITE_BUILD_MODE=preview next build",
+    "build": "next build && tsx scripts/static-headers.ts",
+    "build:preview": "cross-env SITE_BUILD_MODE=preview npm run build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "cross-env SITE_BUILD_MODE=preview next typegen && tsc --noEmit",

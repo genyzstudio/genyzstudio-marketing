@@ -4,7 +4,7 @@ import path from "node:path";
 import { siteConfig } from "./config/site";
 import { studioVideos } from "./content/showcase";
 import { validateShowcase } from "./lib/showcase";
-import { canIndex, validateSite } from "./lib/site";
+import { validateSite } from "./lib/site";
 
 export default function config(): NextConfig {
   const errors = [...validateSite(siteConfig), ...validateShowcase(studioVideos)];
@@ -15,14 +15,9 @@ export default function config(): NextConfig {
   if (siteConfig.contact.qrImage && !existsSync(path.join(process.cwd(), "public", siteConfig.contact.qrImage))) errors.push("contact.qrImage: the configured image is missing from public/.");
   if (errors.length) throw new Error(`Site configuration error (config/site.ts):\n- ${errors.join("\n- ")}`);
   return {
+    output: "export",
+    images: { unoptimized: true },
     poweredByHeader: false,
     turbopack: { root: process.cwd() },
-    async headers() {
-      return [{ source: "/:path*", headers: [
-        { key: "X-Content-Type-Options", value: "nosniff" },
-        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-        ...(!canIndex() ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : []),
-      ] }];
-    },
   };
 }

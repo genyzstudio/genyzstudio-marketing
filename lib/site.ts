@@ -13,7 +13,8 @@ export function isZaloUrl(value: string): boolean {
   return /^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\/?$/.test(path) || /^\/\+\d{8,15}\/?$/.test(path);
 }
 export function isPreview(env: Environment = process.env): boolean {
-  // Vercel determines indexing and canonical URLs regardless of the local preview flag.
+  // Hosting providers determine deployment context before local build flags.
+  if (env.CF_PAGES === "1") return env.CF_PAGES_BRANCH !== "main";
   if (env.VERCEL_ENV) return env.VERCEL_ENV !== "production";
   return env.SITE_BUILD_MODE === "preview";
 }
@@ -30,9 +31,16 @@ export function validateSite(config: SiteConfig): string[] {
   return errors;
 }
 export function getSiteUrl(config: SiteConfig, env: Environment = process.env): string {
+  if (isPreview(env) && env.CF_PAGES_URL) return env.CF_PAGES_URL;
   if (isPreview(env) && env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
-  return config.siteUrl || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
+  return config.siteUrl || env.CF_PAGES_URL || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
 }
 export function canIndex(env: Environment = process.env): boolean {
-  return env.VERCEL_ENV === "production";
+  if (env.CF_PAGES === "1") return env.CF_PAGES_BRANCH === "main";
+  if (env.VERCEL_ENV) return env.VERCEL_ENV === "production";
+  return env.SITE_BUILD_MODE === "production";
+}
+
+export function staticHeaders(env: Environment = process.env): string {
+  return `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n${canIndex(env) ? "" : "  X-Robots-Tag: noindex, nofollow\n"}`;
 }

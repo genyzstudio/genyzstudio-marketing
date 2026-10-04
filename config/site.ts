@@ -8,8 +8,8 @@ export interface SiteConfig {
   skool: { status: "coming-soon" | "available"; url: string };
 }
 export const siteConfig: SiteConfig = {
-  // Your Vercel production domain (https://...) or future custom domain.
-  siteUrl: "",
+  // Cloudflare Pages production domain; update when adding a custom domain.
+  siteUrl: "https://genyzstudio-marketing.pages.dev",
   contact: {
     zaloUrl: "https://zalo.me/0358155746",
     // Optional file under public/, e.g. /images/zalo-qr.png.
