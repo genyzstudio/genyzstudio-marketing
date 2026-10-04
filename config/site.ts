@@ -5,6 +5,7 @@ export interface SiteConfig {
   siteUrl: string;
   contact: { zaloUrl: string; qrImage: string; phone: string; email: string; socialLinks: { label: string; url: string }[] };
   workshop: { city: string; venue: string; date: string; duration: string; capacity: number | null };
+  instructor: { name: string; role: string; bio: string; photo: string };
   skool: { status: "coming-soon" | "available"; url: string };
 }
 export const siteConfig: SiteConfig = {
@@ -29,5 +30,8 @@ export const siteConfig: SiteConfig = {
     duration: "",
     capacity: null,
   },
+  // Shown only when name and bio are filled in. Use real, owner-approved details;
+  // photo is an optional local file such as /images/instructor.jpg.
+  instructor: { name: "", role: "", bio: "", photo: "" },
   skool: { status: "coming-soon", url: "" },
 };

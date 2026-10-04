@@ -27,6 +27,7 @@ export function validateSite(config: SiteConfig): string[] {
   if (config.contact.phone && !/^\+?[\d ()-]{6,25}$/.test(config.contact.phone)) errors.push("contact.phone: enter a public phone number using digits, spaces, +, - or parentheses.");
   for (const social of config.contact.socialLinks) if (!social.label.trim() || !isHttpsUrl(social.url)) errors.push("contact.socialLinks: each link needs a label and an HTTPS URL.");
   if (config.workshop.capacity !== null && (!Number.isInteger(config.workshop.capacity) || config.workshop.capacity < 1)) errors.push("workshop.capacity: use a positive whole number or null.");
+  if (config.instructor.photo && !/^\/images\/[a-zA-Z0-9_/-]+\.(png|jpg|jpeg|webp)$/.test(config.instructor.photo)) errors.push("instructor.photo: use a local /images/ PNG/JPEG/WebP path.");
   if ((config.skool.status === "available" || config.skool.url) && (!isHttpsUrl(config.skool.url, "www.skool.com") || new URL(config.skool.url).pathname === "/")) errors.push("skool.url: use an HTTPS course/community URL on www.skool.com.");
   return errors;
 }

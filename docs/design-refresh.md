@@ -23,3 +23,11 @@ The studio-owned Titus cover now leads the page, followed directly by a featured
 ## Obsidian references
 
 - Not applicable: this is a marketing website; no agentic system is being designed.
+
+## Production-sheet revamp (2026-10-04)
+
+Direction: the page borrows the studio's own production materials. The page background is the light grey of the character-sheet backdrop (`#e8e5e0`), with cocoa ink (`#2b2118`), Leo's yellow (`#f4c430`) reserved for registration actions, Pip's lime (`#c9e27a`) only for "covered in the workshop", and the cheese-cave dark (`#1a140f`) for the film band. Type: Bricolage Grotesque Variable (display, `font-stretch:88%`) and Be Vietnam Pro (body), both self-hosted with Vietnamese subsets.
+
+The one bold element is Leo's real turnaround in the hero, revealed view by view with a stepped `clip-path` (no motion with reduced-motion). Behind-the-scenes steps use storyboard panels with caption bars, mirroring the studio's boards. Numbers appear only on real sequences (learning path, production steps).
+
+Deliberately avoided: the cream-and-coral palette of the previous refresh, all-caps eyebrows, a single accented headline word, middle-dot label strings, and identical card grids. Section order now puts the workshop offer straight after outcomes. The instructor block is config-gated (`siteConfig.instructor`) and hidden until real details are supplied.
