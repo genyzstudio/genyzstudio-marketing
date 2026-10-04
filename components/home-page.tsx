@@ -8,6 +8,8 @@ import { siteConfig } from "@/config/site";
 import { getHome, interfaceCopy, type Locale } from "@/content/locales";
 import { structuredData } from "@/lib/seo";
 import { HeroGallery } from "@/components/hero-gallery";
+import { HeroRegistration } from "@/components/hero-registration";
+import { StickyRegistration } from "@/components/sticky-registration";
 
 export function HomePage({ locale }: { locale: Locale }) {
   const home = getHome(locale);
@@ -15,12 +17,12 @@ export function HomePage({ locale }: { locale: Locale }) {
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)).replace(/</g, "\\u003c") }} />
     <a className="skip-link" href="#main">{home.footer.skip}</a>
-    <Header locale={locale} />
+    <Header locale={locale} registrationUrl={siteConfig.contact.zaloUrl} />
     <main id="main">
       <section className="gallery-hero shell" aria-labelledby="hero-title">
         <div className="gallery-intro">
           <div><p className="eyebrow"><span className="tiny-line" />{home.hero.eyebrow}</p><h1 id="hero-title">{home.hero.title} <span className="coral-text">{home.hero.highlight}</span><br />{home.hero.ending}</h1></div>
-          <div className="gallery-intro-action"><p>{home.hero.description}</p><Registration locale={locale} url={siteConfig.contact.zaloUrl} /><a className="text-link" href="#lo-trinh">{copy.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
+          <div className="gallery-intro-action"><p>{home.hero.description}</p><HeroRegistration locale={locale} url={siteConfig.contact.zaloUrl} /><a className="text-link" href="#lo-trinh">{copy.explore}<ArrowDown size={18} aria-hidden="true" /></a></div>
         </div>
         <HeroGallery locale={locale} />
       </section>
@@ -61,6 +63,7 @@ export function HomePage({ locale }: { locale: Locale }) {
 
       <section id="lien-he" className="contact-section" aria-labelledby="contact-title"><div className="shell contact-inner"><MagicWand size={34} weight="light" aria-hidden="true" /><h2 id="contact-title">{home.contact.title}</h2><p>{home.contact.description}</p><Registration locale={locale} url={siteConfig.contact.zaloUrl} /><p className="contact-note">{home.contact.accountNote}</p><ContactDetails locale={locale} contact={siteConfig.contact} /></div></section>
     </main>
+    <StickyRegistration locale={locale} url={siteConfig.contact.zaloUrl} />
     <footer className="shell footer"><div><a className="brand" href="#" aria-label={copy.top}><Wordmark /></a><p>{home.footer.description}</p></div><div className="footer-right"><a className="text-link" href="#">{home.footer.back}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{home.footer.note}</p><span>© {new Date().getFullYear()} {home.footer.rights}</span></div></footer>
   </>;
 }

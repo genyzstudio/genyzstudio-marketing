@@ -12,7 +12,8 @@ export const home = {
   hero: {
     eyebrow: "HỌC LÀM VIDEO AI · BẰNG TIẾNG VIỆT",
     title: "Tự tay làm", highlight: "video AI", ending: "đầu tiên.",
-    description: "Bắt đầu từ con số 0, cùng hướng dẫn bằng tiếng Việt.",
+    description: "Workshop nhập môn miễn phí, học trực tiếp cùng người hướng dẫn. Bắt đầu từ con số 0, giải thích bằng tiếng Việt.",
+    ctaNote: "Miễn phí · Nhận lịch học qua Zalo",
     explore: "Xem video của studio", caption: "PHIM CỦA GENYZ STUDIO",
     filmTitle: "Clever Little Rat", silentExcerpt: "Trích đoạn · Không âm thanh",
     play: "Phát video", pause: "Tạm dừng", fullFilm: "Xem phim đầy đủ",
