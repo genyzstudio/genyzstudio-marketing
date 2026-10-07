@@ -1,8 +1,8 @@
 import type { home } from './home';
 
 export const homeEn: typeof home = {
-  metadata: { title: 'AI Video Creation Training for Beginners | GenYZ Studio', description: 'Learn AI video creation with GenYZ Studio. Explore prompts, images, motion and editing through an introductory workshop taught in Vietnamese.' },
-  nav: [{ label: 'Studio films', href: '#san-pham' }, { label: 'Intro workshop', href: '#workshop' }, { label: 'Learning path', href: '#lo-trinh' }, { label: 'FAQs', href: '#hoi-dap' }],
+  metadata: { title: 'AI Video Studio & Filmmaking Training | GenYZ Studio', description: 'GenYZ Studio creates AI animated films and teaches the craft behind them. Explore our films, creative process and beginner filmmaking workshops in Vietnamese.' },
+  nav: [{ label: 'Our films', href: '#san-pham' }, { label: 'Story & craft', href: '#cau-chuyen' }, { label: 'Learn filmmaking', href: '#lo-trinh' }, { label: 'Workshop', href: '#workshop' }],
   hero: { title: 'Create your first AI video.', description: 'An introductory workshop, taught in person with a guide. Start from zero, with explanations in Vietnamese.', ctaNote: 'The schedule is sent on Zalo.', turnaround: { alt: 'Leo, the lead character of Clever Little Rat, seen from the front, left, back and right.', caption: 'Leo is designed from four angles before he appears on screen. This is the real character sheet from Clever Little Rat.' }, caption: 'Films by GenYZ Studio', silentExcerpt: 'Silent excerpt', play: 'Play video', pause: 'Pause', fullFilm: 'Watch the full film', playbackError: 'The video could not load. You can watch it on YouTube.' },
   reassurance: ['No coding experience needed', 'Explanations in Vietnamese', 'Learn through guided practice'],
   outcomes: { title: 'You have an idea.\nAI helps you picture it.', description: 'A short story, a favourite product or a place you want to visit. Learn to turn your ideas into images and motion.', items: [{ title: 'Express your ideas clearly', text: 'Turn an idea into a clear prompt. Learn which details help guide the AI towards your intention.' }, { title: 'Create images with purpose', text: 'Explore characters, settings, lighting and camera angles. Learn to spot what needs improving in an image.' }, { title: 'Put your story together', text: 'Move from still images to motion, then combine scenes, sound and subtitles into a short video.' }] },
@@ -40,5 +40,5 @@ export const homeEn: typeof home = {
     { question: 'Does the workshop cover the whole learning path?', answer: 'The workshop is an introductory experience focused on getting started. The full learning path describes a longer programme. The self-paced Skool course is a separate option; details will be updated when it is ready.' }
   ] },
   contact: { title: 'What is your\nfirst idea?', description: 'Start with a conversation. Tell GenYZ Studio what you would like to create with AI video.', cta: 'Express interest via Zalo', unavailable: 'Registration opens soon', qrAlt: 'QR code to contact GenYZ Studio on Zalo', qrLabel: 'Scan to open Zalo', accountNote: 'You will speak with the workshop organiser on Zalo.' },
-  footer: { description: 'Learn to tell your story with AI.', note: 'For beginners. Instruction in Vietnamese.', back: 'Back to top', rights: 'GenYZ Studio', skip: 'Skip navigation, go to content' }
+  footer: { description: 'AI video production. The craft of storytelling.', note: 'For beginners. Instruction in Vietnamese.', back: 'Back to top', rights: 'GenYZ Studio', skip: 'Skip navigation, go to content' }
 };

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useProjectSelection } from "./project-selection";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "@phosphor-icons/react";
 import { HeroVideo } from "./hero-video";
@@ -16,12 +17,13 @@ export function HeroGallery({ locale = "vi" }: { locale?: Locale }) {
   const films = [...videos.filter(v => v.previewSrc), ...videos.filter(v => !v.previewSrc)];
   const copy = interfaceCopy[locale];
   const home = getHome(locale);
-  const [selected, setSelected] = useState(0);
+  const { selectedUrl, selectProject } = useProjectSelection();
+  const selected = Math.max(0, films.findIndex(item => item.url === selectedUrl));
   const previews = useRef<(HTMLButtonElement | null)[]>([]);
   const film = films[selected];
   const select = (index: number, focus = false) => {
     const next = (index + films.length) % films.length;
-    setSelected(next);
+    selectProject(films[next].url);
     const button = previews.current[next];
     const strip = button?.parentElement;
     if (button && strip) strip.scrollTo({ left: button.offsetLeft - strip.offsetLeft, behavior: "instant" });

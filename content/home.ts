@@ -1,13 +1,13 @@
 export const home = {
   metadata: {
-    title: "Học làm video AI cho người mới bắt đầu | GenYZ Studio",
-    description: "Bắt đầu làm video AI cùng GenYZ Studio. Hướng dẫn bằng tiếng Việt, lộ trình dễ hiểu và workshop nhập môn dành cho người mới.",
+    title: "Studio video AI & Đào tạo làm phim | GenYZ Studio",
+    description: "GenYZ Studio sản xuất phim hoạt hình, video AI và đào tạo làm phim bằng tiếng Việt. Khám phá phim, quy trình sáng tạo và workshop cho người mới.",
   },
   nav: [
-    { label: "Video của studio", href: "#san-pham" },
-    { label: "Workshop nhập môn", href: "#workshop" },
-    { label: "Lộ trình", href: "#lo-trinh" },
-    { label: "Hỏi đáp", href: "#hoi-dap" },
+    { label: "Phim của studio", href: "#san-pham" },
+    { label: "Cách kể chuyện", href: "#cau-chuyen" },
+    { label: "Học làm phim", href: "#lo-trinh" },
+    { label: "Workshop", href: "#workshop" },
   ],
   hero: {
     title: "Tự tay làm video AI đầu tiên.",
@@ -97,5 +97,5 @@ export const home = {
     qrAlt: "Mã QR liên hệ GenYZ Studio qua Zalo", qrLabel: "Quét mã để mở Zalo",
     accountNote: "Bạn sẽ trao đổi với người phụ trách workshop qua Zalo.",
   },
-  footer: { description: "Học cách kể câu chuyện của bạn bằng AI.", note: "Dành cho người mới. Hướng dẫn bằng tiếng Việt.", back: "Về đầu trang", rights: "GenYZ Studio", skip: "Bỏ qua menu, đến nội dung" },
+  footer: { description: "Sản xuất video AI. Đào tạo nghệ thuật kể chuyện.", note: "Dành cho người mới. Hướng dẫn bằng tiếng Việt.", back: "Về đầu trang", rights: "GenYZ Studio", skip: "Bỏ qua menu, đến nội dung" },
 };

@@ -12,6 +12,14 @@ export interface StudioVideo {
 }
 export const studioVideos: StudioVideo[] = [
   {
+    title: "The Great Gulp and the Cock-A-Doodle-Don't",
+    description: "Barnaby và Hildebrand biến một buổi chiều hỗn loạn bên kho ngô thành câu chuyện về tình bạn. Khám phá cách hai tính cách đối lập, nhịp hài và hoàng hôn tạo nên cảm xúc.",
+    lesson: "Mâu thuẫn & chuyển biến nhân vật",
+    platform: "YouTube",
+    url: "https://www.youtube.com/watch?v=MsXyfqlA1Fw",
+    thumbnail: "/images/great-gulp/film-poster.webp",
+  },
+  {
     title: "The Legend of Titus",
     description: "Cuộc phiêu lưu của chú mèo Titus và những người bạn. Quan sát cách nhân vật, bối cảnh và các cảnh quay cùng tạo nên một câu chuyện hoạt hình.",
     lesson: "Kể chuyện qua nhiều cảnh",

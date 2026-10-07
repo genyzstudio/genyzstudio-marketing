@@ -31,3 +31,19 @@ Direction: the page borrows the studio's own production materials. The page back
 The one bold element is Leo's real turnaround in the hero, revealed view by view with a stepped `clip-path` (no motion with reduced-motion). Behind-the-scenes steps use storyboard panels with caption bars, mirroring the studio's boards. Numbers appear only on real sequences (learning path, production steps).
 
 Deliberately avoided: the cream-and-coral palette of the previous refresh, all-caps eyebrows, a single accented headline word, middle-dot label strings, and identical card grids. Section order now puts the workshop offer straight after outcomes. The instructor block is config-gated (`siteConfig.instructor`) and hidden until real details are supplied.
+
+## Studio and filmmaking refresh (2026-10-07)
+
+The home page now introduces two offers: AI video production and filmmaking training. A charcoal cinema palette, amber actions, short introduction and actual studio artwork establish the studio identity. The Great Gulp case study connects opposing characters, escalating conflict and an emotional ending to specific filmmaking decisions. Original storyboards are distinct from the finished-film excerpt.
+
+Both locales follow the same journey: studio introduction, production/training choices, featured film and interactive story chapters, film portfolio, learning path, introductory workshop, expandable production examples, FAQs and contact. Public film playback uses YouTube; the authenticated Flow editor remains a source rather than a customer-facing destination. Existing unknown workshop details and Skool availability remain explicitly pending.
+
+Media uses 10px corners; action buttons use pills. Motion is limited to optional video playback and interaction feedback, with reduced-motion support. Heavy production examples are kept in a disclosure and clips play only when visible. Design dials: variance 7, motion 3, density 3. Source assets take priority over invented promotional artwork because the films are the evidence for the studio's work.
+
+## Multi-project workflow explorer (2026-10-07)
+
+The hero presents all three films. A shared explorer follows the portfolio, with project selectors and five consistent stages: story, characters, storyboard, motion and finished film. Switching projects retains the current stage where material exists. Each stage pairs actual studio media with a creative decision and a filmmaking lesson.
+
+Great Gulp and Clever Little Rat have all five stages. Titus currently has only the published film; four unavailable stages are disabled and labelled, and selecting Titus opens the film. No script, storyboard or production history is invented. Project selection unmounts prior media players. The mobile selectors scroll within their own rows, while the media and explanation stack. Both Vietnamese and English are supported.
+
+The hero links, gallery controls and workflow project buttons now share a single selected film URL. The gallery and workflow update in both directions, preserving the preferred workflow stage where available. Films with no published production breakdown display their own final film and an availability notice. The detailed Little Rat notebook only mounts for the Button Bridge film. Switching projects unmounts previous playback, and hero project links select their corresponding project before navigating to the workflow.

@@ -58,3 +58,20 @@ Unreleased project shown as work in progress. Downloaded with the owner's approv
 - Google Flow, project of 2026-07-06 (night farm): "Pip hamster explorer hat Coco" (8 s) and "Coco explains missing Golden Whistle" (10 s), 720p originals, into `production/flow/`; silent 960px web copies `public/media/process/coco-pip-cut1-pip.mp4` and `coco-pip-cut3-coco.mp4`. Google's Veo/Flow watermarks are kept.
 
 The Flow shots predate the OpenArt board, so the page says they share story beats (cuts 1 and 3) and states both dates; it does not present the board as the plan the shots were generated from. A third Flow take ("no music", Pip close-up) was offered but not approved and was not downloaded.
+
+## The Great Gulp case study (2026-10-07)
+
+- Source workspace: `../The great gulp and the cock/` (read only).
+- Original project: `THE GREAT GULP AND THE COCK-A-DOODLE-DON'T - 2026-09-24_22-12.json`, version 3. The screenplay contains six scenes; the export includes 28 storyboard frames and 11 character/location/prop assets.
+- Google Flow project: https://flow.google.com/project/9cdb9ae5-7670-4584-989d-2d3b9a571a96 (requires the studio account; intentionally not used as a public playback destination).
+- Finished film: `The Great Gulp - final music mix.mp4`, 1920×1080, 237.679456 seconds. Public YouTube destination confirmed by the source workspace's publication evidence: https://www.youtube.com/watch?v=MsXyfqlA1Fw.
+- `public/videos/great-gulp/sunset-excerpt.mp4`: silent 12-second excerpt beginning at 189 seconds, scaled to 1280×720, H.264 CRF 26 with faststart. The complete film and audio remain on YouTube. `film-poster.webp` is the frame at 195 seconds.
+- `setup.webp`, `chaos.webp`, `sunset.webp`: original embedded storyboard frames, zero-based indices 8, 17 and 21. These are labelled as storyboard artwork, not frames extracted from the final film.
+- `barnaby-reference.webp`, `hildebrand-reference.webp`: the selected reference images in the first two character assets. Source spelling in the screenplay is Hildebrand; the live Flow character tile uses Hildenbrand.
+- All images are optimized local WebP copies, maximum width 1280px, quality 82. Original production exports and media were not changed. No generated substitute artwork or private signed media URLs are used.
+
+## Shared workflow explorer
+
+Clever Little Rat story text uses `../Clever Little Rat/scripts/scene-06.md`: the button bridge fits Pip but presents a size/stability problem for Leo and Mio. The existing Leo turnaround, scene 6 shot 2 plan, blocking and generated clip illustrate the corresponding stages. The motion comparison does not claim direct generation ancestry or final-edit inclusion.
+
+Titus uses the existing `/images/titus.jpg` and published YouTube film `VzmqrgQumGo`. No Titus production folder was found in the sibling projects during this update, so its preproduction stages remain unavailable.

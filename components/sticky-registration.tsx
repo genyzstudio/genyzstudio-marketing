@@ -4,8 +4,8 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import { getHome, type Locale } from "@/content/locales";
 import { isZaloUrl } from "@/lib/site";
 
-// The bar steps aside whenever another registration button, the contact section or the footer is on screen.
-const COMPETING_TARGETS = "[data-registration], #lien-he, .footer";
+// Keep the studio and film introduction clear; offer registration in the learning sections.
+const COMPETING_TARGETS = ".studio-hero, .studio-paths, #cau-chuyen, .gallery-intro, #san-pham, [data-registration], #lien-he, .footer";
 
 export function StickyRegistration({ url, locale }: { url: string; locale: Locale }) {
   const [isVisible, setIsVisible] = useState(false);

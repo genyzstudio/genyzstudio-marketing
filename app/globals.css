@@ -11,20 +11,17 @@
 @import "@fontsource/be-vietnam-pro/vietnamese-700.css";
 @import "@fontsource/be-vietnam-pro/vietnamese-800.css";
 
-/* Production-sheet system: studio-backdrop grey paper, cocoa ink, Leo's yellow for actions,
-   Pip's lime only for "covered in the workshop", cheese-cave dark for films. */
+/* Cinema system: charcoal canvas, warm white type, amber actions.
+   Media uses 10px corners; buttons use pills. Original production artwork keeps its own colors. */
 @theme inline { --font-sans: "Be Vietnam Pro", Arial, sans-serif; }
 :root {
-  color-scheme: light dark;
-  --paper:#e8e5e0; --panel:#fbfaf8; --ink:#2b2118; --muted:#594f45; --line:#cdc7bf;
-  --yellow:#f4c430; --yellow-press:#e3b11c; --lime:#c9e27a; --brand:#c83e2c; --cave:#1a140f;
+  color-scheme:dark;
+  --paper:#141617; --panel:#1e2021; --ink:#f4f2eb; --muted:#b8b9b5; --line:#383b3b;
+  --yellow:#f3c778; --yellow-press:#ffdb9a; --lime:#cedda9; --brand:#f3c778; --cave:#141617;
   --display:"Bricolage Grotesque Variable","Be Vietnam Pro",Arial,sans-serif;
   --body:"Be Vietnam Pro",Arial,sans-serif;
   --radius-panel:10px; --radius-control:999px;
-  --space-section:clamp(64px,9vw,128px);
-}
-@media (prefers-color-scheme: dark) {
-  :root { --paper:#1c1814; --panel:#27211a; --ink:#f1ece4; --muted:#b5aa9c; --line:#3d352c; --brand:#ff8c75; }
+  --space-section:clamp(64px,8vw,112px);
 }
 
 /* Base */
@@ -63,7 +60,7 @@ a.button:active { transform:translateY(1px); }
 .header-inner { height:100%; display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .brand { display:inline-flex; align-items:center; min-height:44px; }
 .brand-lockup { display:inline-flex; align-items:center; gap:8px; flex-shrink:0; }
-.brand-characters { width:60px; height:60px; object-fit:contain; flex-shrink:0; }
+.brand-characters { width:46px; height:46px; object-fit:contain; flex-shrink:0; }
 .wordmark { display:inline-flex; align-items:baseline; font-family:var(--body); font-size:28px; font-weight:800; letter-spacing:-1.5px; line-height:1; }
 .wordmark-yz,.brand-dot { color:var(--brand); }
 .wordmark-studio { margin-left:4px; font-size:16px; font-weight:500; letter-spacing:-.6px; }
@@ -81,25 +78,8 @@ a.button:active { transform:translateY(1px); }
 .mobile-nav[hidden] { display:none; }
 .mobile-nav a { display:flex; align-items:center; justify-content:space-between; padding:16px 0; font-weight:500; }
 
-/* Hero: the headline, the offer, then Leo's real turnaround. */
-.hero { padding-top:clamp(40px,6vw,88px); }
-.hero-grid { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(0,1fr); gap:56px; align-items:end; }
-.hero h1 { max-width:12ch; text-wrap:balance; }
-.hero-lede { font-size:18px; max-width:40ch; }
-.hero-registration { display:flex; flex-direction:column; align-items:flex-start; gap:10px; margin-top:24px; }
-.cta-note { margin:0; font-size:14px; color:var(--muted); }
-.reassurance { list-style:none; margin:24px 0 0; padding:20px 0 0; border-top:1px solid var(--line); display:grid; gap:8px; }
-.reassurance li { display:flex; align-items:center; gap:10px; font-size:15px; }
-.reassurance svg { flex-shrink:0; padding:3px; box-sizing:content-box; border-radius:50%; background:var(--yellow); color:#2b2118; }
-.turnaround { margin-top:clamp(40px,5vw,72px); }
-.turnaround-stage { overflow:hidden; border-radius:var(--radius-panel); background:#d6d3d1; }
-.turnaround-stage img { display:block; width:100%; height:auto; animation:turnaround 1.4s steps(4, jump-start) .2s both; }
-.turnaround figcaption { margin-top:14px; max-width:70ch; font-size:14px; color:var(--muted); }
-/* Reveals the model sheet one view at a time: front, left, back, right. */
-@keyframes turnaround { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0 0 0 0); } }
-
 /* Film band: films always sit in the cheese-cave dark, whatever the visitor's theme. */
-.film-gallery { --paper:#1a140f; --panel:#251d16; --ink:#f1ece4; --muted:#b5aa9c; --line:#3d332a; color-scheme:dark; margin-top:var(--space-section); padding-block:28px 40px; color:var(--ink); background:var(--cave); box-shadow:0 0 0 100vmax var(--cave); clip-path:inset(0 -100vmax); }
+.film-gallery { padding-block:0 40px; color:var(--ink); }
 .film-gallery-heading { display:flex; align-items:center; justify-content:space-between; padding-block:12px 20px; }
 .film-gallery-heading > span { font-family:var(--display); font-size:22px; font-weight:640; font-stretch:88%; }
 .film-navigation { display:flex; align-items:center; gap:8px; }
@@ -185,7 +165,7 @@ a.button:active { transform:translateY(1px); }
 .board-panel { display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:var(--panel); }
 .board-frame { aspect-ratio:3/2; background:#d6d3d1; }
 .board-frame img { display:block; width:100%; height:100%; object-fit:cover; }
-.board-script { display:flex; align-items:center; padding:clamp(20px,3vw,40px); background:#2b2118; }
+.board-script { display:flex; align-items:center; padding:clamp(20px,3vw,40px); background:#171919; }
 .board-script blockquote { color:#f6efe3; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:clamp(13px,1.25vw,16px); line-height:1.75; overflow-wrap:anywhere; }
 .board-caption { flex:1; display:flex; flex-direction:column; padding:18px 22px 22px; border-top:1px solid var(--line); }
 .board-meta { display:flex; justify-content:space-between; gap:16px; font-size:14px; }
@@ -312,3 +292,169 @@ a.button:active { transform:translateY(1px); }
 }
 .wip-section { border-top:1px solid var(--line); }
 .board-plan-light img { background:#f4efe6; }
+
+/* Studio introduction: a clear invitation beside an actual frame from our film. */
+.eyebrow { font-size:11px; font-weight:600; letter-spacing:.13em; color:var(--yellow); }
+.studio-hero { display:grid; grid-template-columns:1fr 1.15fr; gap:48px; align-items:center; padding-block:64px 52px; }
+.studio-hero-copy { min-width:0; }
+.studio-hero h1 { margin-top:24px; font-size:clamp(40px,4.5vw,64px); line-height:1.12; white-space:pre-line; letter-spacing:-.04em; }
+.studio-lede { max-width:38ch; margin-top:24px; font-size:17px; color:var(--muted); }
+.hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+.hero-actions .button { padding:13px 20px; font-size:14px; min-height:50px; }
+.button-secondary { color:var(--ink); background:transparent; border:1px solid var(--line); }
+a.button-secondary:hover { color:var(--ink); background:var(--panel); border-color:var(--muted); }
+.studio-hero-art { min-width:0; }
+.studio-hero-art > a { display:block; overflow:hidden; border-radius:var(--radius-panel); }
+.studio-hero-art img { display:block; width:100%; height:clamp(320px,32vw,445px); object-fit:cover; object-position:52% center; transition:transform .5s; }
+.studio-hero-art > a:hover img { transform:scale(1.025); }
+.studio-hero-art figcaption { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:10px; font-size:12px; color:var(--muted); }
+.studio-hero-art figcaption a { display:grid; place-items:center; min-width:44px; min-height:44px; color:var(--yellow); }
+.studio-paths { display:grid; grid-template-columns:1fr 1fr; gap:0; border-top:1px solid var(--line); padding-block:48px 64px; }
+.studio-path { position:relative; padding-right:56px; }
+.studio-path + .studio-path { padding-left:56px; padding-right:0; border-left:1px solid var(--line); }
+.path-icon { color:var(--yellow); margin-bottom:20px; }
+.studio-path h3 { font-size:clamp(23px,2.2vw,30px); white-space:pre-line; }
+.studio-path > p { color:var(--muted); margin-top:16px; max-width:52ch; font-size:15px; }
+.studio-path ul { display:flex; flex-wrap:wrap; gap:4px 18px; padding:0; margin:20px 0 12px; list-style:none; font-size:12px; color:var(--muted); }
+.studio-path li { padding-bottom:4px; border-bottom:1px solid var(--line); }
+
+/* Featured production and its three-part story. */
+.case-study { background:#191b1c; border-block:1px solid var(--line); }
+.case-intro { max-width:760px; }
+.case-intro h2 { margin-top:20px; font-size:clamp(34px,4.2vw,58px); }
+.case-intro > p:last-child { max-width:65ch; margin-top:24px; color:var(--muted); }
+.case-film { margin-top:40px; }
+.case-film .native-gallery-player { aspect-ratio:16/9; border-radius:var(--radius-panel); }
+.case-film-caption { display:flex; justify-content:space-between; gap:24px; align-items:start; margin-top:20px; }
+.case-film-caption h3 { max-width:34ch; font-size:22px; }
+.case-film-caption ul { margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px 22px; list-style:none; font-size:12px; color:var(--muted); }
+.chapter-intro { margin-top:72px; max-width:720px; }
+.chapter-intro h3 { font-size:clamp(26px,3vw,38px); }
+.chapter-intro p { margin-top:14px; color:var(--muted); }
+.story-explorer { display:grid; grid-template-columns:1fr 2fr; gap:40px; margin-top:32px; }
+.story-choices { display:flex; flex-direction:column; gap:8px; }
+.story-choices button { display:flex; align-items:center; gap:16px; padding:22px 18px; border:1px solid transparent; border-radius:var(--radius-panel); background:transparent; color:var(--muted); text-align:left; line-height:1.5; font-size:15px; }
+.story-choices button svg { margin-left:auto; flex-shrink:0; }
+.story-choices button:hover { color:var(--ink); background:var(--panel); }
+.story-choices button[aria-pressed=true] { color:var(--yellow); background:#292923; border-color:#66604a; }
+.chapter-number { font-size:13px; font-variant-numeric:tabular-nums; }
+.story-chapter { min-width:0; }
+.story-chapter figure img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:var(--radius-panel); }
+.story-chapter figcaption { color:var(--muted); font-size:12px; margin-top:10px; }
+.chapter-copy { padding-top:22px; }
+.chapter-copy h3 { font-size:25px; }
+.chapter-copy p { color:var(--muted); margin-top:14px; font-size:15px; }
+.chapter-copy .chapter-lesson { color:var(--yellow); padding-top:16px; border-top:1px solid var(--line); }
+.character-details { margin-top:48px; border-block:1px solid var(--line); }
+.character-details summary,.production-notebook > summary { display:flex; justify-content:space-between; align-items:center; gap:24px; list-style:none; cursor:pointer; padding-block:24px; font-size:17px; font-weight:600; }
+.character-details summary::-webkit-details-marker,.production-notebook > summary::-webkit-details-marker { display:none; }
+.character-details summary span { font-size:24px; font-weight:400; }
+.character-details[open] summary span { transform:rotate(45deg); }
+.character-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.character-grid img { display:block; width:100%; height:auto; border-radius:var(--radius-panel); }
+.character-grid figcaption { padding-block:14px; font-size:14px; }
+.character-details > p { color:var(--muted); font-size:13px; padding-bottom:24px; }
+.case-to-learning { display:grid; grid-template-columns:1fr 1fr; gap:64px; padding-top:48px; }
+.case-to-learning h3 { white-space:pre-line; font-size:clamp(28px,3vw,40px); }
+.case-to-learning p { color:var(--muted); font-size:15px; }
+.case-to-learning .text-link { margin-top:14px; }
+.gallery-intro { padding-top:var(--space-section); padding-bottom:32px; }
+.gallery-intro p { margin-top:20px; color:var(--muted); max-width:65ch; }
+.film-gallery-heading > span { font-size:16px; }
+.production-notebook { margin-top:64px; border-block:1px solid var(--line); }
+.production-notebook > summary { padding-block:32px; }
+.production-notebook[open] > summary svg { transform:rotate(45deg); }
+.contact-options { display:flex; align-items:flex-start; flex-direction:column; gap:14px; }
+.contact-action .contact-note { max-width:45ch; }
+
+@media (min-width:761px) and (max-width:1100px) {
+  .studio-hero { gap:28px; padding-block:48px; }
+  .studio-hero h1 { font-size:clamp(38px,4.5vw,48px); }
+  .studio-path { padding-right:32px; }
+  .studio-path + .studio-path { padding-left:32px; }
+  .story-explorer { gap:24px; grid-template-columns:1fr 1.7fr; }
+  .story-choices button { padding:18px 12px; gap:10px; }
+  .desktop-nav { gap:18px; }
+}
+@media (max-width:760px) {
+  .studio-hero { grid-template-columns:1fr; padding-block:36px 28px; gap:28px; }
+  .studio-hero h1 { font-size:clamp(38px,10vw,58px); margin-top:18px; }
+  .studio-lede { margin-top:18px; font-size:16px; }
+  .hero-actions { margin-top:24px; gap:10px; }
+  .hero-actions .button { padding:12px 16px; font-size:13px; }
+  .studio-hero-art img { height:auto; aspect-ratio:16/10; }
+  .studio-hero-art figcaption { font-size:11px; }
+  .studio-paths { grid-template-columns:1fr; padding-block:32px; }
+  .studio-path,.studio-path + .studio-path { padding:0; border-left:0; }
+  .studio-path + .studio-path { border-top:1px solid var(--line); margin-top:32px; padding-top:32px; }
+  .studio-path h3 { font-size:27px; }
+  .case-film-caption { flex-direction:column; gap:12px; }
+  .case-film-caption h3 { font-size:19px; }
+  .case-film-caption ul { gap:6px 14px; }
+  .chapter-intro { margin-top:48px; }
+  .story-explorer { grid-template-columns:1fr; gap:20px; }
+  .story-choices { flex-direction:row; gap:6px; }
+  .story-choices button { flex:1; min-width:0; flex-direction:column; align-items:flex-start; gap:8px; font-size:12px; padding:12px 10px; }
+  .story-choices button svg { display:none; }
+  .chapter-copy h3 { font-size:23px; }
+  .character-grid,.case-to-learning { grid-template-columns:1fr; gap:24px; }
+  .contact-options { align-items:stretch; }
+  .contact-options .button { font-size:14px; }
+  .case-film .cinema-control { font-size:11px; padding-inline:10px; }
+}
+
+/* Shared production explorer: select a project, then compare the same creative stage. */
+.studio-mosaic { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.studio-mosaic figure:first-child { grid-column:1 / -1; }
+.studio-mosaic figure a { display:block; overflow:hidden; border-radius:var(--radius-panel); }
+.studio-mosaic figure img { display:block; width:100%; height:auto; aspect-ratio:16/8; object-fit:cover; }
+.studio-mosaic figure:not(:first-child) img { aspect-ratio:16/7; }
+.studio-mosaic figcaption { margin-top:8px; font-size:12px; }
+.workflow-projects { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:40px; }
+.workflow-projects button { padding:0 0 18px; background:transparent; border:0; border-bottom:3px solid var(--line); color:var(--ink); text-align:left; }
+.workflow-projects button[aria-pressed=true] { border-color:var(--yellow); }
+.workflow-projects img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:var(--radius-panel); opacity:.68; transition:opacity .2s; }
+.workflow-projects button:hover img,.workflow-projects button[aria-pressed=true] img { opacity:1; }
+.workflow-project-title { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; font-size:20px; font-weight:600; }
+.workflow-project-title svg { flex-shrink:0; color:var(--yellow); }
+.workflow-project-subtitle { display:block; color:var(--muted); font-size:13px; margin-top:6px; }
+.workflow-stages { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; margin-block:32px; }
+.workflow-stages button { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:15px 12px; border:1px solid var(--line); border-radius:var(--radius-panel); background:transparent; color:var(--muted); font-size:14px; text-align:left; }
+.workflow-stages button > span { font-size:11px; }
+.workflow-stages button[aria-pressed=true] { background:var(--yellow); border-color:var(--yellow); color:#2b2118; }
+.workflow-stages button:hover:not(:disabled) { border-color:var(--yellow); }
+.workflow-stages button:disabled { cursor:not-allowed; color:#90938f; border-style:dashed; }
+.workflow-stages small { display:block; width:100%; font-size:10px; }
+.workflow-panel { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(0,1fr); gap:40px; align-items:start; }
+.workflow-assets { display:grid; gap:20px; }
+.workflow-assets img { width:100%; height:auto; display:block; border-radius:var(--radius-panel); }
+.workflow-assets figcaption { color:var(--muted); font-size:12px; margin-top:10px; }
+.workflow-assets-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.workflow-assets-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.workflow-clip { aspect-ratio:16/9; overflow:hidden; border-radius:var(--radius-panel); }
+.workflow-media .video-player { aspect-ratio:16/9; }
+.workflow-copy h3 { font-size:clamp(24px,2.4vw,34px); white-space:pre-line; }
+.workflow-copy > p:not(.workflow-context) { font-size:15px; color:var(--muted); margin-top:18px; }
+.workflow-context { margin-bottom:14px; font-size:12px; color:var(--yellow); }
+.workflow-copy blockquote { font-family:var(--display); white-space:pre-line; font-size:21px; margin-top:24px; padding-left:18px; border-left:2px solid var(--yellow); }
+.workflow-lesson { border-top:1px solid var(--line); margin-top:28px; padding-top:22px; }
+.workflow-lesson h4 { margin:0 0 8px; font-size:14px; }
+.workflow-lesson p { color:var(--muted); font-size:14px; }
+.workflow-lesson .text-link { margin-top:12px; }
+.workflow-notice { color:var(--muted); margin-bottom:24px; font-size:14px; }
+@media (max-width:1000px) {
+  .workflow-panel { grid-template-columns:1fr; gap:28px; }
+  .workflow-copy { max-width:70ch; }
+}
+@media (max-width:760px) {
+  .studio-mosaic { gap:12px; }
+  .studio-mosaic figcaption { font-size:11px; }
+  .workflow-projects { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:16px; padding:4px; margin-inline:-4px; }
+  .workflow-projects button { flex:0 0 230px; scroll-snap-align:start; }
+  .workflow-project-title { font-size:18px; }
+  .workflow-stages { display:flex; overflow-x:auto; padding:4px; margin:24px -4px; scroll-snap-type:x proximity; }
+  .workflow-stages button { flex:0 0 auto; min-width:108px; max-width:150px; min-height:52px; font-size:12px; scroll-snap-align:start; }
+  .workflow-assets-3 { grid-template-columns:1fr; }
+  .workflow-assets-2 { grid-template-columns:1fr; }
+  .workflow-panel { gap:24px; }
+}
