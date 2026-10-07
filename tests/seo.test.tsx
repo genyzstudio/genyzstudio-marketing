@@ -78,7 +78,7 @@ test('project workflows ship verified media and reserve missing stages', async (
     assert.ok(html.includes(locale === 'en' ? 'Original storyboard' : 'Storyboard gốc'));
     for (const title of ['The Great Gulp', 'Clever Little Rat', 'The Legend of Titus']) assert.ok(html.includes(title));
     assert.doesNotMatch(html, /flow\.google\.com|data:image|<iframe/);
-    assert.equal((html.match(/aria-controls="workflow-panel"/g) || []).length, 8);
+    assert.equal((html.match(/aria-controls="pipeline-detail"/g) || []).length, 9);
   }
 });
 
@@ -95,5 +95,24 @@ test('every gallery selection resolves to its own film without borrowing another
     }
     const html = renderToStaticMarkup(<HomePage locale={locale} />);
     assert.ok(!html.includes('class="production-notebook"'), 'Little Rat notebook is hidden for the initial Great Gulp selection');
+  }
+});
+
+test('AI pipeline distinguishes shared methods from project evidence', async () => {
+  const { getPipeline, getPipelineEvidence } = await import('../content/pipeline');
+  const { getWorkflows } = await import('../content/workflows');
+  for (const locale of ['vi', 'en'] as const) {
+    const steps = getPipeline(locale);
+    assert.equal(steps.length, 9);
+    assert.deepEqual([0,1,2].map(phase => steps.filter(step => step.phase === phase).length), [3,3,3]);
+    const [gulp, rat, titus] = getWorkflows(locale);
+    assert.ok(getPipelineEvidence(gulp, 'sound', locale)?.film);
+    assert.equal(getPipelineEvidence(rat, 'sound', locale), undefined);
+    for (const project of [gulp,rat,titus]) {
+      assert.equal(getPipelineEvidence(project, 'frames', locale), undefined);
+      assert.equal(getPipelineEvidence(project, 'review', locale), undefined);
+      assert.equal(getPipelineEvidence(project, 'delivery', locale)?.film?.url, project.stages.film?.film?.url);
+    }
+    assert.equal(getPipelineEvidence(titus, 'edit', locale), undefined);
   }
 });
