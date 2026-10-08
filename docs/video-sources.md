@@ -75,3 +75,17 @@ The Flow shots predate the OpenArt board, so the page says they share story beat
 Clever Little Rat story text uses `../Clever Little Rat/scripts/scene-06.md`: the button bridge fits Pip but presents a size/stability problem for Leo and Mio. The existing Leo turnaround, scene 6 shot 2 plan, blocking and generated clip illustrate the corresponding stages. The motion comparison does not claim direct generation ancestry or final-edit inclusion.
 
 Titus uses the existing `/images/titus.jpg` and published YouTube film `VzmqrgQumGo`. No Titus production folder was found in the sibling projects during this update, so its preproduction stages remain unavailable.
+
+## Titus production archive (2026-10-08)
+
+The owner identified `../The Legend Of Titus/`, superseding the earlier missing-folder note. Six scene scripts, canonical references, dashboard storyboards, cut panels, a Flow prompt pack, downloaded shot videos, audio-separation intermediates and a standalone ending-credits render were inspected read-only.
+
+- `public/images/titus-process/character.webp`, `glimmer.webp`, `location.webp`, `scale.webp`: matching canonical JPEGs in `characters/`, `Locations/` and `Props/`; WebP at max 1280px, quality 85.
+- `shot-plan.webp`: `scene 1/dashboard/scene-01-shot-04-dashboard.png`, max 1800px. Original planning-board annotations preserved.
+- `cut-1.webp` through `cut-4.webp`: `scene 2/dashboard/scene-02-shot-04-cuts/scene-02-shot-04-cut-0N.png`. These contain captions and are explicitly presented as storyboard panels, not verified generator inputs.
+- `public/media/titus/scene-01-shot-04.mp4`: first six seconds of `openart-download/Scene-01/S1-04.mp4`, silent H.264, 960px, CRF25. No direct ancestry from the board or inclusion in the final edit is claimed.
+- `credits.mp4`: 12 silent seconds starting at 10s of `The-Legend-of-Titus-ending-credits.mp4`. This is a standalone asset; inclusion in the published film is unverified.
+- Motion/credits posters are frames one second into those web excerpts, encoded to WebP.
+- `source-audio.mp3` and `isolated-voice.mp3`: first six seconds of `openart-download/Scene-01/S1-03-audio.wav` and `S1-03-voice-only.wav`, MP3 128kbps. These illustrate intermediate audio separation, not final mix stems. Native controls load only on demand; playing one pauses the other.
+
+The public film URL is unchanged. Review/retake evidence remains unpublished; no approval status is inferred from filenames.

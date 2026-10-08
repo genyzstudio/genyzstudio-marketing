@@ -27,6 +27,10 @@ export function getPipeline(locale: Locale) {
 
 /** Only link to materials actually represented in the public project archive. */
 export function getPipelineEvidence(project: WorkflowProject, id: PipelineId, locale: Locale = 'en') {
+  if (id === 'frames' || id === 'review' || id === 'edit' || id === 'sound') {
+    const evidence = project.pipelineEvidence?.[id];
+    if (evidence) return evidence;
+  }
   const en = locale === 'en';
   const film = project.stages.film;
   if (id === 'edit' && film && ['great-gulp', 'little-rat'].includes(project.id)) return {

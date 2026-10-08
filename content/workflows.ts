@@ -1,3 +1,4 @@
+import { getTitusWorkflow } from './titus';
 import type { Locale } from './locales';
 import { getHome } from './locales';
 import { greatGulp, studioCopy } from './studio';
@@ -8,8 +9,8 @@ import type { StudioVideo } from './showcase';
 export const stageIds = ['story', 'characters', 'storyboard', 'motion', 'film'] as const;
 export type StageId = typeof stageIds[number];
 type Media = { src: string; alt: string; caption: string; poster?: string };
-export interface WorkflowStage { title: string; text: string; lesson: string; quote?: string; media?: Media[]; film?: StudioVideo }
-export interface WorkflowProject { id: string; title: string; subtitle: string; cover: string; stages: Partial<Record<StageId, WorkflowStage>>; notice?: string }
+export interface WorkflowStage { title: string; text: string; lesson: string; quote?: string; media?: Media[]; film?: StudioVideo; audio?: {src: string; label: string}[] }
+export interface WorkflowProject { id: string; title: string; subtitle: string; cover: string; stages: Partial<Record<StageId, WorkflowStage>>; notice?: string; pipelineEvidence?: Partial<Record<'frames' | 'review' | 'edit' | 'sound', WorkflowStage>> }
 export const workflowCopy = {
   en: { title: 'Different worlds.\nOne storytelling craft.', description: 'Choose a film. Explore the story, character design and creative decisions behind it.', projects: 'Choose a project', stages: 'Explore the workflow', labels: ['Story', 'Characters', 'Storyboard', 'Motion', 'Finished film'], unavailable: 'Not yet published', watch: 'Watch on YouTube', learn: 'Learn filmmaking', lesson: 'What you can learn', note: 'Studio production materials. Examples illustrate creative decisions, not promised workshop outcomes.' },
   vi: { title: 'Nhiều thế giới.\nCùng nghệ thuật kể chuyện.', description: 'Chọn một bộ phim. Khám phá câu chuyện, thiết kế nhân vật và những quyết định sáng tạo phía sau.', projects: 'Chọn dự án', stages: 'Khám phá quy trình', labels: ['Câu chuyện', 'Nhân vật', 'Storyboard', 'Chuyển động', 'Phim hoàn chỉnh'], unavailable: 'Chưa công bố', watch: 'Xem trên YouTube', learn: 'Học làm phim', lesson: 'Điều bạn có thể học', note: 'Tư liệu sản xuất của studio. Các ví dụ minh hoạ quyết định sáng tạo, không phải cam kết đầu ra của workshop.' },
@@ -40,10 +41,7 @@ export function getWorkflows(locale: Locale): WorkflowProject[] {
         film:{title:'Clever Little Rat: Through the Button Bridge',text:home.process.result.text,lesson:en?'See how individual shots become a continuous adventure through editing and sound.':'Quan sát cách dựng phim và âm thanh kết nối từng cảnh thành cuộc phiêu lưu liền mạch.',film:{title:'Clever Little Rat: Through the Button Bridge',description:home.process.result.text,platform:'YouTube',url:'https://www.youtube.com/watch?v=1_EZiRh8o_o',thumbnail:'/images/studio-reel.jpg'}},
       },
     },
-    {
-      id:'titus',title:'The Legend of Titus',subtitle:en?'Adventure & worldbuilding':'Phiêu lưu & xây dựng thế giới',cover:'/images/titus.jpg',notice:en?'Explore the finished film. The production breakdown has not been published here yet.':'Khám phá phim hoàn chỉnh. Phần phân tích quy trình sản xuất chưa được công bố tại đây.',
-      stages:{film:{title:'The Legend of Titus',text:en?'Follow Titus the cat and his friends in an animated adventure. Watch how the characters and settings connect from one scene to the next.':'Theo chân chú mèo Titus và những người bạn trong cuộc phiêu lưu hoạt hình. Quan sát cách nhân vật và bối cảnh kết nối từ cảnh này sang cảnh khác.',lesson:en?'Watch for continuity: what helps you recognise the same character and world when the shot changes?':'Quan sát tính liên tục: điều gì giúp bạn nhận ra cùng nhân vật và thế giới khi cảnh quay thay đổi?',film:{title:'The Legend of Titus',description:'GenYZ Studio',platform:'YouTube',url:'https://www.youtube.com/watch?v=VzmqrgQumGo',thumbnail:'/images/titus.jpg'}}},
-    },
+    getTitusWorkflow(locale),
   ];
 }
 

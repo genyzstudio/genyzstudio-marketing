@@ -13,8 +13,9 @@ export function PipelineArt({ id, project, locale }: { id: PipelineId; project: 
   const boards = project.stages.storyboard?.media;
   const motion = project.stages.motion?.media;
   if (id === 'story' && story) return <div className="journey-art journey-script"><Quotes size={24} weight="fill" /><p>{story.quote || story.title}</p><span>{en ? 'Script excerpt' : 'Trích kịch bản'}</span></div>;
-  if (id === 'references' && refs) return <div className={`journey-art journey-references refs-${refs.length}`}>{refs.map((item,i) => image(item.src,i))}</div>;
+  if (id === 'references' && refs) return <div className={`journey-art journey-references refs-${Math.min(refs.length,2)}`}>{refs.slice(0,2).map((item,i) => image(item.src,i))}</div>;
   if (id === 'planning' && boards) return <div className={`journey-art journey-boards boards-${boards.length}`}>{boards.map((item,i) => image(item.src,i))}</div>;
+  if (id === 'frames' && project.pipelineEvidence?.frames?.media?.length) return <div className="journey-art journey-boards">{project.pipelineEvidence.frames.media.slice(0,2).map((item,i)=>image(item.src,i))}</div>;
   if (id === 'motion' && motion) return <div className="journey-art journey-footage">{image(motion[motion.length-1].poster || project.cover)}<Play size={38} weight="fill" /></div>;
   if (id === 'delivery') return <div className="journey-art journey-footage">{image(project.stages.film?.film?.thumbnail || project.cover)}<Play size={38} weight="fill" /></div>;
   if (id === 'edit') return <div className="journey-art journey-edit"><FilmStrip size={28} /><div className="journey-timeline">{[0,1,2].map(i => <span key={i}>{image(boards?.[i % boards.length]?.src || project.cover,i)}</span>)}</div><span>{en ? 'Editing concept' : 'Minh hoạ cách dựng'}</span></div>;

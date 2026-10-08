@@ -55,6 +55,7 @@ export function WorkflowExplorer({ locale }: { locale: Locale }) {
     {project.notice && <p className="workflow-notice" role="status">{project.notice}</p>}
     {opened && (stage ? <div className="workflow-panel" id="workflow-panel" key={`${projectId}-${stageId}`}>
       <div className="workflow-media">
+        {stage.audio && <div className="workflow-audio">{stage.audio.map(track => <label key={track.src}>{track.label}<audio controls preload="none" src={track.src} onPlay={event => { const current = event.currentTarget; current.closest('.workflow-audio')?.querySelectorAll('audio').forEach(player => { if(player !== current) player.pause(); }); }}/></label>)}</div>}
         {stage.film && <><VideoPlayer locale={locale} video={stage.film} /><a className="text-link" href={stage.film.url} target="_blank" rel="noopener noreferrer">{locale === 'en' ? `Watch on ${stage.film.platform}` : `Xem trên ${stage.film.platform}`}<ArrowUpRight size={18} aria-hidden="true" /></a></>}
         {stage.media && stage.media.length > 1 && stage.media.every(item => !item.poster) ? <StoryboardSequence media={stage.media} locale={locale}/> : stage.media && <div className={`workflow-assets workflow-assets-${stage.media.length}`}>{stage.media.map(media => <figure key={media.src}>
           {media.poster ? <div className="workflow-clip"><LoopClip locale={locale} src={media.src} poster={media.poster} label={media.alt} /></div> : <Image src={media.src} alt={media.alt} width={1280} height={720} sizes="(max-width: 760px) 100vw, 65vw" />}

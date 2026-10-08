@@ -63,10 +63,11 @@ test('project workflows ship verified media and reserve missing stages', async (
   for (const locale of ['vi', 'en'] as const) {
     const projects = getWorkflows(locale);
     assert.equal(projects.length, 3);
-    assert.deepEqual(Object.keys(projects[2].stages), ['film']);
+    assert.deepEqual(Object.keys(projects[2].stages), [...stageIds]);
     for (const project of projects) {
       assert.ok(project.stages.film?.film && getVideoEmbed(project.stages.film.film, locale));
-      for (const stage of Object.values(project.stages)) {
+      for (const stage of Object.values({...project.stages, ...project.pipelineEvidence})) {
+        for (const audio of stage.audio || []) assert.ok(existsSync(`public${audio.src}`), audio.src);
         for (const media of stage.media || []) {
           for (const asset of [media.src, media.poster].filter((asset): asset is string => Boolean(asset))) assert.ok(existsSync(`public${asset}`), asset);
         }
@@ -88,7 +89,7 @@ test('every gallery selection resolves to its own film without borrowing another
     for (const film of locale === 'en' ? studioVideosEn : studioVideos) {
       const project = getSelectedWorkflow(locale, film.url);
       assert.equal(project.stages.film?.film?.url, film.url);
-      if (!['https://www.youtube.com/watch?v=MsXyfqlA1Fw', 'https://www.youtube.com/watch?v=1_EZiRh8o_o'].includes(film.url)) {
+      if (!['https://www.youtube.com/watch?v=MsXyfqlA1Fw', 'https://www.youtube.com/watch?v=1_EZiRh8o_o', 'https://www.youtube.com/watch?v=VzmqrgQumGo'].includes(film.url)) {
         assert.deepEqual(Object.keys(project.stages), ['film']);
         assert.ok(project.notice);
       }
@@ -109,10 +110,12 @@ test('AI pipeline distinguishes shared methods from project evidence', async () 
     assert.ok(getPipelineEvidence(gulp, 'sound', locale)?.film);
     assert.equal(getPipelineEvidence(rat, 'sound', locale), undefined);
     for (const project of [gulp,rat,titus]) {
-      assert.equal(getPipelineEvidence(project, 'frames', locale), undefined);
+      if (project.id !== 'titus') assert.equal(getPipelineEvidence(project, 'frames', locale), undefined);
       assert.equal(getPipelineEvidence(project, 'review', locale), undefined);
       assert.equal(getPipelineEvidence(project, 'delivery', locale)?.film?.url, project.stages.film?.film?.url);
     }
-    assert.equal(getPipelineEvidence(titus, 'edit', locale), undefined);
+    assert.ok(getPipelineEvidence(titus, 'edit', locale)?.media);
+    assert.equal(getPipelineEvidence(titus, 'frames', locale)?.media?.length, 4);
+    assert.equal(getPipelineEvidence(titus, 'sound', locale)?.audio?.length, 2);
   }
 });
