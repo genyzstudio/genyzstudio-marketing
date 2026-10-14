@@ -4,12 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && tsx scripts/static-headers.ts",
+    "build": "npm run workshop:optimize-images && next build && tsx scripts/static-headers.ts",
+    "workshop:optimize-images": "tsx scripts/optimize-workshop-images.ts",
     "build:preview": "cross-env SITE_BUILD_MODE=preview npm run build",
     "start": "serve out",
     "lint": "eslint .",
     "typecheck": "cross-env SITE_BUILD_MODE=preview next typegen && tsc --noEmit",
-    "test": "tsx --test tests/*.test.tsx"
+    "test": "tsx --test tests/*.test.tsx",
+    "workshop:preview": "wrangler pages dev out --d1 WORKSHOP_DB=00000000-0000-0000-0000-000000000001 --compatibility-date 2026-10-01 --port 3102",
+    "workshop:setup": "wrangler d1 migrations apply genyz-workshop-local --local --config wrangler.local.jsonc",
+    "workshop:verify-export": "tsx scripts/verify-workshop-export.ts",
+    "workshop:activate": "tsx scripts/workshop-activate.ts"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
@@ -20,6 +25,7 @@
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261008.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
@@ -28,9 +34,11 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.8",
     "serve": "^14.2.6",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.148.0"
   },
   "engines": {
     "node": "24.x"

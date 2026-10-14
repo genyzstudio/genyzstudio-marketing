@@ -1,0 +1,318 @@
+[
+  {
+    "sourcePrompt": "Dùng ảnh Linh và cầu chợ đính kèm. Tạo một ảnh ngang 16:9, medium shot Linh nhìn phải, tay phải đã nâng, chưa bật khiên. Giữ trang phục và ánh sáng mẫu. Phiên bản A: Linh ở một phần ba trái, chừa khoảng nhìn bên phải. Phiên bản B — chạy riêng: Linh nhỏ hơn trong khung, thêm khoảng trống phía phải để gợi sức ép từ đối thủ ngoài hình. Mỗi lần chỉ tạo một phiên bản, không chia ô.",
+    "prompt": "Dùng ảnh Linh và cầu chợ đính kèm. Tạo một ảnh ngang 16:9, medium shot Linh nhìn phải, tay phải đã nâng, chưa bật khiên. Giữ trang phục và ánh sáng mẫu. Linh ở một phần ba trái, chừa khoảng nhìn bên phải. Một ảnh, không chia ô.",
+    "file": "director-l1-a-v1",
+    "kind": "image",
+    "titleVi": "A · Linh chiếm phần ba trái",
+    "titleEn": "A · Linh on the left third",
+    "inputs": [
+      "frame-linh-v1",
+      "frame-repair-v1"
+    ],
+    "reviewVi": "Bố cục và hướng nhìn rõ, tay phải đã nâng. Vòng tay bị đổi thiết kế và bệ lõi không còn trong khung. Dùng để phân tích bố cục; chưa dùng làm shot nối cảnh.",
+    "reviewEn": "Clear left-third framing and eyeline, with the right hand raised. Bracelet design changes and the core pedestal is absent. Use as a composition study, not a continuity-approved shot.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng ảnh Linh và cầu chợ đính kèm. Tạo một ảnh ngang 16:9, medium shot Linh nhìn phải, tay phải đã nâng, chưa bật khiên. Giữ trang phục và ánh sáng mẫu. Phiên bản A: Linh ở một phần ba trái, chừa khoảng nhìn bên phải. Phiên bản B — chạy riêng: Linh nhỏ hơn trong khung, thêm khoảng trống phía phải để gợi sức ép từ đối thủ ngoài hình. Mỗi lần chỉ tạo một phiên bản, không chia ô.",
+    "prompt": "Dùng ảnh Linh và cầu chợ đính kèm. Tạo một ảnh ngang 16:9, Linh nhìn phải, tay phải đã nâng, chưa bật khiên. Giữ trang phục và ánh sáng mẫu. Linh nhỏ hơn trong khung, ở phần ba trái; thêm khoảng trống phía phải để gợi sức ép từ đối thủ ngoài hình. Một ảnh, không chia ô.",
+    "file": "director-l1-b-v1",
+    "kind": "image",
+    "titleVi": "B · Khoảng trống rộng hơn — bản đầu",
+    "titleEn": "B · More looking room — first attempt",
+    "inputs": [
+      "frame-linh-v1",
+      "frame-repair-v1"
+    ],
+    "reviewVi": "Khoảng trống bên phải tạo sức ép tốt, nhưng AI nâng nhầm tay trái; vòng vẫn ở tay phải đang hạ. Đây là lỗi cần sửa, không phải tư thế mẫu.",
+    "reviewEn": "More looking room, but the wrong arm is raised: the bracelet remains on the lowered right arm. This is a failed pose to repair.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng ảnh Linh và cầu chợ đính kèm. Tạo một ảnh ngang 16:9, medium shot Linh nhìn phải, tay phải đã nâng, chưa bật khiên. Giữ trang phục và ánh sáng mẫu. Phiên bản A: Linh ở một phần ba trái, chừa khoảng nhìn bên phải. Phiên bản B — chạy riêng: Linh nhỏ hơn trong khung, thêm khoảng trống phía phải để gợi sức ép từ đối thủ ngoài hình. Mỗi lần chỉ tạo một phiên bản, không chia ô.",
+    "prompt": "Dùng ảnh bố cục rộng đính kèm. Chỉ sửa tư thế hai tay của Linh: tay phải có vòng ngọc lam (đang ở phía trái ảnh) nâng lên ngang ngực; tay trái (đang giơ về phía lõi) buông xuống cạnh thân. Giữ một vòng duy nhất ở cổ tay phải. Giữ nguyên khuôn mặt, vị trí, kích thước Linh, trang phục, bệ lõi, cầu chợ, ánh sáng và khoảng trống bên phải. Không thêm khiên hay tia. Một ảnh ngang 16:9.",
+    "file": "director-l1-b-v2",
+    "kind": "image",
+    "titleVi": "B · Sửa đúng tay",
+    "titleEn": "B · Repair the raised arm",
+    "inputs": [
+      "director-l1-b-v1"
+    ],
+    "reviewVi": "Đã nâng tay phải có vòng và hạ tay trái; giữ được khoảng trống và bệ lõi. Nắm tay, vai và thiết kế vòng vẫn khác medium gốc, nên đây là biến thể bố cục, chưa phải frame nối liên tục.",
+    "reviewEn": "The bracelet arm is raised and the left arm lowered; looking room and pedestal remain. Fist, shoulder and bracelet still differ from the original medium, so this remains a composition variant.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng ảnh Linh và Kẻ Thu Sáng đính kèm làm chuẩn. Tạo bảng tham chiếu trên nền xám trung tính: áo giáp xanh chàm nẹp đồng của Linh, vòng ngọc lam ở cổ tay phải, mặt nạ đồng kín của Kẻ Thu Sáng, găng hổ phách ở tay trái của hắn. Giữ nguyên thiết kế nhìn thấy trong ảnh, không thêm chi tiết chưa có. Bốn ô rõ ràng, không chữ. Bảng dùng để đối chiếu, không dùng trực tiếp làm frame video.",
+    "prompt": "Dùng ảnh Linh và Kẻ Thu Sáng đính kèm làm chuẩn. Tạo bảng tham chiếu trên nền xám trung tính: áo giáp xanh chàm nẹp đồng của Linh, vòng ngọc lam ở cổ tay phải, mặt nạ đồng kín của Kẻ Thu Sáng, găng hổ phách ở tay trái của hắn. Giữ nguyên thiết kế nhìn thấy trong ảnh, không thêm chi tiết chưa có. Bốn ô rõ ràng, không chữ. Bảng dùng để đối chiếu, không dùng trực tiếp làm frame video.",
+    "file": "director-props-v1",
+    "kind": "image",
+    "titleVi": "Bảng trang phục và đạo cụ",
+    "titleEn": "Costume and prop sheet",
+    "inputs": [
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Bốn ô giúp đối chiếu áo chàm, vòng, mặt nạ và găng. AI đã diễn giải thêm chi tiết vòng và găng khi phóng lớn; ảnh nhân vật gốc vẫn là chuẩn, không lấy bảng này để tự ý đổi thiết kế.",
+    "reviewEn": "The four panels clarify costume and devices, but enlarged bracelet and gauntlet details are extrapolated. Keep the original character references authoritative.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng ảnh cầu chợ đã sửa làm chuẩn địa điểm. Tạo bản nghiên cứu bối cảnh không có nhân vật, giữ camera ngang mắt, mặt cầu đá ướt, lan can đồng, bệ và lõi ngọc lam giữa cầu, mái ngói và đèn lồng vàng. Giữ khoảng cách và bố cục gần ảnh mẫu. Không thêm kiến trúc hay người. Ngang 16:9.",
+    "prompt": "Dùng ảnh cầu chợ đã sửa làm chuẩn địa điểm. Tạo bản nghiên cứu bối cảnh không có nhân vật, giữ camera ngang mắt, mặt cầu đá ướt, lan can đồng, bệ và lõi ngọc lam giữa cầu, mái ngói và đèn lồng vàng. Giữ khoảng cách và bố cục gần ảnh mẫu. Không thêm kiến trúc hay người. Ngang 16:9.",
+    "file": "director-environment-v1",
+    "kind": "image",
+    "titleVi": "Cầu chợ không người",
+    "titleEn": "Empty market bridge",
+    "inputs": [
+      "frame-repair-v1"
+    ],
+    "reviewVi": "Đã bỏ hai nhân vật, giữ bệ lõi, mặt đá ướt và hai dãy nhà. So lại lan can và đèn khi ghép nhân vật vào; ảnh này dùng để nghiên cứu địa điểm.",
+    "reviewEn": "Both characters are removed while the pedestal, wet stones and buildings remain. Recheck railings and lanterns before inserting characters.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng medium Linh và ảnh cảnh chuẩn. Tạo một frame 16:9 cùng Linh nhìn về phải, khuôn mặt và tay phải đã nâng vẫn rõ. Đặt Linh nhỏ hơn ở mép phần ba trái; bên phải là khoảng không của cầu dẫn tới đối thủ ngoài hình. Giữ ánh sáng, trang phục và hướng nhìn, không thêm người hay vật sáng cạnh mặt. Không bật khiên.",
+    "prompt": "Dùng medium Linh và ảnh cảnh chuẩn. Tạo một frame 16:9 cùng Linh nhìn về phải, khuôn mặt và tay phải đã nâng vẫn rõ. Đặt Linh nhỏ hơn ở mép phần ba trái; bên phải là khoảng không của cầu dẫn tới đối thủ ngoài hình. Giữ ánh sáng, trang phục và hướng nhìn, không thêm người hay vật sáng cạnh mặt. Không bật khiên.",
+    "file": "director-negative-space-v1",
+    "kind": "image",
+    "titleVi": "Khoảng trống phía đối thủ",
+    "titleEn": "Space toward the offscreen opponent",
+    "inputs": [
+      "frame-medium-v1",
+      "frame-repair-v1"
+    ],
+    "reviewVi": "Linh nhỏ hơn và tay phải vẫn nâng; khoảng trống bên phải đọc rõ. AI đã bỏ lõi và bệ, đồng thời đổi hình học lan can. Bố cục có ích nhưng continuity chưa đạt.",
+    "reviewEn": "Smaller Linh and clear right-side space preserve the raised right arm. The core/pedestal disappear and railing geometry changes: useful composition, failed continuity.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng medium Linh đã có. Giữ nguyên khuôn mặt, tay phải đã nâng, trang phục, camera và bối cảnh. Chỉ giảm ánh sáng hắt trên phía má xa lõi ngọc lam; vùng tối sâu hơn nhưng vẫn còn chi tiết da. Giữ ánh ngọc lam từ lõi bên phải và viền vàng nhẹ từ đèn lồng phía sau. Không đổi biểu cảm, không thêm nguồn sáng, không bật khiên. Một ảnh ngang 16:9.",
+    "prompt": "Dùng medium Linh đã có. Giữ nguyên khuôn mặt, tay phải đã nâng, trang phục, camera và bối cảnh. Chỉ giảm ánh sáng hắt trên phía má xa lõi ngọc lam; vùng tối sâu hơn nhưng vẫn còn chi tiết da. Giữ ánh ngọc lam từ lõi bên phải và viền vàng nhẹ từ đèn lồng phía sau. Không đổi biểu cảm, không thêm nguồn sáng, không bật khiên. Một ảnh ngang 16:9.",
+    "file": "director-negative-fill-v1",
+    "kind": "image",
+    "titleVi": "Giảm sáng hắt phía tối",
+    "titleEn": "Reduce shadow-side fill",
+    "inputs": [
+      "frame-medium-v1"
+    ],
+    "reviewVi": "Mặt và thân tối hơn trong khi camera, tư thế và nền gần như giữ nguyên. Thay đổi lan rộng cả giáp, chưa chỉ riêng má xa nguồn sáng. So mắt và chi tiết áo trước khi chọn mức tương phản này.",
+    "reviewEn": "Face and torso darken while framing, pose and background largely remain. Darkening spreads to the armor instead of only shadow-side cheek; check eye and costume readability.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng ảnh cảnh chuẩn và hai ảnh nhân vật. Cùng cầu chợ sau mưa. Linh ở trung cảnh trái nhìn phải; Kẻ Thu Sáng nhỏ hơn ở hậu cảnh phải nhìn trái; lõi vẫn giữa hai người. Mép đèn lồng mờ ở tiền cảnh không che mặt. Tách lớp bằng độ nét, viền sáng vàng và sương mỏng phía xa. Không chuyển động nhân vật, không tia, không khiên. 16:9.",
+    "prompt": "Dùng ảnh cảnh chuẩn và hai ảnh nhân vật. Cùng cầu chợ sau mưa. Linh ở trung cảnh trái nhìn phải; Kẻ Thu Sáng nhỏ hơn ở hậu cảnh phải nhìn trái; lõi vẫn giữa hai người. Mép đèn lồng mờ ở tiền cảnh không che mặt. Tách lớp bằng độ nét, viền sáng vàng và sương mỏng phía xa. Không chuyển động nhân vật, không tia, không khiên. 16:9.",
+    "file": "director-depth-a-v1",
+    "kind": "image",
+    "titleVi": "A · Linh gần, đối thủ xa",
+    "titleEn": "A · Near Linh, distant opponent",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Đèn lồng mờ tạo lớp gần; Linh lớn hơn đối thủ; lõi không bị che. Có thay đổi khoảng cách và chi tiết lan can so với wide, nên dùng như nghiên cứu không gian riêng.",
+    "reviewEn": "Soft lanterns form a near layer, Linh is larger than the opponent, and the core remains visible. Spacing and railing detail change from the wide; treat this as a separate spatial study.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng ba ảnh tham chiếu. Giữ vị trí nhân vật trên cầu: Linh trái, Kẻ Thu Sáng phải, lõi giữa. Camera ở cùng phía trục nhưng gần Kẻ Thu Sáng hơn: mép vai giáp đen ở tiền cảnh phải, Linh rõ ở trung cảnh trái, mái chợ và tháp xa. Không để vai che lõi hoặc mặt Linh. Giữ ánh sáng mẫu, không hành động hoặc lời thoại. Một frame 16:9.",
+    "prompt": "Dùng ba ảnh tham chiếu. Giữ vị trí nhân vật trên cầu: Linh trái, Kẻ Thu Sáng phải, lõi giữa. Camera ở cùng phía trục nhưng gần Kẻ Thu Sáng hơn: mép vai giáp đen ở tiền cảnh phải, Linh rõ ở trung cảnh trái, mái chợ và tháp xa. Không để vai che lõi hoặc mặt Linh. Giữ ánh sáng mẫu, không hành động hoặc lời thoại. Một frame 16:9.",
+    "file": "director-depth-b-v1",
+    "kind": "image",
+    "titleVi": "B · Qua vai đối thủ",
+    "titleEn": "B · Over the opponent’s shoulder",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Vai giáp ở gần tạo khung bên phải; Linh và lõi vẫn rõ. Góc nhìn Linh gần hướng camera hơn bản wide; kiểm tra eyeline trước khi dùng làm shot đối ứng.",
+    "reviewEn": "The near armored shoulder frames Linh and the core. Linh looks closer to camera than in the wide; check the eyeline before using this as a reverse angle.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng cảnh chuẩn và hai ảnh nhân vật. Linh rõ ở trung cảnh trái, Kẻ Thu Sáng xa hơn bên phải, lõi nằm giữa. Mép lan can gần tạo tiền cảnh; sương mỏng tăng dần về phía thành phố, không che người hoặc bệ lõi. Giữ vùng gần có tương phản rõ, vùng xa dịu hơn. Giữ nguyên hướng nhìn, trang phục và nguồn sáng. Không thoại, không hành động, không tia. 16:9.",
+    "prompt": "Dùng cảnh chuẩn và hai ảnh nhân vật. Linh rõ ở trung cảnh trái, Kẻ Thu Sáng xa hơn bên phải, lõi nằm giữa. Mép lan can gần tạo tiền cảnh; sương mỏng tăng dần về phía thành phố, không che người hoặc bệ lõi. Giữ vùng gần có tương phản rõ, vùng xa dịu hơn. Giữ nguyên hướng nhìn, trang phục và nguồn sáng. Không thoại, không hành động, không tia. 16:9.",
+    "file": "director-depth-c-v1",
+    "kind": "image",
+    "titleVi": "C · Không khí phía xa",
+    "titleEn": "C · Distant atmosphere",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Thành phố dịu hơn và hai người vẫn đọc rõ, nhưng lớp sương tăng khá nhẹ; lớp gần chủ yếu là quầy hàng thay vì mép lan can như prompt. So A/B/C để thấy AI không tuân thủ mọi chi tiết.",
+    "reviewEn": "The distant city softens and both figures remain readable, but haze is subtle and stalls form the foreground instead of the requested railing. Compare A/B/C for prompt adherence.",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "settings": "16:9",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Shot 1 — dùng wide đã sửa: Máy đứng yên. Linh bên trái và Kẻ Thu Sáng bên phải giữ thế đối đầu; lõi ngọc lam trên bệ giữa cầu phát sáng ổn định. Chỉ có chuyển động thở nhẹ và tà áo lay rất nhẹ. Không tia năng lượng, không khiên, không đổi vị trí hay camera.\n\nShot 2 — chạy riêng với medium Linh: Máy đứng yên, giữ tư thế tay phải đã nâng ngang ngực như ảnh đầu vào. Linh nhìn tập trung về bên phải, thở nhẹ. Giữ vòng ngọc lam chỉ ở cổ tay phải, chưa bật khiên. Không nâng thêm tay, không đổi khuôn mặt, trang phục, bệ lõi hoặc hướng nhìn. Đối thủ ở ngoài khung bên phải.",
+    "prompt": "Máy đứng yên. Linh bên trái và Kẻ Thu Sáng bên phải giữ thế đối đầu; lõi ngọc lam trên bệ giữa cầu phát sáng ổn định. Chỉ có chuyển động thở nhẹ và tà áo lay rất nhẹ. Không tia năng lượng, không khiên, không đổi vị trí hay camera.",
+    "file": "director-wide-static-v1",
+    "kind": "video",
+    "titleVi": "Shot 1 · Toàn cảnh — máy đứng yên",
+    "titleEn": "Shot 1 · Static wide",
+    "inputs": [
+      "frame-repair-v1"
+    ],
+    "reviewVi": "Giữ được cuộc đối đầu, lõi và hướng trái/phải. Tà áo lay, mưa rơi; khung có dịch chuyển nhẹ nên chưa phải camera khóa tuyệt đối. Chọn đoạn ổn định và kiểm tra lại chân trước khi dựng.",
+    "reviewEn": "The confrontation, core and screen directions remain. Cloth and rain move; slight framing drift means this is not perfectly locked. Select a stable passage and inspect feet.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Shot 1 — dùng wide đã sửa: Máy đứng yên. Linh bên trái và Kẻ Thu Sáng bên phải giữ thế đối đầu; lõi ngọc lam trên bệ giữa cầu phát sáng ổn định. Chỉ có chuyển động thở nhẹ và tà áo lay rất nhẹ. Không tia năng lượng, không khiên, không đổi vị trí hay camera.\n\nShot 2 — chạy riêng với medium Linh: Máy đứng yên, giữ tư thế tay phải đã nâng ngang ngực như ảnh đầu vào. Linh nhìn tập trung về bên phải, thở nhẹ. Giữ vòng ngọc lam chỉ ở cổ tay phải, chưa bật khiên. Không nâng thêm tay, không đổi khuôn mặt, trang phục, bệ lõi hoặc hướng nhìn. Đối thủ ở ngoài khung bên phải.",
+    "prompt": "Máy đứng yên, giữ tư thế tay phải đã nâng ngang ngực như ảnh đầu vào. Linh nhìn tập trung về bên phải, thở nhẹ. Giữ vòng ngọc lam chỉ ở cổ tay phải, chưa bật khiên. Không nâng thêm tay, không đổi khuôn mặt, trang phục, bệ lõi hoặc hướng nhìn. Đối thủ ở ngoài khung bên phải.",
+    "file": "director-medium-static-v1",
+    "kind": "video",
+    "titleVi": "Shot 2 · Medium — bản máy đứng yên",
+    "titleEn": "Shot 2 · Static medium",
+    "inputs": [
+      "frame-medium-v1"
+    ],
+    "reviewVi": "Giữ hướng nhìn và tay phải nâng trong phần đầu. Vòng phát sáng lan lên giáp tay, cuối clip Linh bắt đầu đẩy tay ra và camera dịch nhẹ. Chỉ cân nhắc đoạn đầu; bản đầy đủ ở đây giúp thấy lỗi xuất hiện muộn.",
+    "reviewEn": "The opening preserves gaze and raised right arm. Glow spreads onto the bracer; late in the clip Linh extends the arm and framing drifts. Consider only the opening; the full take exposes late failures.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng medium Linh đính kèm làm frame đầu. Camera dolly in rất chậm, tiến gần một đoạn ngắn, không orbit, không pan, không zoom. Linh giữ tay phải đã nâng và nhìn phải, chỉ thở nhẹ. Giữ mặt, áo chàm, vòng ngọc lam tay phải, hướng nhìn và cầu chợ. Không khiên, không tia, không thêm người. Kết thúc vẫn thấy mặt và vòng tay trong khung.",
+    "prompt": "Dùng medium Linh đính kèm làm frame đầu. Camera dolly in rất chậm, tiến gần một đoạn ngắn, không orbit, không pan, không zoom. Linh giữ tay phải đã nâng và nhìn phải, chỉ thở nhẹ. Giữ mặt, áo chàm, vòng ngọc lam tay phải, hướng nhìn và cầu chợ. Không khiên, không tia, không thêm người. Kết thúc vẫn thấy mặt và vòng tay trong khung.",
+    "file": "director-medium-dolly-v1",
+    "kind": "video",
+    "titleVi": "Dolly in · Bản đầu",
+    "titleEn": "Dolly in · First attempt",
+    "inputs": [
+      "frame-medium-v1"
+    ],
+    "reviewVi": "Camera có tiến gần, nhưng Linh tự nâng tay trái và há miệng. Không đạt yêu cầu giữ tư thế; dùng clip này để học cách xác định lỗi trước khi sửa prompt.",
+    "reviewEn": "The camera approaches, but Linh raises the left hand and opens her mouth. This fails the held-pose requirement and is retained as a diagnostic example.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng medium Linh đính kèm làm frame đầu. Camera dolly in rất chậm, tiến gần một đoạn ngắn, không orbit, không pan, không zoom. Linh giữ tay phải đã nâng và nhìn phải, chỉ thở nhẹ. Giữ mặt, áo chàm, vòng ngọc lam tay phải, hướng nhìn và cầu chợ. Không khiên, không tia, không thêm người. Kết thúc vẫn thấy mặt và vòng tay trong khung.",
+    "prompt": "Dùng ảnh medium đính kèm làm frame đầu. Một cú máy liên tục: camera tiến thẳng rất chậm về phía Linh, đến cuối khuôn mặt chỉ lớn hơn khoảng 10%. Linh giữ nguyên tư thế suốt clip: tay phải có vòng ngọc lam nâng ngang ngực, tay trái buông sát thân, miệng khép, mắt nhìn phải. Chỉ ngực thở nhẹ. Không nâng tay trái, không duỗi tay phải, không nói, không thi triển phép. Vòng tay giữ nguyên thiết kế và độ sáng. Giữ cầu, lõi, khuôn mặt và áo chàm; không xoay camera, không lia ngang, không cắt cảnh.",
+    "file": "director-medium-dolly-v2",
+    "kind": "video",
+    "titleVi": "Dolly in · Sửa cách giữ tư thế",
+    "titleEn": "Dolly in · Hold-pose revision",
+    "inputs": [
+      "frame-medium-v1"
+    ],
+    "reviewVi": "Tay trái giữ hạ, miệng khép, camera tiến gần; tốt hơn bản đầu. Ngón tay phải và hướng mặt vẫn dịch nhẹ, camera tiến nhiều hơn mức gợi ý 10%. Chọn đoạn ngắn phù hợp, không coi con số trong prompt là thông số được bảo đảm.",
+    "reviewEn": "Left arm stays down, mouth stays closed and framing tightens. Right fingers and head still shift slightly; the move exceeds the suggested 10%. Select a short usable passage; numeric prompt guidance is not a guaranteed camera parameter.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng frame ánh sáng ngọc lam đã duyệt. Cầu chợ sau mưa, Linh trái và Kẻ Thu Sáng phải giữ thế đối đầu. Máy đứng yên. Lõi giữa cầu tăng sáng rất nhẹ một lần rồi ổn định; ánh ngọc lam trên giáp và phản chiếu nền thay đổi cùng nguồn. Đèn lồng vàng giữ sáng dịu, sương mỏng chỉ ở xa. Không khí: căng thẳng, lạnh, tĩnh lặng, chờ đợi. Không tia, không khiên, không đổi mặt hoặc vị trí. Chọn thời lượng có sẵn rồi dựng đoạn thử 5–15 giây.",
+    "prompt": "Dùng frame ánh sáng ngọc lam đã duyệt. Cầu chợ sau mưa, Linh trái và Kẻ Thu Sáng phải giữ thế đối đầu. Máy đứng yên. Lõi giữa cầu tăng sáng rất nhẹ một lần rồi ổn định; ánh ngọc lam trên giáp và phản chiếu nền thay đổi cùng nguồn. Đèn lồng vàng giữ sáng dịu, sương mỏng chỉ ở xa. Không khí: căng thẳng, lạnh, tĩnh lặng, chờ đợi. Không tia, không khiên, không đổi mặt hoặc vị trí. Chọn thời lượng có sẵn rồi dựng đoạn thử 5–15 giây.",
+    "file": "director-lighting-v1",
+    "kind": "video",
+    "titleVi": "Ánh sáng · Bản đầu",
+    "titleEn": "Lighting · First attempt",
+    "inputs": [
+      "frame-light-v1"
+    ],
+    "reviewVi": "Ánh lõi và phản chiếu thay đổi cùng nhau, nhưng khoảng giây 1–3 xuất hiện quầng lóe lớn ngoài yêu cầu. Chưa đạt thay đổi ánh sáng nhẹ; xem bản sửa bên dưới.",
+    "reviewEn": "Core light and reflection change together, but a large flare appears around seconds 1–3. This fails subtle-lighting intent; compare the revision below.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng frame ánh sáng ngọc lam đã duyệt. Cầu chợ sau mưa, Linh trái và Kẻ Thu Sáng phải giữ thế đối đầu. Máy đứng yên. Lõi giữa cầu tăng sáng rất nhẹ một lần rồi ổn định; ánh ngọc lam trên giáp và phản chiếu nền thay đổi cùng nguồn. Đèn lồng vàng giữ sáng dịu, sương mỏng chỉ ở xa. Không khí: căng thẳng, lạnh, tĩnh lặng, chờ đợi. Không tia, không khiên, không đổi mặt hoặc vị trí. Chọn thời lượng có sẵn rồi dựng đoạn thử 5–15 giây.",
+    "prompt": "Dùng ảnh đính kèm làm frame đầu. Camera khóa trên tripod, khung hình giữ nguyên suốt 8 giây. Hai người đứng yên, không nói, chỉ thở nhẹ. Lõi ngọc lam giữ nguyên hình cầu nhỏ và kích thước. Trong giây 2–4, độ sáng lõi tăng từ từ một mức rất nhỏ rồi giữ ổn định; ánh hắt trên áo và nền đá tăng nhẹ tương ứng. Đèn lồng vàng không đổi. Không có vụ nổ, tia, hạt sáng, vòng sóng, chớp sáng hay sương phát sáng quanh lõi. Giữ mặt, trang phục, chân và lan can đúng ảnh. Không khí lạnh, lặng, căng thẳng.",
+    "file": "director-lighting-v2",
+    "kind": "video",
+    "titleVi": "Ánh sáng · Bản sửa vẫn cần giảm",
+    "titleEn": "Lighting · Revision still too strong",
+    "inputs": [
+      "frame-light-v1"
+    ],
+    "reviewVi": "Đã bớt quầng hạt sáng, nhưng khoảng giây 3–5 lõi vẫn lóe trắng và mất chi tiết. Chưa đạt yêu cầu tăng sáng rất nhẹ. Nếu cần shot yên, dùng ánh sáng ổn định như clip toàn cảnh; không chấp nhận lóe mạnh chỉ vì hình đẹp.",
+    "reviewEn": "Particle flare is reduced, but around seconds 3–5 the core still blooms white and loses detail. Subtle-lighting intent still fails. For a quiet shot, use stable light as in the wide; do not accept excessive bloom for spectacle.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  },
+  {
+    "sourcePrompt": "Dùng một frame nghiên cứu chiều sâu đã duyệt làm ảnh đầu. Camera trượt nhẹ sang phải một đoạn ngắn, giữ cùng phía trục; không pan, không orbit. Hai nhân vật đứng yên và giữ hướng nhìn. Mép đèn lồng hoặc lan can ở gần dịch qua khung rõ hơn thành phố xa. Giữ hình học cầu, bệ lõi, mặt và trang phục. Không thoại, không giao đấu, không bước chân.",
+    "prompt": "Dùng một frame nghiên cứu chiều sâu đã duyệt làm ảnh đầu. Camera trượt nhẹ sang phải một đoạn ngắn, giữ cùng phía trục; không pan, không orbit. Hai nhân vật đứng yên và giữ hướng nhìn. Mép đèn lồng hoặc lan can ở gần dịch qua khung rõ hơn thành phố xa. Giữ hình học cầu, bệ lõi, mặt và trang phục. Không thoại, không giao đấu, không bước chân.",
+    "file": "director-parallax-v1",
+    "kind": "video",
+    "titleVi": "Parallax · Kiểm tra kết quả",
+    "titleEn": "Parallax · Review the result",
+    "inputs": [
+      "director-depth-a-v1"
+    ],
+    "reviewVi": "Đèn và cột gần dịch qua khung nhiều hơn thành phố xa, cho thấy hiệu ứng tách lớp khi camera di chuyển. Tuy nhiên quãng đi quá dài, vật gần che Linh về cuối và bố cục biến đổi mạnh. Không dùng nguyên clip làm mẫu chuyển động nhỏ; cần rút ngắn quãng đi hoặc chỉ chọn đoạn đầu.",
+    "reviewEn": "Near lanterns/posts shift more than the distant city, showing motion-based layer separation. The move is too large, foreground objects obscure Linh late, and composition changes substantially. It is not an approved small-move example; shorten the move or use only the opening.",
+    "width": 1280,
+    "height": 720,
+    "provider": "Google Flow · Veo 3.1 Fast",
+    "settings": "Frames to Video · 16:9 · 720p · 8s · x1",
+    "date": "2026-10-14"
+  }
+]

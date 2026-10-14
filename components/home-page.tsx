@@ -41,6 +41,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <div className="shell gallery-intro"><h2>{studio.galleryTitle}</h2><p>{studio.galleryDescription}</p></div>
       <HeroGallery locale={locale} />
       <WorkflowExplorer locale={locale} />
+      <div className="shell wk-home-link"><a className="button button-secondary" href={locale === "vi" ? "/workshop/five-levels" : "/en/workshop/five-levels"}>{locale === "vi" ? "Workshop mới · 5 cấp độ làm phim AI" : "New workshop · 5 Levels of AI Filmmaking"}<ArrowUpRight size={18} aria-hidden="true" /></a><a className="button button-secondary" href={locale === "vi" ? "/workshop" : "/en/workshop"}>{locale === "vi" ? "Thực hành 9 bước trong lớp học online" : "Practice the 9 steps in the online classroom"}<ArrowUpRight size={18} aria-hidden="true" /></a></div>
 
       <section id="lo-trinh" className="section shell journey" aria-labelledby="journey-title">
         <div className="section-intro"><h2 id="journey-title">{home.journey.title}</h2><p className="section-description">{home.journey.description}</p><a href="#workshop" className="text-link">{copy.firstStep}</a></div>

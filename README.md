@@ -100,3 +100,7 @@ Vietnamese stays at `/`; English is at `/en`. Both are exported as complete HTML
 Edit Vietnamese content in `content/home.ts`, English in `content/home-en.ts`, shared UI labels in `content/locales.ts`, and English film descriptions in `content/showcase-en.ts`. Keep all film translations current when adding videos. `lib/seo.ts` generates metadata and factual Organization/WebSite/WebPage JSON-LD. Both locales appear in the production sitemap; preview noindex protection remains enabled. We do not publish Event dates, reviews, credentials or Course offers that have not been confirmed.
 
 After launch, the owner can verify `genyzstudio.com` in Google Search Console and submit `https://genyzstudio.com/sitemap.xml`. Search indexing and rankings are controlled by search engines, not by deployment.
+
+## Online workshop
+
+The bilingual classroom lives at `/workshop` and `/en/workshop`. Paid learners request a one-time login code by email. It requires Cloudflare Pages Functions, D1, and configured Resend credentials; serving `out/` alone only previews the login screen. See [workshop setup, paid email activation, sources and deployment](docs/workshop.md). MoMo payments are a planned follow-up, not enabled.

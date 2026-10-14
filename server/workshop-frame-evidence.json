@@ -1,0 +1,164 @@
+{
+  "hero": {
+    "file": "frame-linh-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [],
+    "reviewVi": "Ảnh thể hiện đầy đủ trang phục và vòng ngọc lam. Tà áo dài hơn yêu cầu ban đầu. Vì đây là thiết kế đã chọn, hãy giữ độ dài này trong các ảnh tiếp theo.",
+    "reviewEn": "Full-body identity and turquoise bracelet are readable. Coat panels are longer than the requested short panels; this selected design becomes the reference."
+  },
+  "villain": {
+    "file": "frame-villain-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [],
+    "reviewVi": "Mặt nạ kín, giáp đen viền đồng và găng hổ phách giúp phân biệt phản diện với Linh. Mặt nạ có cạnh nhọn thay vì bề mặt trơn như prompt yêu cầu; hãy dùng ảnh thực tế làm mẫu đối chiếu.",
+    "reviewEn": "Closed mask, dark bronze armor and amber gauntlet contrast with Linh. The mask is angular rather than fully smooth as requested; use the actual design for comparison."
+  },
+  "sheet": {
+    "file": "frame-sheet-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-linh-v1"
+    ],
+    "reviewVi": "Bốn góc giúp đối chiếu kiểu tóc và trang phục. Cần kiểm tra thêm họa tiết tà áo và vị trí vòng tay ở góc nghiêng; các chi tiết chưa chắc đã khớp hoàn toàn.",
+    "reviewEn": "Four views support costume and hair comparison. Inspect coat patterns and wrist-device placement in profile; a sheet does not guarantee perfect identity."
+  },
+  "wide": {
+    "file": "frame-wide-v1",
+    "width": 1376,
+    "height": 768,
+    "provider": "Google Flow · Nano Banana 2.1",
+    "inputs": [
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Vị trí hai nhân vật, lõi năng lượng và các lớp không gian khá rõ. Tuy nhiên, Flow làm lộ mặt phản diện và thay đổi giáp, găng tay so với ảnh mẫu. Bước tiếp theo sẽ sửa các lỗi này.",
+    "reviewEn": "Left–center–right staging and depth read clearly. Flow exposed the villain’s face and changed armor/gauntlet: continuity fails. The next step repairs it."
+  },
+  "repair": {
+    "file": "frame-repair-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-wide-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Mặt nạ kín và găng hổ phách đã được khôi phục. Linh vẫn ở bên trái, lõi năng lượng ở giữa. Hình dáng và kích thước của bệ, lan can có thay đổi nhẹ; chỉnh sửa bằng AI có thể ảnh hưởng cả những vùng được yêu cầu giữ nguyên.",
+    "reviewEn": "Closed mask and amber gauntlet return; Linh remains left and the core central. Pedestal and railings vary slightly in shape/scale: this is generative editing, not pixel-perfect preservation."
+  },
+  "close": {
+    "file": "frame-close-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-linh-v1",
+      "frame-wide-v1"
+    ],
+    "reviewVi": "Hướng nhìn sang phải, khoảng trống phía trước mặt và tương phản vàng/ngọc lam đều rõ. Cần đối chiếu khuôn mặt với ảnh gốc. Thông số lens trong prompt không bảo đảm ảnh có phối cảnh chính xác.",
+    "reviewEn": "Rightward gaze, looking room and warm/turquoise contrast are clear. Compare identity with the original; the lens prompt does not certify exact optics."
+  },
+  "medium": {
+    "file": "frame-medium-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1"
+    ],
+    "reviewVi": "Ảnh cho thấy cả nét mặt, tay đang nâng và vòng năng lượng, phù hợp với cảnh Linh chuẩn bị hành động. Kích thước và vị trí của lõi, bệ phía sau đã thay đổi; cần kiểm tra trước khi nối với cảnh khác.",
+    "reviewEn": "Face, raised hand and bracelet are readable together. Background core/pedestal scale and relative placement vary; inspect before cutting between views."
+  },
+  "low": {
+    "file": "frame-low-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Góc máy thấp và các đường chéo khiến phản diện trông có uy thế hơn. Mặt nạ và găng tay vẫn khớp thiết kế. Tuy nhiên, camera có vẻ đặt sát mặt đất thay vì ngang đầu gối như yêu cầu.",
+    "reviewEn": "Low viewpoint and diagonals emphasize the threat. Mask and gauntlet preserve identity; the camera appears closer to ground level than the requested knee height."
+  },
+  "depth": {
+    "file": "frame-depth-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1"
+    ],
+    "reviewVi": "Có thể phân biệt rõ ba lớp: đèn lồng mờ ở gần, Linh ở giữa và phản diện phía xa. Hình dáng lan can và khoảng cách tới bệ đã thay đổi. Ảnh phù hợp để học về chiều sâu nhưng cần kiểm tra tính nhất quán trước khi đưa vào phim.",
+    "reviewEn": "Depth reads through soft lantern, near Linh and distant villain. Rail geometry and pedestal distance change; compare continuity before editing."
+  },
+  "light": {
+    "file": "frame-light-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1"
+    ],
+    "reviewVi": "Ánh ngọc lam từ lõi chiếu rõ hơn lên phía cơ thể hướng vào lõi và phản chiếu trên mặt cầu. Bố cục gần với ảnh gốc; vẫn cần đối chiếu chi tiết giáp và bóng đổ trước khi nối cảnh.",
+    "reviewEn": "Stronger turquoise light reaches the inward-facing sides and wet paving. Composition stays close to the input; compare armor detail and shadows across a cut."
+  },
+  "action": {
+    "file": "frame-action-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Tia năng lượng chạm khiên và tư thế đối đầu đều rõ, nhưng thiết bị đã bị chuyển sang tay còn lại so với ảnh tham chiếu. Tia cũng hướng vào Linh thay vì lõi. Cần sửa vị trí thiết bị và hướng tia trước khi dùng ảnh này để tạo video.",
+    "reviewEn": "The beam/shield clash reads clearly, but devices switch anatomical arms from the references. The beam targets Linh more than the core. Not approved as a final frame: mark both defects and repair hands/beam before video generation."
+  },
+  "expand": {
+    "file": "frame-expand-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Ảnh cho thấy thêm khu chợ, cầu và thuyền. Vẫn có thể nhận ra hai nhân vật qua màu trang phục. Tuy nhiên, AI đã thêm người và thay đổi kết cấu cầu, nên đây là một phiên bản góc rộng mới chứ không phải phần mở rộng giữ nguyên toàn bộ cảnh gốc.",
+    "reviewEn": "Market banks, bridge and boats expand the world while character colors remain readable. Added market people and changed bridge structure make this an interpretive expansion rather than exact geometry preservation."
+  },
+  "emotion": {
+    "file": "frame-emotion-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-close-v1"
+    ],
+    "reviewVi": "Có thể phân biệt ba biểu cảm qua mắt, lông mày và khóe môi; ánh sáng, trang phục tương đối nhất quán. Biểu cảm lo lắng và quyết tâm khá giống nhau, còn vẻ nhẹ nhõm rõ hơn. Hãy thử thu nhỏ ảnh để kiểm tra trước khi chọn.",
+    "reviewEn": "Brows, eyes and mouth distinguish expressions under similar lighting and wardrobe. Concern and resolve are subtler than relief; compare at thumbnail size."
+  },
+  "board": {
+    "file": "frame-board-v1",
+    "width": 1672,
+    "height": 941,
+    "provider": "ChatGPT imagegen",
+    "inputs": [
+      "frame-repair-v1",
+      "frame-linh-v1",
+      "frame-villain-v1"
+    ],
+    "reviewVi": "Storyboard đủ sáu bước diễn biến, giữ Linh bên trái và đối thủ bên phải. Ô 4 có vòng ngọc lam ở cả hai cổ tay; các ô hành động cần kiểm tra lại tay đeo găng. Cảnh wide và extreme wide chưa khác biệt rõ. Hãy đánh dấu các ô cần tạo lại thành ảnh riêng, không dùng cả storyboard làm ảnh đầu vào cho một shot video.",
+    "reviewEn": "Six beats preserve left/right character placement. Panel 4 duplicates the turquoise bracelet on both wrists; action panels risk swapping the gauntlet arm. Wide/extreme-wide sizes are not strongly differentiated. Treat this as a draft and regenerate failing panels individually before video."
+  }
+}

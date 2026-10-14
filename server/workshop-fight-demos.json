@@ -1,0 +1,90 @@
+[
+  {
+    "key": "static",
+    "duration": 6,
+    "resolution": 480,
+    "input": "fight-start-v1.png",
+    "prompt": "Dùng ảnh làm Start frame. Cảnh hành động Hộ Vệ Sông Hồng, 6 giây, tốc độ võ thuật thực rất nhanh, dồn dập; không slow motion, không đứng chờ. Giữ Linh áo chàm, vòng ngọc lam tay phải; Kẻ Thu Sáng giáp đen đồng, găng hổ phách tay trái; cầu chợ sau mưa và lõi xanh trên bệ. Hắn lao vào ngay để cướp lõi. Linh chắn đường: hắn đấm móc, cô lách thấp rồi gạt tay và phản đòn vào giáp ngực ngay; hắn bật người nhưng lập tức ép tới, cô bám lan can lấy đà đá ngang khiến hắn loạng choạng lùi. Cô bước lại chắn lõi, hắn dừng ngoài tầm đánh. Lõi nguyên vẹn: cuộc tấn công đã bị chặn. Các đòn nối sát nhau, rõ tiếp xúc và phản lực; không tạo dáng giữa đòn. Mở đầu và kết thúc thật gọn, dành gần hết thời lượng cho giao đấu. Camera toàn thân đứng yên, thấy cả hai nhân vật và bệ lõi. Một shot liên tục, không cắt; chân bám nền, tay chân rõ, không thêm người, không đổi trang phục, không máu hay cháy nổ. Tiếng bước chân và giáp va chạm đúng động tác; không nhạc, thoại, chữ.",
+    "status": "reviewed",
+    "clip": "fight-scene-static-v1",
+    "reviewVi": "Cảnh vào đòn sớm, có áp sát–gạt tay–phản đòn–đá và đối thủ lùi; lõi vẫn ở bệ khi hai người tách ra. Camera gần như đứng yên. Model không thể hiện rõ cú né thấp và không dùng lan can như prompt; cú đá diễn ra trên nền. Bản 1,25× dồn nhịp hơn nhưng vẫn giữ cả mở cảnh và kết thúc.",
+    "reviewEn": "The scene engages early, with close attack, parry, counter, kick and retreat while the core stays on its pedestal. The camera is nearly fixed. The low duck and railing assist are not clearly followed; the kick is grounded. The 1.25× version tightens pacing while retaining setup and resolution."
+  },
+  {
+    "key": "tracking",
+    "duration": 6,
+    "resolution": 480,
+    "input": "fight-start-v1.png",
+    "prompt": "Dùng ảnh làm Start frame. Cảnh hành động Hộ Vệ Sông Hồng, 6 giây, tốc độ võ thuật thực rất nhanh, dồn dập; không slow motion, không đứng chờ. Giữ Linh áo chàm, vòng ngọc lam tay phải; Kẻ Thu Sáng giáp đen đồng, găng hổ phách tay trái; cầu chợ sau mưa và lõi xanh trên bệ. Hắn lao vào ngay để cướp lõi. Linh chắn đường: hắn đấm móc, cô lách thấp rồi gạt tay và phản đòn vào giáp ngực ngay; hắn bật người nhưng lập tức ép tới, cô bám lan can lấy đà đá ngang khiến hắn loạng choạng lùi. Cô bước lại chắn lõi, hắn dừng ngoài tầm đánh. Lõi nguyên vẹn: cuộc tấn công đã bị chặn. Các đòn nối sát nhau, rõ tiếp xúc và phản lực; không tạo dáng giữa đòn. Mở đầu và kết thúc thật gọn, dành gần hết thời lượng cho giao đấu. Camera tracking ngang hông, đi song song theo Linh khi lùi về lan can rồi trở lại chắn lõi; giữ cả hai toàn thân, hậu cảnh trôi rõ; dừng cùng cô. Không zoom hoặc orbit. Một shot liên tục, không cắt; chân bám nền, tay chân rõ, không thêm người, không đổi trang phục, không máu hay cháy nổ. Tiếng bước chân và giáp va chạm đúng động tác; không nhạc, thoại, chữ.",
+    "status": "reviewed",
+    "clip": "fight-scene-tracking-v1",
+    "reviewVi": "Có né thấp, phản đòn sát người, bám lan can tung đá và đối thủ bật lùi; kết thúc hai người tách ra, lõi vẫn an toàn. Camera đi theo Linh nhưng còn tiến gần, có lúc cắt mất chân; đây chưa phải tracking giữ nguyên cỡ toàn thân như yêu cầu. So hai tốc độ để thấy động tác vẫn nối nhau, không phải hai nhân vật diễn riêng.",
+    "reviewEn": "The take includes a duck, close counter, railing-assisted kick and visible recoil, ending with separation and the core intact. The camera follows Linh but also pushes in and crops feet, so it is not the requested constant full-body tracking. Both speeds retain connected engagement."
+  },
+  {
+    "key": "orbit",
+    "duration": 6,
+    "resolution": 480,
+    "input": "fight-start-v1.png",
+    "prompt": "Dùng ảnh làm Start frame. Cảnh hành động Hộ Vệ Sông Hồng, 6 giây, tốc độ võ thuật thực rất nhanh, dồn dập; không slow motion, không đứng chờ. Giữ Linh áo chàm, vòng ngọc lam tay phải; Kẻ Thu Sáng giáp đen đồng, găng hổ phách tay trái; cầu chợ sau mưa và lõi xanh trên bệ. Hắn lao vào ngay để cướp lõi. Linh chắn đường: hắn đấm móc, cô lách thấp rồi gạt tay và phản đòn vào giáp ngực ngay; hắn bật người nhưng lập tức ép tới, cô bám lan can lấy đà đá ngang khiến hắn loạng choạng lùi. Cô bước lại chắn lõi, hắn dừng ngoài tầm đánh. Lõi nguyên vẹn: cuộc tấn công đã bị chặn. Các đòn nối sát nhau, rõ tiếp xúc và phản lực; không tạo dáng giữa đòn. Mở đầu và kết thúc thật gọn, dành gần hết thời lượng cho giao đấu. Camera orbit một cung 45 độ quanh cặp nhân vật, giữ cùng phía trục giao đấu, thấy hậu cảnh đổi phối cảnh; dừng ở góc ba phần tư khi Linh chắn lõi. Không zoom. Một shot liên tục, không cắt; chân bám nền, tay chân rõ, không thêm người, không đổi trang phục, không máu hay cháy nổ. Tiếng bước chân và giáp va chạm đúng động tác; không nhạc, thoại, chữ.",
+    "status": "reviewed",
+    "clip": "fight-scene-orbit-v1",
+    "reviewVi": "Cặp nhân vật giao đấu liên tục, Linh né rồi đá khiến đối thủ lùi. Hậu cảnh và lan can đổi phối cảnh, thể hiện camera đi theo cung; không coi góc thực tế là đúng chính xác 45°. Cỡ khung hình vẫn thay đổi nhẹ. Cuối cảnh Linh giữ thế chắn và lõi còn nguyên; 1,25× làm chuỗi đòn gọn hơn.",
+    "reviewEn": "The characters exchange continuously, with an evasion and kick that drives retreat. Background and railing perspective change, showing an arc; the actual angle is not a measured 45 degrees. Framing still varies slightly. Linh ends guarding the intact core; 1.25× tightens the exchange."
+  },
+  {
+    "key": "projectile",
+    "duration": 6,
+    "resolution": 480,
+    "input": "fight-projectile-start-v1.png",
+    "prompt": "Dùng ảnh làm khung mở đầu cho một cảnh hoàn chỉnh trong Hộ Vệ Sông Hồng. Giữ Kẻ Thu Sáng ở tiền cảnh, Linh cùng khiên ngọc lam ở xa và lõi xanh trên bệ phía sau cô. Mở cảnh: hắn nhắm găng hổ phách vào lõi, Linh nhận ra đường bắn và đứng chắn trước lõi. Hắn phóng duy nhất một quả cầu năng lượng hổ phách. Camera bắt đầu cạnh găng, bám sát phía sau quả cầu khi nó bay dọc cầu về Linh; giữ quả cầu trước camera, lan can lướt rõ hai bên. Khi quả cầu tới, Linh ghì chân và đưa khiên từ cổ tay phải vào đúng đường bay. Quả cầu va khiên, vỡ thành vài tia sáng ngắn rồi tắt; Linh lùi nửa bước chịu lực nhưng không ngã. Camera dừng ngay phía trước khiên, không xuyên qua khiên. Kết cảnh: cô hạ khiên vừa đủ để thấy lõi nguyên vẹn phía sau và đứng vững giữ vị trí. Một shot liên tục, thấy rõ phóng → bay → chặn → lõi an toàn. Không orbit, không chùm tia kéo dài, không cháy nổ, không đổi tay đeo vòng, không chữ, không thoại hay nhạc; tiếng phóng, va khiên và bước chân. NHỊP HÀNH ĐỘNG: tốc độ thực, nhanh và quyết liệt, tuyệt đối không slow motion. Vào hành động ngay sau khi nhận ra hiểm nguy; không tạo dáng hoặc đứng chờ. Áp sát bùng nổ, đòn đánh ngắn gọn có lực, né và phản công ngay trong cùng nhịp. Các chuyển động nối liền với phản ứng rõ, chân bám nền, không múa riêng. Chỉ giữ tư thế kết thúc ngắn đủ để thấy nhân vật đã an toàn hoặc lõi được bảo vệ. Không kéo dài bước chuẩn bị hay hồi phục. CẢNH RẤT NHANH, DỒN DẬP: hoàn thành toàn bộ diễn biến trong 6 giây. Bắt đầu chuyển động ngay ở frame đầu. Không giữ tư thế mở đầu, không lấy đà dài, không nghỉ giữa các động tác. Chuỗi giao đấu bật liên tiếp: lao vào–đấm móc, lách thấp–gạt tay–phản đòn, ép lùi–đá bật lại–chặn đường. Đòn sau bắt đầu ngay khi phản ứng của đòn trước kết thúc; tốc độ võ thuật thực, chuyển động sắc gọn, có lực. Giữ nguyên mục tiêu, động tác chính của cảnh và kết quả; với cảnh vượt vật cản hoặc đỡ xung sáng, chỉ tăng tốc chuỗi hành động đã mô tả, không thêm trận đấu mới. Kết cảnh chỉ một nhịp đứng vững ngắn, không tạo dáng kéo dài.",
+    "status": "reviewed",
+    "clip": "fight-scene-projectile-v1",
+    "reviewVi": "Thấy người phóng → camera theo quả cầu → khiên chặn → Linh đứng vững và lõi còn nguyên. Camera tiến dọc đường bay rồi dừng trước Linh. Quả cầu còn phóng lớn và để lại vệt sáng dài; khiên không hạ hẳn ở cuối như prompt. Bản tăng tốc rút ngắn đoạn bay nhưng giữ đủ nguyên nhân và kết quả.",
+    "reviewEn": "The launcher, tracked flight, shield impact and safe recovery are visible. The camera advances along the flight path and stops before Linh. The orb grows and leaves a long trail; the shield does not fully lower as requested. Retiming shortens the flight without removing cause or outcome."
+  },
+  {
+    "key": "slide",
+    "input": "fight-slide-start-v1.png",
+    "prompt": "Dùng ảnh làm khung mở đầu của một cảnh hoàn chỉnh trong Hộ Vệ Sông Hồng. Giữ đúng Linh với áo xanh chàm viền đồng, tóc buộc thấp, vòng ngọc lam ở cổ tay phải và cây cầu chợ sau mưa. Linh cần vượt qua quầy đổ để thoát một đòn truy kích. Mở cảnh: cô nhìn về phía sau, một xung sáng hổ phách lao tới từ cuối lối đi, buộc cô hành động. Cô chạy đà ngắn về phía khoảng trống DƯỚI thanh gỗ, hạ thấp trọng tâm, duỗi chân và trượt sát nền đá xuyên qua khoảng trống; xung sáng bay qua phía trên thanh gỗ và tắt ở xa. Ngay sau khi qua hẳn vật cản, cô chống tay đứng dậy, xoay lại hướng đòn vừa đến và giơ cổ tay phải tạo một khiên nhỏ để chặn lối truy đuổi. Kết cảnh giữ rõ cô đứng vững ở phía an toàn, thanh gỗ còn nguyên phía sau, hiểm nguy vừa vượt qua đã chấm dứt. Một shot liên tục, camera ngang hông tracking song song để thấy toàn thân, khoảng trống dưới thanh và nơi đứng dậy. Động tác liền mạch, có lấy đà, ma sát, phản ứng và hồi phục; không chia động tác theo từng giây. Không xuyên gỗ, không dịch chuyển tức thời, không thêm người, không chữ, không thoại hay nhạc; tiếng bước chân, trượt trên đá và xung năng lượng ngắn. NHỊP HÀNH ĐỘNG: tốc độ thực, nhanh và quyết liệt, tuyệt đối không slow motion. Vào hành động ngay sau khi nhận ra hiểm nguy; không tạo dáng hoặc đứng chờ. Áp sát bùng nổ, đòn đánh ngắn gọn có lực, né và phản công ngay trong cùng nhịp. Các chuyển động nối liền với phản ứng rõ, chân bám nền, không múa riêng. Chỉ giữ tư thế kết thúc ngắn đủ để thấy nhân vật đã an toàn hoặc lõi được bảo vệ. Không kéo dài bước chuẩn bị hay hồi phục. CẢNH RẤT NHANH, DỒN DẬP: hoàn thành toàn bộ diễn biến trong 6 giây. Bắt đầu chuyển động ngay ở frame đầu. Không giữ tư thế mở đầu, không lấy đà dài, không nghỉ giữa các động tác. Chuỗi giao đấu bật liên tiếp: lao vào–đấm móc, lách thấp–gạt tay–phản đòn, ép lùi–đá bật lại–chặn đường. Đòn sau bắt đầu ngay khi phản ứng của đòn trước kết thúc; tốc độ võ thuật thực, chuyển động sắc gọn, có lực. Giữ nguyên mục tiêu, động tác chính của cảnh và kết quả; với cảnh vượt vật cản hoặc đỡ xung sáng, chỉ tăng tốc chuỗi hành động đã mô tả, không thêm trận đấu mới. Kết cảnh chỉ một nhịp đứng vững ngắn, không tạo dáng kéo dài.",
+    "duration": 6,
+    "resolution": 480,
+    "status": "reviewed",
+    "clip": "fight-scene-slide-v1",
+    "reviewVi": "Có cảnh báo bằng xung sáng, chạy–hạ người–trượt, đứng dậy và giơ khiên. Linh chuyển từ trước vật cản sang vị trí an toàn; camera tiến gần nên cần xem kỹ khoảng hở dưới thanh gỗ. Xung sáng lớn hơn dự định và che một phần chuyển động. Bản 1,25× tăng nhịp, không sửa các điểm này.",
+    "reviewEn": "The pulse motivates a run, low slide, recovery and shield. Linh reaches safety, but the pushing camera and large pulse partially obscure clearance beneath the bar. The 1.25× edit increases pace without repairing those limitations."
+  },
+  {
+    "key": "vault",
+    "input": "fight-vault-start-v1.png",
+    "prompt": "Dùng ảnh làm khung mở đầu cho một cảnh hoàn chỉnh trong Hộ Vệ Sông Hồng. Giữ Linh với áo xanh chàm viền đồng, tóc buộc thấp và vòng ngọc lam duy nhất ở cổ tay phải, giữ lan can thấp ngăn hai phần mặt sàn đá trên cầu chợ. Cô cần chặn một đòn truy kích trước khi nó lọt vào khu chợ. Mở cảnh: Linh nhìn qua vai, một xung hổ phách lao tới dọc lối đi phía sau; cô quay về khoảng nền trống bên kia lan can và quyết vượt qua. Cô chạy một bước lấy đà, đặt chắc bàn tay lên mặt trên lan can, nâng hông và đưa cả hai chân vượt hẳn qua thanh ngang; đáp xuống nền đá phía bên kia, khuỵu gối hấp thụ lực. Xung sáng lướt qua lối đi cũ. Cô lập tức xoay lại, giơ cổ tay phải dựng khiên ngọc lam ngắn chặn đợt sáng còn lại; ánh sáng tắt. Kết cảnh: Linh đứng vững ở phía đã đáp, khiên hạ xuống, lối đi phía sau an toàn. Thấy đầy đủ lý do vượt vật cản, đặt tay, hai chân vượt thanh, tiếp đất và kết quả. Một shot liên tục, camera toàn thân đứng yên góc ba phần tư để thấy rõ hai phía lan can. Không nhảy xuống sông, không xuyên thanh, không lộn nhiều vòng, không đổi tay đeo vòng, không thêm người, không chữ, không thoại hay nhạc; tiếng lấy đà, tay chạm kim loại, tiếp đất và khiên chặn xung sáng. Nhịp liên tục tự nhiên, không chia động tác theo từng giây. NHỊP HÀNH ĐỘNG: tốc độ thực, nhanh và quyết liệt, tuyệt đối không slow motion. Vào hành động ngay sau khi nhận ra hiểm nguy; không tạo dáng hoặc đứng chờ. Áp sát bùng nổ, đòn đánh ngắn gọn có lực, né và phản công ngay trong cùng nhịp. Các chuyển động nối liền với phản ứng rõ, chân bám nền, không múa riêng. Chỉ giữ tư thế kết thúc ngắn đủ để thấy nhân vật đã an toàn hoặc lõi được bảo vệ. Không kéo dài bước chuẩn bị hay hồi phục. CẢNH RẤT NHANH, DỒN DẬP: hoàn thành toàn bộ diễn biến trong 6 giây. Bắt đầu chuyển động ngay ở frame đầu. Không giữ tư thế mở đầu, không lấy đà dài, không nghỉ giữa các động tác. Chuỗi giao đấu bật liên tiếp: lao vào–đấm móc, lách thấp–gạt tay–phản đòn, ép lùi–đá bật lại–chặn đường. Đòn sau bắt đầu ngay khi phản ứng của đòn trước kết thúc; tốc độ võ thuật thực, chuyển động sắc gọn, có lực. Giữ nguyên mục tiêu, động tác chính của cảnh và kết quả; với cảnh vượt vật cản hoặc đỡ xung sáng, chỉ tăng tốc chuỗi hành động đã mô tả, không thêm trận đấu mới. Kết cảnh chỉ một nhịp đứng vững ngắn, không tạo dáng kéo dài.",
+    "duration": 6,
+    "resolution": 480,
+    "status": "reviewed",
+    "clip": "fight-scene-vault-v1",
+    "reviewVi": "Thấy rõ chạy đà ngắn, tay bám thanh, hai chân vượt lan can, tiếp đất rồi xoay lại đỡ xung sáng. Cảnh kết thúc khi ánh sáng tắt và Linh đứng vững phía bên kia. Model tạo chùm sáng kéo dài thay vì xung ngắn và khiên còn giơ ở cuối. Kiểm tra tay chạm thanh ở 1× trước khi chọn bản nhanh.",
+    "reviewEn": "The run, hand plant, leg clearance, landing and shield response are visible. The scene resolves with the pulse extinguished and Linh standing on the far side. The model creates a sustained beam rather than a short pulse, and the shield remains raised. Inspect hand contact at 1× before choosing the faster edit."
+  },
+  {
+    "key": "vague",
+    "duration": 10,
+    "resolution": 480,
+    "input": "fight-start-v1.png",
+    "prompt": "Dùng ảnh làm khung mở đầu cho một cảnh hoàn chỉnh trong Hộ Vệ Sông Hồng. Giữ Linh bên trái với áo xanh chàm viền đồng, tóc buộc thấp, vòng ngọc lam duy nhất ở cổ tay phải; Kẻ Thu Sáng bên phải đeo giáp đen đồng và găng hổ phách ở tay trái. Giữ cầu chợ Việt Nam sau mưa, đèn lồng và lõi xanh trên bệ phía sau. Linh bảo vệ lõi, Kẻ Thu Sáng cố vượt qua cô. Hai người đánh nhau thật hoành tráng. Cuối cảnh Linh chặn được hắn và lõi vẫn an toàn. Một cảnh liền mạch có mở đầu, giao đấu và kết quả. Camera toàn thân đứng yên. Không chữ, không thoại hay nhạc.",
+    "status": "reviewed",
+    "clip": "fight-scene-vague-v1",
+    "reviewVi": "Model tự thêm một đòn có vệt năng lượng, Linh đỡ và phản công rồi cả hai trở về thế thủ. Cảnh có kết quả nhưng phần đầu chờ dài và ít thay đổi thế; ánh sáng che điểm tiếp xúc. Đây là đối chứng để hiểu vì sao cần viết động tác cụ thể. Bản 1,25× nhanh hơn nhưng không tự thêm choreography.",
+    "reviewEn": "The model invents an energy-trail attack, defense and counter before both recover. The scene resolves, but the opening waits and exchanges are sparse, with effects obscuring contact. This control motivates concrete choreography; 1.25× cannot invent additional moves."
+  },
+  {
+    "key": "rigid",
+    "duration": 10,
+    "resolution": 480,
+    "input": "fight-start-v1.png",
+    "prompt": "Dùng ảnh làm khung mở đầu cho một cảnh hoàn chỉnh trong Hộ Vệ Sông Hồng. Giữ Linh bên trái với áo xanh chàm viền đồng, tóc buộc thấp, vòng ngọc lam duy nhất ở cổ tay phải; Kẻ Thu Sáng bên phải đeo giáp đen đồng và găng hổ phách ở tay trái. Giữ cầu chợ Việt Nam sau mưa, đèn lồng và lõi xanh trên bệ phía sau. Linh bảo vệ lõi, Kẻ Thu Sáng cố vượt qua cô. Giây 0–1: hắn nhìn lõi. Giây 1–2: Linh bước chắn. Giây 2–3: hắn bước tới. Giây 3–4: hắn đấm móc bằng găng. Giây 4–5: Linh cúi né. Giây 5–6: cô bước chéo và gạt tay. Giây 6–7: cô phản đòn vào giáp ngực. Giây 7–8: hắn lùi. Giây 8–9: cô trở lại chắn lõi. Giây 9–10: cả hai đứng vững, lõi an toàn. Camera toàn thân đứng yên, một shot, không chữ, không thoại hay nhạc.",
+    "status": "reviewed",
+    "clip": "fight-scene-rigid-v1",
+    "reviewVi": "Có né, phản đòn và trở về thế thủ, nhưng các động tác không khớp chính xác lịch từng giây; phần chuẩn bị chiếm nhiều thời gian. Vệt sáng làm một số điểm tiếp xúc khó đọc. Bản 1,25× rút phần chờ, còn bản prompt 6 giây bên trên tạo nhiều hành động nối tiếp hơn ngay từ đầu.",
+    "reviewEn": "The scene has an evasion, counter and recovery, but timing does not exactly follow the second-by-second schedule and preparation takes substantial time. Trails obscure some contacts. Retiming reduces waiting; the six-second rewrite creates denser action from the outset."
+  }
+]

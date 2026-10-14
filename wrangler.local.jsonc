@@ -1,0 +1,16 @@
+{
+  // Local preview only. Configure the real D1 binding in the Pages dashboard for production.
+  "name": "genyz-workshop-local",
+  "pages_build_output_dir": "out",
+  "compatibility_date": "2026-10-01",
+  "vars": {
+    "WORKSHOP_EMAIL_FROM": "GenYZ Studio <workshop@genyzstudio.com>",
+    "WORKSHOP_EMAIL_REPLY_TO": "genyzstudio@gmail.com"
+  },
+  "d1_databases": [{
+    "binding": "WORKSHOP_DB",
+    "database_name": "genyz-workshop-local",
+    "database_id": "00000000-0000-0000-0000-000000000001",
+    "migrations_dir": "migrations"
+  }]
+}

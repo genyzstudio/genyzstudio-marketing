@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { List, X, ArrowUpRight } from "@phosphor-icons/react";
-import { getHome, interfaceCopy, localePath, type Locale } from "@/content/locales";
+import { getHome, interfaceCopy, type Locale } from "@/content/locales";
+import { LanguageSwitch } from "./language-switch";
 import { studioCopy } from "@/content/studio";
 
 export function Wordmark() {
@@ -10,16 +11,17 @@ export function Wordmark() {
 }
 export function Header({ locale = "vi" }: { locale?: Locale }) {
   const home = getHome(locale);
+  const navigation = [...home.nav, { href: locale === "vi" ? "/workshop" : "/en/workshop", label: locale === "vi" ? "Vào lớp học" : "Classroom" }];
   const copy = interfaceCopy[locale];
   const [open, setOpen] = useState(false);
   return <header className="header" onKeyDown={(e) => { if (e.key === "Escape") { setOpen(false); document.getElementById("menu-toggle")?.focus(); } }}>
     <div className="shell header-inner">
       <a className="brand" href="#" aria-label={copy.top} onClick={() => setOpen(false)}><Wordmark /></a>
-      <nav aria-label={copy.navigation} className="desktop-nav">{home.nav.map(link => <a href={link.href} key={link.href}>{link.label}</a>)}</nav>
-      <nav className="language-switch" aria-label={locale === "vi" ? "Ngôn ngữ" : "Language"}>{(["vi", "en"] as const).map(language => <a key={language} href={localePath(language)} lang={language} hrefLang={language} aria-current={language === locale ? "page" : undefined} aria-label={language === "vi" ? "Tiếng Việt" : "English"}>{language.toUpperCase()}</a>)}</nav>
+      <nav aria-label={copy.navigation} className="desktop-nav">{navigation.map(link => <a href={link.href} key={link.href}>{link.label}</a>)}</nav>
+      <LanguageSwitch locale={locale} />
       <a className="header-contact header-register" href="#lien-he">{studioCopy[locale].contact}<ArrowUpRight size={17} aria-hidden="true" /></a>
       <button id="menu-toggle" className="menu-toggle" aria-label={open ? copy.close : copy.open} aria-expanded={open} aria-controls="mobile-nav" onClick={() => setOpen(!open)}>{open ? <X size={25} /> : <List size={25} />}</button>
     </div>
-    <nav id="mobile-nav" aria-label={copy.mobileNavigation} className="mobile-nav" hidden={!open}>{[...home.nav, { label: copy.contact, href: "#lien-he" }].map(link => <a href={link.href} key={link.href} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={18} aria-hidden="true" /></a>)}</nav>
+    <nav id="mobile-nav" aria-label={copy.mobileNavigation} className="mobile-nav" hidden={!open}>{[...navigation, { label: copy.contact, href: "#lien-he" }].map(link => <a href={link.href} key={link.href} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={18} aria-hidden="true" /></a>)}</nav>
   </header>;
 }

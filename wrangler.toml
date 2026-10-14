@@ -1,0 +1,14 @@
+# Production bindings are isolated from local development and branch previews.
+name = "genyzstudio-marketing"
+pages_build_output_dir = "out"
+compatibility_date = "2026-10-04"
+
+[env.production.vars]
+WORKSHOP_EMAIL_FROM = "GenYZ Studio <workshop@genyzstudio.com>"
+WORKSHOP_EMAIL_REPLY_TO = "genyzstudio@gmail.com"
+
+[[env.production.d1_databases]]
+binding = "WORKSHOP_DB"
+database_name = "genyz-workshop-production"
+database_id = "49fff4b3-b2e7-4306-8b80-244e91bdbffd"
+migrations_dir = "migrations"
