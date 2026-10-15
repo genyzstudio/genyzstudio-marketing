@@ -1,5 +1,6 @@
 import type { WorkshopVisualExample } from '../content/workshop/types';
 import type { PipelineId } from '../content/pipeline';
+import { regeneratedFiveLevelExamples } from './workshop-regenerated-videos';
 const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
   "story": [
     {
@@ -400,7 +401,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
           "poster": "/api/workshop/examples/reaction-vi-v1-poster.jpg"
         }
       ],
-      "review": "Clip sau khi sửa giữ đúng nhân vật, chiếc đèn đang sáng và vị trí hai tay. Ánh mắt hướng xuống, không còn làn hơi trắng. Nụ cười rõ dần, dù đầu vẫn cử động nhẹ. Đây là clip được chọn cho bản dựng; clip tạo nhầm nhân vật ở cấp độ 1 đã bị loại."
+      "review": "Clip sau khi sửa giữ đúng nhân vật, chiếc đèn đang sáng và vị trí hai tay. Ánh mắt hướng xuống, không còn làn hơi trắng. Nụ cười rõ dần, dù đầu vẫn cử động nhẹ. Đây là clip được chọn cho bản dựng nháp đầu (v1); bản dựng mới dùng cận mặt reaction-close-vi-v2. Clip tạo nhầm nhân vật ở cấp độ 1 đã bị loại."
     }
   ],
   "delivery": [
@@ -428,7 +429,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
           "height": 724
         }
       ],
-      "review": "Storyboard dự kiến shot 3 là cận mặt, nhưng clip thực tế là medium shot. Bản dựng minh họa giữ nguyên cỡ cảnh của clip đã tạo. Bạn có thể cập nhật storyboard theo clip được chọn, hoặc tạo lại để có đúng cỡ cảnh dự kiến.",
+      "review": "Bản dựng nháp đầu dùng trung cảnh thay cho cận mặt dự kiến; bản dựng mới đã tạo lại đúng cận mặt (reaction-close-vi-v2). Xem cả hai bản để đối chiếu kế hoạch hình ảnh với kết quả thực tế.",
       "settings": "imagegen · ảnh tham chiếu đính kèm theo thứ tự bên dưới. Sao chép nguyên prompt tiếng Việt để thử lại."
     },
     {
@@ -453,11 +454,11 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
           "poster": "/api/workshop/examples/lantern-hold-vi-v1-poster.jpg"
         }
       ],
-      "review": "Ngọn lửa dao động nhẹ, chiếc đèn sáng liên tục và khung hình gần như không thay đổi. Đoạn video này được dùng để kết phim."
+      "review": "Ngọn lửa dao động nhẹ, chiếc đèn sáng liên tục và khung hình gần như không thay đổi. Đoạn video này kết thúc bản nháp đầu (v1). Bản dựng mới dùng cảnh chèn có tay và tạp dề của người thợ."
     },
     {
       "id": "edit",
-      "title": "Bản dựng 20 giây — từ các take đã chọn",
+      "title": "Bản dựng nháp 20 giây — từ các take đã chọn",
       "instruction": "00:00–00:05: người thợ chờ bên đèn tắt. 00:05–00:10: đèn sáng. 00:10–00:15: người thợ mỉm cười. 00:15–00:20: chiếc đèn tiếp tục sáng. Tải bốn clip nguồn trong bài và xếp theo thứ tự này trong CapCut.",
       "settings": "Dựng từ 4 clip AI: camera-static-vi-v1 → endpoints-vi-v1 → reaction-vi-v1 → lantern-hold-vi-v1. Mỗi clip lấy 5 giây, hard cut, 852×480, 24 fps, H.264, bỏ audio. Đây là bản dựng hình để học nhịp; có thể bổ sung âm thanh sau.",
       "inputs": [{"label":"Shot 1 — chờ đợi","src":"/api/workshop/examples/camera-static-vi-v1.mp4"},{"label":"Shot 2 — thắp đèn","src":"/api/workshop/examples/endpoints-vi-v1.mp4"},{"label":"Shot 3 — phản ứng","src":"/api/workshop/examples/reaction-vi-v1.mp4"},{"label":"Shot 4 — hình kết","src":"/api/workshop/examples/lantern-hold-vi-v1.mp4"}],
@@ -554,12 +555,12 @@ const english: Record<string, [string, string, string]> = {
   "reaction": [
     "Revise the performance and gaze",
     "Remove the exhale, keep the gaze on the lamp, and begin with a lit lantern.",
-    "The revision retains the character, lit lantern, hands and downward gaze with no white breath cloud. The smile develops, though the head still moves slightly. This is the take used in the edit."
+    "The revision retains the character, lit lantern, hands and downward gaze with no white breath cloud. The smile develops, though the head still moves slightly. This take was used in the original v1 rough cut; the new edit uses reaction-close-vi-v2."
   ],
   "storyboard": [
     "From storyboard to edit",
     "Four beats: waiting, ignition, reaction, ending. Plan compositions before spending video credits.",
-    "The board plans a close-up reaction but the generated take uses a medium shot. The edit preserves that real result; revise the board or regenerate the intended shot."
+    "The first rough cut used a medium shot instead of the planned close-up; the new edit regenerates the intended close-up (reaction-close-vi-v2). Compare both edits against the storyboard."
   ],
   "hold": [
     "An ending shot that stays lit",
@@ -567,19 +568,25 @@ const english: Record<string, [string, string, string]> = {
     "The flame flickers, the lantern stays lit and the view is nearly static. This is moving footage, not an extended still."
   ],
   "edit": [
-    "A 20-second assembly from selected takes",
+    "A 20-second rough cut · diagnose continuity",
     "00:00–00:05 waiting; 00:05–00:10 ignition; 00:10–00:15 reaction; 00:15–00:20 lit lantern. Download the four source clips and assemble them in this order.",
-    "The actual reaction is medium rather than the planned close-up. Inspect flame brightness at cuts and the absent person in lamp shots. This silent picture edit does not demonstrate voice references, lip-sync or live-action VFX."
+    "Diagnostic assembly, not a continuity-approved film: shots 2 and 4 keep nearly the same view of the table as shot 1 but the repairer disappears. Use tighter inserts hiding his position, or regenerate with his hands/apron visible behind the lamp. The reaction is medium rather than the planned close-up, and no action explains the ignition. The silent edit does not demonstrate voice reference, lip-sync or live-action VFX."
   ]
 };
 export function fiveLevelVisualExamples(locale: 'vi' | 'en'): Partial<Record<PipelineId, WorkshopVisualExample[]>> {
-  if (locale === 'vi') return examples;
-  return Object.fromEntries(Object.entries(examples).map(([id, items]) => [id, items.map(example => {
+  const localized = Object.fromEntries(Object.entries(examples).map(([id, items]) => [id, items.map(example => {
+    if (example.id === 'edit') return {...example, title: 'Bản dựng nháp 20 giây · tìm lỗi nối cảnh', review: 'Bản mẫu chưa đạt continuity: shot 2 và 4 giữ gần cùng góc bàn và hậu cảnh của shot 1 nhưng người thợ biến mất. Dùng cảnh chèn cận đèn để không thấy chỗ anh đứng, hoặc tạo lại shot có tay/tạp dề phía sau. Phản ứng vẫn là trung cảnh thay vì cận mặt như storyboard, và chưa có hành động giải thích vì sao đèn sáng. Bản dựng không có âm thanh; chưa minh họa voice reference, lip-sync hay VFX trên người thật.'};
+    if (example.id === 'missing-reference') return {...example, instruction: 'Lỗi ảnh đầu vào, không phải đối chứng text-to-video/image-to-video. ' + example.instruction};
+    if (example.id === 'acting') return {...example, instruction: example.instruction + ' Mốc giây có thể hữu ích khi diễn xuất ít động tác. Với chuỗi hành động nhanh, hãy ưu tiên thứ tự và phản ứng; kiểm tra kết quả thay vì mặc định mốc thời gian luôn tốt hoặc luôn xấu.'};
+    return example;
+  })]));
+  if (locale === 'vi') return Object.fromEntries(Object.entries(localized).map(([id, items]) => [id, [...items, ...regeneratedFiveLevelExamples(locale, id)]]));
+  return Object.fromEntries(Object.entries(localized).map(([id, items]) => [id, [...items.map(example => {
     const [title, instruction, review] = english[example.id];
-    return { ...example, title, instruction, review,
+    return { ...example, title, instruction: instruction + (example.id === 'missing-reference' ? ' This is an input-error diagnosis, not a text/image comparison.' : example.id === 'acting' ? ' Timed beats can help a small performance; for fast action, prioritize order and response. Judge actual timing rather than treating timestamps as always good or bad.' : ''), review,
       settings: example.id === 'edit' ? 'Four 5-second AI clips: camera-static → endpoints → reaction → lantern-hold. Hard cuts, 852×480, 24 fps, H.264, audio removed.' : example.outputs.some(output => output.kind === 'video') ? 'OpenArt · Seedance 2.5 Draft · 480p · 5 seconds · one take per prompt · Audio On. Original downloads retained; the final edit removes audio. No fixed seed: these are individual trials, not a causal benchmark.' : 'imagegen · attach the input images in the order below. The exact tested Vietnamese prompt is preserved.',
       inputs: example.inputs.map((input, i) => ({ ...input, label: `Input ${i + 1}: ${input.src.split('/').pop()}` })),
       outputs: example.outputs.map((output, i) => ({ ...output, label: `${title}${example.outputs.length > 1 ? ` — ${i === 0 ? 'before' : 'after'}` : ''}` })),
     };
-  })]));
+  }), ...regeneratedFiveLevelExamples(locale, id)]]));
 }

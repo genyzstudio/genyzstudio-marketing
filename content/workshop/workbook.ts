@@ -18,7 +18,7 @@ export function formatWorkshopWorkbook(content: WorkshopContent, locale: Worksho
       `${i + 1}. ${step.title}`, step.tool, step.instruction,
       ...(locale === 'vi' ? [vietnamese, english] : [english, vietnamese]), evidence,
       ...(step.referenceImages || []).map(input => `${input.label}: https://genyzstudio.com${input.src}`),
-      ...(example && !step.promptVi ? [`https://genyzstudio.com${example.image}`, example.review] : []),
+      ...(example && (!step.promptVi || step.promptEvidence) ? [`https://genyzstudio.com${example.image}`, example.review] : []),
       ...(step.media || []).map(media => `${media.label}: https://genyzstudio.com${media.src}`),
       step.resultText || '', step.resultReview || '',
       `${t('Lưu:', 'Save:')} ${step.save}`, `${t('Ghi chú của tôi:', 'My notes:')} __________________`,
@@ -32,7 +32,7 @@ export function formatWorkshopWorkbook(content: WorkshopContent, locale: Worksho
     ...content.preparation.steps.map(step => `${step.heading}\n${step.text}`), content.preparation.note,
     ...(content.preparation.toolPaths || []).flatMap(path => [path.title, ...path.steps]),
     ...(content.preparation.visualGuide || []).flatMap(guide => [guide.title, guide.intro, `https://genyzstudio.com${guide.image}`, ...guide.captions, guide.tryIt,
-      ...(guide.recreation ? [guide.recreation.evidence, ...guide.recreation.instructions, ...guide.recreation.references.map(reference => `${reference.label}: https://genyzstudio.com${reference.src}`), `PROMPT (Vietnamese):\n${guide.recreation.promptVi}`] : [])]),
+      ...(guide.recreation ? [guide.recreation.evidence, ...guide.recreation.instructions, ...guide.recreation.references.map(reference => `${reference.label}: https://genyzstudio.com${reference.src}`), ...(guide.recreation.promptEn ? [`PROMPT (English):\n${guide.recreation.promptEn}`] : []), `PROMPT (Vietnamese):\n${guide.recreation.promptVi}`] : [])]),
     ...content.tools.map(tool => `${tool.name}: ${tool.href}\n${tool.purpose}`),
     ...content.glossary.map(([term, meaning]) => `${term}: ${meaning}`),
     ...content.lessons.map((lesson, i) => [
@@ -40,7 +40,7 @@ export function formatWorkshopWorkbook(content: WorkshopContent, locale: Worksho
       lesson.goal, lesson.terms, `${t('Đầu vào:', 'Inputs:')} ${lesson.input}`, steps(lesson.steps),
       ...(lesson.visualExamples || []).map(example => [example.title, example.instruction, example.settings,
         ...example.inputs.map(input => `${input.label}: https://genyzstudio.com${input.src}`),
-        example.promptVi || '', ...example.outputs.map(output => `${output.label}: https://genyzstudio.com${output.src}`), example.review].join('\n\n')),
+        ...(example.promptEn ? [`PROMPT (English):\n${example.promptEn}`] : []), example.promptVi ? `PROMPT (Vietnamese):\n${example.promptVi}` : '', ...example.outputs.map(output => `${output.label}: https://genyzstudio.com${output.src}`), example.review].join('\n\n')),
       ...(lesson.techniques || []).map((lab, n) => [
         `\n${t('BÀI KỸ THUẬT', 'TECHNIQUE LAB')} ${n + 1} · ${lab.title}`, lab.goal,
         `${t('Đầu vào:', 'Inputs:')} ${lab.input}`, steps(lab.steps),

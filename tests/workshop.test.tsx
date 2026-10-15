@@ -591,7 +591,8 @@ test('master-frame protects every tested Vietnamese prompt and isolates progress
     assert.equal(steps.length,14);
     const gate=renderToStaticMarkup(<WorkshopClassroom locale={locale} course="master-frame" />);
     for(const step of steps){
-      assert.equal(step.promptLanguage,'vi');
+      assert.equal(step.promptLanguage,'en');
+      assert.ok(step.promptVi);
       assert.ok(step.prompt && step.prompt.length>100);
       assert.ok(!gate.includes(step.prompt));
       assert.ok(step.testedExample);
@@ -602,7 +603,7 @@ test('master-frame protects every tested Vietnamese prompt and isolates progress
     }
     const workbook=formatWorkshopWorkbook({...curriculum,progress,sessionExpiresAt:0},locale);
     assert.ok(workbook.includes('PROMPT (Vietnamese)'));
-    assert.ok(!workbook.includes('PROMPT (English)'));
+    assert.ok(workbook.includes('PROMPT (English)'));
     assert.ok(workbook.includes('/frame-board-v1.png'));
     assert.ok(workbook.includes('/overview-lens-vi-v2.png'));
     assert.ok(workbook.includes('/overview-shots-v1.png'));
@@ -650,14 +651,15 @@ test('directors framework is protected, bilingual, and has independent progress'
         assert.equal(current.prompt, original.prompt);
         assert.deepEqual(current.referenceImages.map((ref: {src:string}) => ref.src), original.referenceImages?.map(ref => ref.src));
       } else {
-        assert.ok(directorRuns.some(run => current.testedExample.image.endsWith(`${run.file}.png`) && current.prompt === run.prompt));
+        assert.ok(directorRuns.some(run => current.testedExample.image.endsWith(`${run.file}.png`) && current.promptVi === run.prompt));
       }
     }
     assert.ok(content.courseTitle.includes(locale === 'vi' ? 'Hộ Vệ Sông Hồng' : 'Guardians of the Red River'));
     assert.ok(!/Mai|Hội An|beacon|director-wide-v1|director-close-v1/.test(JSON.stringify(content)));
     assert.equal(frames.steps[1].referenceImages[0].src, frames.steps[0].testedExample.image);
     for (const step of testedFrames) {
-      assert.equal(step.promptLanguage, 'vi');
+      assert.equal(step.promptLanguage, 'en');
+      assert.ok(step.promptVi);
       assert.ok(existsSync(`public${step.testedExample.image}`));
       assert.equal(workshopMedia[step.testedExample.image], 'image/png');
     }
@@ -707,7 +709,7 @@ test('director workshop exposes all six detailed lessons with exercises and shar
           } else {
             const run = directorRuns.find(run => step.testedExample!.image.endsWith(`${run.file}.png`));
             assert.ok(run);
-            assert.equal(step.prompt, run.prompt);
+            assert.equal(step.promptVi, run.prompt);
             assert.deepEqual(step.referenceImages?.map(ref => ref.src), run.inputs.map(name => `/api/workshop/examples/${name}.png`));
           }
         }
@@ -734,7 +736,7 @@ test('every new director visual prompt has its exact input and actual registered
     const content = workshopCurriculum(locale, 'directors-framework');
     const steps = content.lessons.flatMap(lesson => lesson.steps);
     for (const run of directorRuns) {
-      const step = steps.find(step => step.prompt === run.prompt);
+      const step = steps.find(step => step.promptVi === run.prompt);
       assert.ok(step, run.file);
       assert.deepEqual(step.referenceImages?.map(ref => ref.src), run.inputs.map(name => `/api/workshop/examples/${name}.png`));
       const src = `/api/workshop/examples/${run.file}.${run.kind === 'image' ? 'png' : 'mp4'}`;
@@ -750,7 +752,8 @@ test('every new director visual prompt has its exact input and actual registered
     }
     for (const step of steps.filter(step => step.prompt)) {
       assert.ok(step.testedExample || step.media?.length || step.resultText, step.title);
-      assert.ok(!/chưa chạy thử|not yet tested|untested/i.test(step.promptEvidence || ''));
+      assert.ok(step.promptVi);
+      assert.match(step.promptEvidence || '', locale === 'vi' ? /Bản tiếng Anh|Bản dịch tiếng Anh/ : /English/);
     }
     const workbook = formatWorkshopWorkbook({...content,progress:{current:'story',completed:[]},sessionExpiresAt:Date.now()+10000}, locale);
     assert.ok(workbook.includes('director-medium-dolly-v2.mp4'));
@@ -773,20 +776,21 @@ test('fight scenes teaches rules before the shared story and protects independen
     assert.ok(content.source?.href.endsWith('SdtaDI8plF4'));
     assert.ok(content.preparation.steps.length >= 5);
     const frame = content.lessons[4].steps[1];
-    assert.equal(frame.promptLanguage,'vi');
+    assert.equal(frame.promptLanguage,'en');
+    assert.ok(frame.promptVi);
     assert.ok(frame.testedExample);
     assert.equal(frame.referenceImages?.length,1);
     const cameras = content.lessons[3].steps.slice(0,4);
-    assert.deepEqual(cameras.map(step=>step.media?.[0].src), ['tracking','orbit','projectile','static'].map(key=>`/api/workshop/examples/fight-scene-${key}-v1.mp4`));
+    assert.deepEqual(cameras.map(step=>step.media?.[0].src), ['static','tracking','orbit','projectile'].map(key=>`/api/workshop/examples/fight-scene-${key}-v1.mp4`));
     assert.ok(!/Google Flow|Veo|Omni 1\.1/.test(JSON.stringify(content)));
     for (const demo of fightDemos) {
       assert.equal(demo.status,'reviewed');
-      const matches=content.lessons.flatMap(lesson=>lesson.steps).filter(step=>step.prompt===demo.prompt);
+      const matches=content.lessons.flatMap(lesson=>lesson.steps).filter(step=>step.promptVi===demo.prompt);
       assert.ok(matches.length > 0,demo.key);
       assert.ok(matches.some(step=>step.media?.[0].src===`/api/workshop/examples/${demo.clip}.mp4`));
       for(const step of matches) {
-        assert.equal(step.tool,'OpenArt · Seedance 2.5');
-        assert.equal(step.promptLanguage,'vi');
+        assert.equal(step.prompt,demo.promptEn);
+        assert.equal(step.promptLanguage,'en');
         assert.equal(step.referenceImages?.[0].src,`/api/workshop/examples/${demo.input}`);
         assert.ok(step.promptEvidence?.includes('480p'));
         assert.ok(step.resultReview);
@@ -796,6 +800,11 @@ test('fight scenes teaches rules before the shared story and protects independen
       const videos=step.media?.filter(media=>media.kind==='video') || [];
       if(!videos.length) continue;
       assert.equal(videos.length,2,step.title);
+      if (videos[0].src.endsWith('fight-scene-vague-v1.mp4') && videos[1].src.endsWith('fight-scene-tracking-v1.mp4')) continue;
+      if (videos[1].src.endsWith('fight-scene-slowbeat-v1.mp4')) {
+        assert.ok(videos[0].src.endsWith('fight-scene-static-v1.mp4'));
+        continue;
+      }
       assert.equal(videos[1].src,videos[0].src.replace('.mp4','-125.mp4'));
       assert.equal(videos[0].height,480);
       assert.ok(videos[0].label.includes('1×'));

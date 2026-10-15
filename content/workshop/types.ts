@@ -42,6 +42,7 @@ export interface WorkshopVisualExample {
   title: string;
   instruction: string;
   promptVi?: string;
+  promptEn?: string;
   settings: string;
   review: string;
   inputs: { label: string; src: string }[];
@@ -59,7 +60,7 @@ export interface WorkshopContent {
   glossary: string[][];
   preparation: { title: string; intro: string; steps: { heading: string; text: string }[]; note: string;
     visualGuide?: { title: string; intro: string; image: string; width: number; height: number; captions: string[]; tryIt: string;
-      recreation?: { promptVi: string; references: { label: string; src: string; width: number; height: number }[]; instructions: string[]; evidence: string };
+      recreation?: { promptVi: string; promptEn?: string; references: { label: string; src: string; width: number; height: number }[]; instructions: string[]; evidence: string };
     }[];
     toolPaths?: { title: string; steps: string[] }[];
   };
