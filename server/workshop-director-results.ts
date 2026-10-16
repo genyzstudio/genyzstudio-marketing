@@ -1,23 +1,18 @@
-import type { LessonStep, WorkshopLesson } from '../content/workshop/types';
+import type { LessonStep, WorkshopLesson, WorkshopVisualExample } from '../content/workshop/types';
 import results from './workshop-director-test-results.json';
 import plans from './workshop-director-planning-results.json';
+import promptTranslations from './workshop-director-prompts-en.json';
 import { attachRegeneratedDirectorVideos } from './workshop-regenerated-videos';
 
 /** Pair each exact submitted prompt with its own inputs and observed output. */
 export function attachDirectorResults(locale: 'vi' | 'en', lessons: WorkshopLesson[]): WorkshopLesson[] {
   const vi = locale === 'vi';
   const image = (name: string) => `/api/workshop/examples/${name}.png`;
-  return attachRegeneratedDirectorVideos(locale, lessons.map(lesson => ({ ...lesson, steps: lesson.steps.flatMap((step): LessonStep[] => {
-    const runs = results.filter(run => run.sourcePrompt === step.prompt);
-    if (!runs.length) {
-      const plan = plans.find(item => item.sourcePrompt === step.prompt);
-      return [plan ? {...step, resultText: vi ? plan.vi : plan.en, promptEvidence: vi ? 'Bản trả lời bằng văn bản do ChatGPT soạn cho prompt này. Các lượt tạo ảnh và video được ghi riêng ở những bước tiếp theo.' : 'A worked text response authored by ChatGPT for this prompt. Image and video runs are documented separately in the following steps.'} : step];
-    }
-    return runs.map(run => {
-      const title = vi ? run.titleVi : run.titleEn;
+  const attachRun = (step: LessonStep, run: typeof results[number]): LessonStep => {
+      const resultTitle = vi ? run.titleVi : run.titleEn;
       const review = vi ? run.reviewVi : run.reviewEn;
       const common: LessonStep = {
-        ...step, title, prompt: run.prompt, tool: run.provider,
+        ...step, prompt: run.prompt, tool: run.provider,
         instruction: step.instruction.replace('Prompt bên dưới chưa chạy thử. ', '').replace('The prompts are untested. ', ''),
         referenceImages: run.inputs.map(name => ({label: `${name}.png`, src: image(name)})),
         promptEvidence: run.kind === 'video'
@@ -41,8 +36,33 @@ export function attachDirectorResults(locale: 'vi' | 'en', lessons: WorkshopLess
         'director-lighting-v2': ['Bản sửa yêu cầu giữ kích thước lõi, giảm thay đổi độ sáng và cấm flare. So toàn bộ clip với lượt đầu: hiệu ứng giảm chưa đồng nghĩa đã đạt. Nếu lõi vẫn trắng cháy, chọn ánh sáng ổn định hoặc tạo thử riêng.','The revision locks core size, reduces the brightness change and forbids flare. Compare the entire clip: less effect is not necessarily success. If the core still blooms white, choose stable lighting or run a separate test.'],
       };
       if (instructions[run.file]) common.instruction = instructions[run.file][vi ? 0 : 1];
-      return run.kind === 'image' ? {...common, testedExample: {image: image(run.file), width: run.width, height: run.height, inputImage: image(run.inputs[0]), inputWidth: 1672, inputHeight: 941, alt: title, tool: run.provider, date: run.date, review}}
-        : {...common, resultReview: review, media: [{label: title, kind: 'video', src: `/api/workshop/examples/${run.file}.mp4`, poster: `/api/workshop/examples/${run.file}-poster.jpg`, width: run.width, height: run.height}]};
+      return run.kind === 'image' ? {...common, testedExample: {image: image(run.file), width: run.width, height: run.height, inputImage: image(run.inputs[0]), inputWidth: 1672, inputHeight: 941, alt: resultTitle, tool: run.provider, date: run.date, review}}
+        : {...common, resultReview: review, media: [{label: resultTitle, kind: 'video', src: `/api/workshop/examples/${run.file}.mp4`, poster: `/api/workshop/examples/${run.file}-poster.jpg`, width: run.width, height: run.height}]};
+  };
+  return attachRegeneratedDirectorVideos(locale, lessons.map(lesson => {
+    const visualExamples: WorkshopVisualExample[] = [...(lesson.visualExamples || [])];
+    const steps = lesson.steps.map((step): LessonStep => {
+    const runs = results.filter(run => run.sourcePrompt === step.prompt);
+    if (!runs.length) {
+      const plan = plans.find(item => item.sourcePrompt === step.prompt);
+      return plan ? {...step, resultText: vi ? plan.vi : plan.en, promptEvidence: vi ? 'Bản trả lời bằng văn bản do ChatGPT soạn cho prompt này. Các lượt tạo ảnh và video được ghi riêng trong phần ví dụ.' : 'A worked text response authored by ChatGPT for this prompt. Image and video runs are documented separately in the examples.'} : step;
+    }
+    for (const run of runs.slice(1)) {
+      const resultTitle = vi ? run.titleVi : run.titleEn;
+      const variant = attachRun(step, run);
+      visualExamples.push({
+        id: run.file, title: resultTitle, instruction: variant.instruction,
+        promptVi: run.prompt, promptEn: promptTranslations[run.file as keyof typeof promptTranslations],
+        settings: `${run.provider} · ${run.settings}. ${vi ? 'Kết quả dùng prompt tiếng Việt gốc; bản tiếng Anh là bản dịch để thực hành.' : 'The output used the original Vietnamese prompt; the English version is an untested practice translation.'}`,
+        review: vi ? run.reviewVi : run.reviewEn,
+        inputs: run.inputs.map(name => ({label: `${name}.png`, src: image(name)})),
+        outputs: run.kind === 'image'
+          ? [{label: resultTitle, kind: 'image', src: image(run.file), width: run.width, height: run.height}]
+          : [{label: resultTitle, kind: 'video', src: `/api/workshop/examples/${run.file}.mp4`, poster: `/api/workshop/examples/${run.file}-poster.jpg`, width: run.width, height: run.height}],
+      });
+    }
+    return attachRun(step, runs[0]);
     });
-  }) })));
+    return {...lesson, steps, ...(visualExamples.length ? {visualExamples} : {})};
+  }));
 }

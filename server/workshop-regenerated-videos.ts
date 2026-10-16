@@ -1,4 +1,4 @@
-import type { LessonStep, WorkshopLesson, WorkshopVisualExample } from '../content/workshop/types';
+import type { WorkshopLesson, WorkshopVisualExample } from '../content/workshop/types';
 import runs from './workshop-regenerated-videos.json';
 
 const image = (name: string) => `/api/workshop/examples/${name}.png`;
@@ -13,20 +13,25 @@ const evidence = (vi: boolean) => vi
 /** Keep the original attempts inspectable and pair each replacement with its own provenance. */
 export function attachRegeneratedDirectorVideos(locale: 'vi' | 'en', lessons: WorkshopLesson[]): WorkshopLesson[] {
   const vi = locale === 'vi';
-  return lessons.map(lesson => ({...lesson, steps: lesson.steps.flatMap(step => {
-    const replacements = runs.filter(run => run.course === 'directors-framework' && step.media?.some(media => media.src.endsWith(`/${run.anchor}.mp4`)));
-    return [step, ...replacements.map((run): LessonStep => {
+  return lessons.map(lesson => {
+    const visualExamples: WorkshopVisualExample[] = [...(lesson.visualExamples || [])];
+    const anchors = [
+      ...lesson.steps.flatMap(step => step.media || []),
+      ...visualExamples.flatMap(example => example.outputs),
+    ];
+    const replacements = runs.filter(run => run.course === 'directors-framework' && anchors.some(media => media.src.endsWith(`/${run.anchor}.mp4`)));
+    for (const run of replacements) {
       const title = vi ? run.titleVi : run.titleEn;
-      return {
-        title, instruction: vi ? run.instructionVi : run.instructionEn, tool: run.provider,
-        prompt: run.promptEn, promptVi: run.promptVi, promptLanguage: 'en', promptKind: 'video',
-        promptEvidence: `${evidence(vi)} ${run.settings} · ${run.sourceId}`,
-        referenceImages: run.inputs.map(name => ({label: `${name}.png`, src: image(name)})),
-        resultReview: vi ? run.reviewVi : run.reviewEn, media: outputs(run, title),
-        save: `${run.file}.mp4 + prompt.txt + review.txt`,
-      };
-    })];
-  })}));
+        visualExamples.push({
+          id: run.file, title, instruction: vi ? run.instructionVi : run.instructionEn,
+          promptVi: run.promptVi, promptEn: run.promptEn,
+          settings: `${run.provider} · ${run.settings}. ${evidence(vi)} · ${run.sourceId}`,
+          inputs: run.inputs.map(name => ({label: `${name}.png`, src: image(name)})),
+          outputs: outputs(run, title), review: vi ? run.reviewVi : run.reviewEn,
+        });
+    }
+    return {...lesson, ...(visualExamples.length ? {visualExamples} : {})};
+  });
 }
 
 export function regeneratedFiveLevelExamples(locale: 'vi' | 'en', lesson: string): WorkshopVisualExample[] {

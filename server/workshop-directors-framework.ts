@@ -51,7 +51,6 @@ export function directorsFrameworkCurriculum(locale: 'vi' | 'en'): Curriculum {
     if (lesson.id === 'planning') lesson.steps = lesson.steps.map(item => ({...item, title: item.title.replace(/^\d+\. /, '')}));
   }
   const composition = lessons.find(lesson => lesson.id === 'frames')!;
-  composition.steps[2].title = t('Chín công cụ dẫn mắt: bố cục, cỡ cảnh và tương phản','Nine attention tools: composition, shot size and contrast');
   composition.steps[2].instruction += t(' Đây là các công cụ thuộc nhiều nhóm, không phải chín hệ bố cục độc lập. Với bài yêu cầu ba cách bố cục, chọn các hệ như đường dẫn, một phần ba và khoảng trống.',' These tools belong to different categories; they are not nine independent composition systems. For the three-composition exercise, choose systems such as leading lines, thirds and negative space.');
   lessons.find(lesson => lesson.id === 'sound')!.terms += t(' Parallax rõ khi vị trí camera thay đổi: tiến/lùi, trượt ngang hoặc nâng hạ. Pan/tilt quanh một điểm gần như không tạo chênh lệch dịch chuyển giữa các lớp.',' Parallax comes from a change in camera position: dolly, lateral travel or a rising/falling move. Pan/tilt about a fixed point produces almost none of the relative layer shift.');
   finalProject.terms += t(' Bài hai shot hiện tại nối theo hướng nhìn và một bước chuyển thời gian nhỏ, không cắt giữa động tác nâng tay.',' The current two-shot exercise connects an eyeline with a small time jump, rather than cutting within a hand-raising action.');

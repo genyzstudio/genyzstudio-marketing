@@ -35,12 +35,15 @@ test('Master the Frame stays image-only and preserves original prompt/output lin
 test('director translations preserve every original run and reference and keep failed takes diagnostic', () => {
   for (const locale of ['vi','en'] as const) {
     const c = workshopCurriculum(locale,'directors-framework');
+    const steps = c.lessons.flatMap(l=>l.steps);
+    const examples = c.lessons.flatMap(l=>l.visualExamples || []);
     for (const run of directorRuns) {
-      const step = c.lessons.flatMap(l=>l.steps).find(s=>s.promptVi===run.prompt)!;
-      assert.ok(step,run.file);
-      assert.ok(step.prompt && step.prompt !== run.prompt);
-      assert.match(step.promptEvidence!,locale==='vi'?/chưa chạy thử/:/has not been run/);
-      assert.deepEqual(step.referenceImages?.map(ref=>ref.src),run.inputs.map(name=>`/api/workshop/examples/${name}.png`));
+      const step = steps.find(s=>s.promptVi===run.prompt);
+      const example = examples.find(item=>item.id===run.file);
+      assert.ok(step || example,run.file);
+      assert.ok((step?.prompt || example?.promptEn) !== run.prompt);
+      assert.match(step?.promptEvidence || example?.settings || '',locale==='vi'?/Bản tiếng Anh|bản tiếng Anh/:/English version|English translation/);
+      assert.deepEqual(step?.referenceImages?.map(ref=>ref.src) || example?.inputs.map(ref=>ref.src),run.inputs.map(name=>`/api/workshop/examples/${name}.png`));
     }
   }
 });

@@ -735,20 +735,25 @@ test('every new director visual prompt has its exact input and actual registered
   for (const locale of ['vi', 'en'] as const) {
     const content = workshopCurriculum(locale, 'directors-framework');
     const steps = content.lessons.flatMap(lesson => lesson.steps);
+    const examples = content.lessons.flatMap(lesson => lesson.visualExamples || []);
     for (const run of directorRuns) {
       const step = steps.find(step => step.promptVi === run.prompt);
-      assert.ok(step, run.file);
-      assert.deepEqual(step.referenceImages?.map(ref => ref.src), run.inputs.map(name => `/api/workshop/examples/${name}.png`));
+      const example = examples.find(item => item.id === run.file);
+      assert.ok(step || example, run.file);
+      assert.deepEqual(step?.referenceImages?.map(ref => ref.src) || example?.inputs.map(ref => ref.src), run.inputs.map(name => `/api/workshop/examples/${name}.png`));
       const src = `/api/workshop/examples/${run.file}.${run.kind === 'image' ? 'png' : 'mp4'}`;
       assert.ok(existsSync(`public${src}`));
       assert.ok(workshopMedia[src]);
       if (run.kind === 'video') {
-        assert.equal(step.media?.[0].src, src);
-        assert.ok(existsSync(`public${step.media![0].poster}`));
-        const markup = renderToStaticMarkup(<StepMedia step={step} locale={locale} />);
-        assert.ok(markup.includes('preload="none"'));
-        assert.ok(markup.includes(step.resultReview!));
-      } else assert.equal(step.testedExample?.image, src);
+        assert.equal(step?.media?.[0].src || example?.outputs[0].src, src);
+        const poster = step?.media?.[0].poster || example?.outputs[0].poster;
+        assert.ok(existsSync(`public${poster}`));
+        if (step) {
+          const markup = renderToStaticMarkup(<StepMedia step={step} locale={locale} />);
+          assert.ok(markup.includes('preload="none"'));
+          assert.ok(markup.includes(step.resultReview!));
+        }
+      } else assert.equal(step?.testedExample?.image || example?.outputs[0].src, src);
     }
     for (const step of steps.filter(step => step.prompt)) {
       assert.ok(step.testedExample || step.media?.length || step.resultText, step.title);
@@ -759,6 +764,21 @@ test('every new director visual prompt has its exact input and actual registered
     assert.ok(workbook.includes('director-medium-dolly-v2.mp4'));
     assert.ok(workbook.includes('director-depth-c-v1.png'));
   }
+});
+
+test('director framework keeps the source step titles for L1 through L6', () => {
+  const expected = [
+    ['Visual Hierarchy', 'Camera Logic', 'Motion Control', 'Emotional Anchor', 'Scene Readability'],
+    ['Script Analysis', 'Storyboard Development', 'Character Design', 'Costume & Props', 'Environment Design', 'Shot List', 'Frame Generation'],
+    ['Sequence First', 'Prompt Creation', 'Shot-by-Shot Prompts', 'Video Generator', 'Iteration', 'Clip Review', 'Final Assembly'],
+    ['Leading Lines & Wide / Scale', 'Rule of Thirds', 'Diagonal, Center / Symmetry & Contrast', 'Macro / Detail', 'Negative Space', 'Framing + Depth', 'Composition Across the Sequence'],
+    ['Motivated Lighting', 'Color Contrast', 'Negative Fill & Exposure Contrast', 'Edge Contrast & Edge Light Only', 'Softness via Distance', '80/20 Rule', 'Atmosphere Layering', 'Dynamic Light'],
+    ['Three-Layer Rule', 'Separation', 'Depth of Field', 'Lighting', 'Atmosphere', 'Lens Choice', 'Motion & Parallax'],
+  ];
+  const content = workshopCurriculum('en', 'directors-framework');
+  const lessons = content.lessons.slice(1, 7);
+  assert.deepEqual(lessons.map(lesson => lesson.steps.map(step => step.title)), expected);
+  assert.equal(lessons[1].steps[4].title, 'Environment Design');
 });
 
 test('fight scenes teaches rules before the shared story and protects independent progress', async () => {
