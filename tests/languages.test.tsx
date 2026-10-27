@@ -18,7 +18,7 @@ test('VN / EN navigation stays on the matching page in both editions', () => {
     }
     const header = renderToStaticMarkup(<Header locale={locale} />);
     const mobile = header.slice(header.indexOf('id="mobile-nav"'));
-    assert.ok(mobile.includes(`href="${locale === 'en' ? '/en' : ''}/workshop"`));
+    assert.ok(mobile.includes(`href="${locale === 'en' ? '/en' : ''}/workshops"`));
   }
 });
 
@@ -28,5 +28,23 @@ test('five-level language switch preserves the selected course', () => {
     const html = renderToStaticMarkup(<LanguageSwitch locale={locale} page="workshop" course="five-levels" />);
     assert.ok(html.includes('href="/workshop/five-levels"'));
     assert.ok(html.includes('href="/en/workshop/five-levels"'));
+  }
+});
+
+test('desktop and mobile menus each have one localized workshop library link', () => {
+  for (const locale of ['vi', 'en'] as const) {
+    const html = renderToStaticMarkup(<Header locale={locale} />);
+    for (const className of ['desktop-nav', 'mobile-nav']) {
+      const menu = html.match(new RegExp(`<nav[^>]*class="${className}"[^>]*>([\\s\\S]*?)</nav>`))?.[1];
+      assert.ok(menu, `${locale} ${className} renders`);
+      const hrefs = [...menu.matchAll(/href="([^"]+)"/g)].map(match => match[1]);
+      assert.deepEqual(hrefs, [
+        '#san-pham', '#cau-chuyen', '#lo-trinh',
+        locale === 'vi' ? '/workshops' : '/en/workshops',
+        ...(className === 'mobile-nav' ? ['#lien-he'] : []),
+      ]);
+      assert.equal((menu.match(/workshop/gi) || []).length, 2, 'one workshop URL and label');
+      assert.ok(menu.includes(locale === 'vi' ? 'Thư viện workshop' : 'Workshops'));
+    }
   }
 });

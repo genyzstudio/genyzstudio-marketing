@@ -1,0 +1,13 @@
+{
+  "tool": "GPT Image in Codex",
+  "date": "2026-10-27",
+  "promptEn": "Create ONE unified character reference sheet for Lan by combining all supplied references into a clean six-panel landscape sheet on a consistent medium-gray background. Exactly six panels, arranged in a clear 3-column by 2-row grid with thin white dividers: top left the clear face close-up from image 1; top middle the complete ghost-mannequin outfit from image 2 (empty collar and sleeves, no skin/body); top right the front full-body view from image 3; bottom left the side full-body view from image 3; bottom middle the back full-body view from image 3; bottom right the three-quarter full-body view from image 3. Preserve the same facial identity, single black braid, mustard hiking jacket, navy trousers, brown shoes and moss-green backpack from the inputs. Maintain all four full-body views with entire heads and shoes visible. The face panel should show complete hair/head with a little margin; the outfit panel must include both shoes. Preserve natural proportions, material details and neutral even lighting. Do not invent additional clothing, characters, views or accessories. No text, no labels, no logos. A single polished reference sheet, not separate images.",
+  "inputs": [
+    "sd25-lan-face-gray-v2.png",
+    "sd25-lan-outfit-ghost-v3.png",
+    "sd25-lan-turnaround-v3.png"
+  ],
+  "output": "sd25-lan-master-sheet-v4.png",
+  "width": 1536,
+  "height": 1024
+}

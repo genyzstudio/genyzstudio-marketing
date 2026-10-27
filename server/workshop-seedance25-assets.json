@@ -1,0 +1,125 @@
+{
+  "tool": "GPT Image in Codex",
+  "date": "2026-10-27",
+  "generationLanguage": "en",
+  "translationNote": "Vietnamese prompts are editorial translations; only English prompts were run. No exact backend model version was exposed.",
+  "videoStatus": "pending; insufficient provider credits; no Seedance video submitted",
+  "assets": [
+    {
+      "key": "start",
+      "module": "story",
+      "width": 1672,
+      "height": 941,
+      "inputs": [],
+      "promptRecord": "summary",
+      "promptEn": "Original fictional Lan at a wooden valley shelter, mustard jacket, navy trousers, brown shoes, moss-green backpack, one braid. Full body at left, bench and one unlit brass lantern at right, valley path, afternoon light, photorealistic 16:9 frame. This is a summary of the generation request, not an exact prompt transcript.",
+      "reviewVi": "Khung đầu được tạo trực tiếp; một Lan, một đèn tắt, ghế phải và đường đi rõ. Chưa thử video. Đây không phải kết quả ghép các ảnh chuẩn bên dưới.",
+      "reviewEn": "Directly generated starting frame: one Lan, one unlit lantern, right bench and clear floor. Video untested. This was not composed from the reference images below.",
+      "sha256": "d27c368a9d1e51158483e6100266b8e1faf215ab2eaf92e298d3d98207c36b85"
+    },
+    {
+      "key": "portrait",
+      "module": "references",
+      "width": 1448,
+      "height": 1086,
+      "inputs": [
+        "start"
+      ],
+      "promptRecord": "exact",
+      "promptEn": "Using the attached original fictional Lan scene as the identity reference, create ONE chest-up front-facing portrait of the same woman on a neutral light-gray studio background. Preserve oval face, warm brown eyes, realistic skin, black hair in exactly one braid, mustard jacket and green backpack straps. Face and hairline clearly readable, calm expression, soft even light. No panel sheet, text, logo or other person. This is a new reference portrait of this fictional character, not a real-person likeness. Landscape 4:3.",
+      "promptVi": "Dùng cảnh Lan hư cấu đính kèm làm chuẩn nhận diện, tạo MỘT chân dung chính diện từ ngực lên của cùng người trên nền studio xám nhạt. Giữ mặt trái xoan, mắt nâu ấm, da chân thực, tóc đen đúng một bím, áo vàng mù tạt và dây ba lô xanh. Mặt và đường tóc rõ, biểu cảm bình thản, ánh sáng mềm đều. Không bảng chia ô, chữ, logo hoặc người khác. Đây là chân dung tham chiếu nhân vật hư cấu, không phải chân dung một người thật. Khung ngang 4:3.",
+      "reviewVi": "Mặt, bím tóc và dây ba lô rõ. Chân dung được suy ra từ khung cảnh rồi chọn làm chuẩn cho bảng góc; chưa chứng minh Seedance giữ được nhận diện.",
+      "reviewEn": "Face, braid and straps are clear. Derived from the scene and selected as the identity authority for the turnaround; this does not prove Seedance identity retention.",
+      "sha256": "e790728bcce5e04c1fd6d7c3a7e9990ae7f27442f2a199ee8e3f07ee948e73c7"
+    },
+    {
+      "key": "location",
+      "module": "planning",
+      "width": 1672,
+      "height": 941,
+      "inputs": [
+        "start"
+      ],
+      "promptRecord": "exact",
+      "promptEn": "Edit this reference into an EMPTY master location for the same film. Remove ONLY the woman and her backpack and the lantern. Preserve the EXACT camera, framing, shelter posts, right wall, wooden bench on right, left tree, floor, dirt valley path, terraced valley and afternoon light. No human or lantern remaining. Photorealistic single landscape 16:9 frame, no labels, no text. Do not redesign the architecture or move the bench.",
+      "promptVi": "Sửa ảnh tham chiếu thành địa điểm chính TRỐNG cho cùng phim. Chỉ bỏ người phụ nữ, ba lô và đèn. Giữ camera, khung hình, cột chòi, vách phải, ghế gỗ bên phải, cây trái, sàn, đường đất, thung lũng ruộng bậc thang và ánh sáng chiều. Không còn người hoặc đèn. Một khung ngang 16:9 chân thực, không nhãn/chữ. Không thiết kế lại kiến trúc hoặc dời ghế.",
+      "reviewVi": "Đã bỏ người và đèn; ghế phải, cây trái và lối ra vẫn rõ. Texture vùng được lấp có thể thay đổi; không tuyên bố giống từng pixel hoặc hình học 3D đã kiểm định.",
+      "reviewEn": "Person and lantern removed; right bench, left tree and opening remain readable. Filled textures can differ; no claim of pixel identity or validated 3D geometry.",
+      "sha256": "ec3db129273004a03ae13cfb173b5dec52ca4dadf8e9b0bc60071d4b66d79f6b"
+    },
+    {
+      "key": "turnaround",
+      "module": "references",
+      "width": 1536,
+      "height": 1024,
+      "inputs": [
+        "portrait",
+        "start"
+      ],
+      "promptRecord": "exact",
+      "promptEn": "Create a four-panel photorealistic character reference sheet of the SAME fictional woman Lan in attached portrait and scene. Four full-body views in a 2x2 grid: front, 3/4 front, side, back. Neutral light gray background, identical soft lighting, head and shoes fully inside every panel, clean spacing. Preserve exact face, one black braid, mustard jacket, navy trousers, brown hiking shoes, moss-green backpack with two straps. Arms relaxed by sides. Never multiply braids. Every panel shows same person, outfit and backpack. No text, numbers, logos or scene background. Landscape sheet. Portrait image is face authority, scene is costume authority.",
+      "promptVi": "Tạo bảng nhân vật chân thực gồm bốn ô 2×2 của CÙNG Lan trong chân dung và cảnh đính kèm: chính diện, chếch trước 3/4, nghiêng, sau lưng. Nền xám nhạt, ánh sáng mềm giống nhau, đủ đầu và giày, khoảng cách sạch. Giữ mặt, một bím tóc đen, áo vàng mù tạt, quần xanh than, giày nâu, ba lô xanh rêu hai dây. Tay thả hai bên. Không thêm bím tóc; cùng người và trang phục mọi ô. Không chữ, số, logo hoặc bối cảnh. Khung ngang. Chân dung làm chuẩn mặt; cảnh làm chuẩn trang phục.",
+      "reviewVi": "Kết quả có bốn cột thay vì lưới 2×2 đã yêu cầu. Giữ để dạy cách duyệt: đủ bốn góc và giày; bố cục khác nhưng vẫn dùng được để kiểm tra. Góc sau không chứng minh nhận diện mặt. Tách một ô trước khi làm ảnh đầu.",
+      "reviewEn": "Returned four columns instead of the requested 2×2 grid. Retained as a QA lesson: four views and shoes are present; the layout differs but remains useful. The back view cannot establish facial identity. Extract one panel before using a starting frame.",
+      "sha256": "8e75f2b25372df6427bbabdc786f318ebeb9aeb63131c73b435cdf7e82ab8276"
+    },
+    {
+      "key": "location-sheet",
+      "module": "planning",
+      "width": 1536,
+      "height": 1024,
+      "inputs": [
+        "location"
+      ],
+      "promptRecord": "exact",
+      "promptEn": "Make a three-panel LOCATION REFERENCE SHEET of this exact EMPTY wooden valley lookout shelter. Top panel wide original view from inside: wooden bench against RIGHT wall, tree LEFT of open front, dirt path descending valley. Bottom-left panel slightly closer view of the same right bench against same wall and adjacent opening; bottom-right panel view from entrance toward interior right bench, keeping geography consistent. No people, no backpack, NO lantern in any panel. Preserve wood texture, afternoon sun, bench construction, terrain. Photorealistic, clean panel separation, no typography. The sheet teaches same place from different views, not three redesigned locations.",
+      "promptVi": "Tạo bảng ĐỊA ĐIỂM ba ô của chòi gỗ TRỐNG nhìn ra thung lũng này. Ô trên: toàn cảnh gốc từ trong, ghế sát vách PHẢI, cây TRÁI cửa mở, đường xuống thung lũng. Ô dưới trái: gần hơn vào cùng ghế/vách/cửa. Ô dưới phải: từ lối vào nhìn về ghế bên phải, giữ địa hình. Không người, ba lô hoặc đèn. Giữ chất liệu gỗ, nắng chiều, kết cấu ghế và địa hình. Chân thực, ngăn ô rõ, không chữ. Cùng nơi từ các góc, không thiết kế lại thành ba địa điểm.",
+      "reviewVi": "Ba ô giữ ghế bên phải và cửa ra thung lũng; góc nhìn và chi tiết gỗ không phải phép tái dựng đo đạc. Dùng để kiểm tra mốc địa điểm; nếu cần continuity chính xác, đối chiếu lại ảnh master.",
+      "reviewEn": "Views retain the right bench and valley opening; viewpoint/wood details are not a measured reconstruction. Use for anchor checks and compare with the master when exact continuity matters.",
+      "sha256": "50107ffb09d5422e5cbcda0ffe4e59f5c5fea755cc7b1482d792d0a4cf21ec10"
+    },
+    {
+      "key": "lantern-sheet",
+      "module": "planning",
+      "width": 1536,
+      "height": 1024,
+      "inputs": [
+        "start"
+      ],
+      "promptRecord": "exact",
+      "promptEn": "Extract the exact single brass lantern on the right bench from this supplied scene into a photorealistic two-panel prop reference sheet. Neutral gray studio background and tabletop. LEFT panel: one lantern unlit. RIGHT panel: exactly the same lantern with warm amber light on, identical camera, proportions, metal frame, glass, handle and base. Preserve the source lantern design; do not invent a different camping lantern. No people, no extra objects, no text, no labels. Adequate empty margin. Landscape 3:2. Only emissive light changes between panels.",
+      "promptVi": "Lấy thiết kế chiếc đèn đồng duy nhất trên ghế phải của ảnh tham chiếu để tạo bảng đạo cụ hai ô chân thực. Nền studio và mặt bàn xám. Ô TRÁI: một đèn tắt. Ô PHẢI: cùng đèn sáng vàng ấm, camera, tỷ lệ, khung kim loại, kính, tay cầm và đế giống nhau. Giữ thiết kế đèn nguồn; không đổi sang đèn cắm trại khác. Không người, vật phụ, chữ hoặc nhãn. Chừa lề, ngang 3:2. Chỉ trạng thái phát sáng thay đổi.",
+      "reviewVi": "Hai trạng thái có cùng kiểu khung và tay cầm; đèn trái tắt, phải sáng. Nguồn cảnh có đèn nhỏ nên chi tiết cận được AI diễn giải; chọn bảng này làm chuẩn chi tiết, không khẳng định khớp nguồn từng nét.",
+      "reviewEn": "Both states share frame and handle design; left is unlit, right is lit. Fine detail was inferred from a small source prop; use this sheet as the detail authority, not a claim of exact source fidelity.",
+      "sha256": "f5feefb100836942e35928309036b135c73721602cc9c1fd82935b8a6767d15d"
+    },
+    {
+      "key": "floorplan-draft",
+      "module": "planning",
+      "width": 1536,
+      "height": 1024,
+      "inputs": [],
+      "promptRecord": "exact",
+      "promptEn": "Create a clean overhead filmmaking blocking diagram on an off-white background, landscape 3:2. This is a schematic planning illustration, not a reconstruction or measured floorplan. A simple rectangular wooden SHELTER occupies center, open along its top edge. Inside, a long BENCH hugs the RIGHT wall with one small LANTERN circle on it. A person dot labelled LAN START is inside near the left side. A horizontal arrow labelled ACTION AXIS runs from Lan toward the bench. Two camera icons CAMERA A (wide) and CAMERA B (medium) are BOTH below that arrow, on the same side of the axis, pointing toward Lan/bench. Outside top-left is a TREE symbol; a curved VALLEY PATH leads away through the open top. Spacious dark blue labels, ochre motion arrow, muted green tree, simple thin lines. At bottom write: 'Planning schematic - not to scale'. Make every English label legible and correctly spelled; no photography, gradients or decorative icons.",
+      "promptVi": "Tạo sơ đồ bố trí quay phim nhìn từ trên, nền trắng ngà, ngang 3:2. Đây là minh họa kế hoạch, không phải bản đo. Chòi chữ nhật mở cạnh trên; ghế sát vách phải, một đèn trên ghế. Chấm LAN START ở trái, mũi tên ACTION AXIS sang phải. Hai camera A toàn cảnh và B trung cảnh cùng dưới trục, hướng về Lan/ghế. Ngoài trái có cây, đường cong ra thung lũng. Nhãn tiếng Anh rõ, xanh đậm, mũi tên vàng, nét đơn giản. Chú thích dưới: Planning schematic - not to scale.",
+      "reviewVi": "BẢN NHÁP BỊ LOẠI: hai camera nằm ngoài vách kín và đường nhìn xuyên vách. Đây là lỗi ảnh thật đã quan sát; không dùng sơ đồ này để đặt máy. Lần sửa chỉ thay vùng dưới, giữ các mốc còn lại.",
+      "reviewEn": "REJECTED DRAFT: both cameras are outside a solid wall and sightlines cross it. This is an actual observed image defect; do not use this layout for camera placement. The repair targets the lower area while preserving other anchors.",
+      "sha256": "722c85487913ebaf19aebfa012909f5c01044cce14485f9ab80c2c140fad8217"
+    },
+    {
+      "key": "floorplan",
+      "module": "planning",
+      "width": 1536,
+      "height": 1024,
+      "inputs": [
+        "floorplan-draft"
+      ],
+      "promptRecord": "exact",
+      "promptEn": "Correct this filmmaking diagram's camera placement while keeping its design, colors and labels. The original wrongly places both cameras outside a solid rear wall, with sightlines through that wall. Remove the lower horizontal wall entirely. Expand the shelter's light floor downward and place CAMERA A and CAMERA B physically INSIDE the shelter in its lower open area, both BELOW the horizontal ACTION AXIS and aimed toward Lan and bench. Camera sightlines must be unobstructed and must not cross any wall. Preserve Lan start left, action arrow pointing right, bench and lantern against right wall, open upper entrance, tree and valley path. Keep clear English labels. Bottom caption: Planning schematic - not to scale. No other changes.",
+      "promptVi": "Sửa vị trí camera trong sơ đồ, giữ thiết kế, màu và nhãn. Bản gốc đặt cả hai camera ngoài vách kín với đường nhìn xuyên vách. Bỏ vách ngang phía dưới; kéo sàn xuống, đặt A và B thực sự bên TRONG chòi, cùng DƯỚI trục hành động, hướng về Lan/ghế. Đường nhìn không bị chắn, không xuyên vách. Giữ Lan trái, mũi tên phải, ghế/đèn sát vách phải, cửa trên, cây và đường. Nhãn tiếng Anh rõ; chú thích Planning schematic - not to scale. Không đổi phần khác.",
+      "reviewVi": "ĐÃ SỬA: bỏ vách dưới, đưa hai camera vào vùng sàn, đường nhìn không xuyên vách; cả hai cùng phía trục. Đây là sơ đồ khái niệm, không phải bản vẽ đo chòi thật. Nhãn: tree=cây, bench=ghế, lantern=đèn, action axis=trục hành động, wide=toàn cảnh, medium=trung cảnh.",
+      "reviewEn": "REPAIRED: lower wall removed, both cameras on the floor area with unobstructed sightlines and on the same side of the axis. This is a conceptual plan, not a measured reconstruction of the shelter.",
+      "sha256": "7dd71c1917bda74b164e48e78e7fdb8370974c7abe7f3070febac470199566da"
+    }
+  ]
+}

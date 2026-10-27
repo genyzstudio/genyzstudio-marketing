@@ -11,7 +11,7 @@ export function Wordmark() {
 }
 export function Header({ locale = "vi" }: { locale?: Locale }) {
   const home = getHome(locale);
-  const navigation = [...home.nav, { href: locale === "vi" ? "/workshop" : "/en/workshop", label: locale === "vi" ? "Vào lớp học" : "Classroom" }];
+  const navigation = home.nav;
   const copy = interfaceCopy[locale];
   const [open, setOpen] = useState(false);
   return <header className="header" onKeyDown={(e) => { if (e.key === "Escape") { setOpen(false); document.getElementById("menu-toggle")?.focus(); } }}>

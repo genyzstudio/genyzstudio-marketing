@@ -1,6 +1,7 @@
 import fightDemos from '../server/workshop-fight-demos.json';
 import directorRuns from '../server/workshop-director-test-results.json';
-import type { WorkshopProgress } from '../content/workshop/types';
+import type { WorkshopProgress, WorkshopLesson } from '../content/workshop/types';
+import { workshopCourses } from '../content/workshop/access';
 import { formatWorkshopWorkbook } from '../content/workshop/workbook';
 import { workshopCurriculum } from '../server/workshop-content';
 import { loginCodeEmail } from '../server/workshop-email-template';
@@ -69,6 +70,10 @@ async function fixture() {
   sql.exec(readFileSync('migrations/0006_workshop_master_frame.sql', 'utf8'));
   sql.exec(readFileSync('migrations/0007_workshop_directors_framework.sql', 'utf8'));
   sql.exec(readFileSync('migrations/0008_workshop_fight_scenes.sql', 'utf8'));
+  sql.exec(readFileSync('migrations/0009_workshop_access.sql', 'utf8'));
+  sql.exec(readFileSync('migrations/0010_workshop_ai_cinema.sql', 'utf8'));
+  sql.exec(readFileSync('migrations/0011_workshop_visual_effects.sql', 'utf8'));
+  sql.exec(readFileSync('migrations/0012_workshop_seedance_masterclass.sql', 'utf8'));
   const now = Math.floor(Date.now() / 1000);
   sql.prepare('INSERT INTO workshop_codes(id, code_hash, created_at, expires_at) VALUES (?, ?, ?, ?)').run('learner-one', await digest(code), now, now + 86400);
   // Numbered placeholders repeat in the access query, so bind by number in the SQLite adapter.
@@ -135,7 +140,7 @@ test('valid code grants HttpOnly session and progress survives a fresh login', a
   const payload = await content.json();
   assert.equal(payload.lessons.length, 5);
   assert.equal(payload.syllabus.length, 5);
-  assert.equal(payload.preparation.steps.length, 3);
+  assert.deepEqual(payload.preparation, workshopCurriculum('vi', 'clever-rat').preparation);
   assert.equal(payload.glossary.length, 5);
   const progress = { completed: ['story', 'references'], current: 'frames' };
   assert.equal((await f.request('progress', 'PUT', progress, cookie)).status, 200);
@@ -861,4 +866,179 @@ test('fight scenes migration preserves all previous course progress',()=>{
   db.prepare('INSERT INTO workshop_course_progress(code_id,course_id) VALUES(?,?)').run('preserve','fight-scenes');
   assert.equal(db.prepare('SELECT COUNT(*) AS n FROM workshop_course_progress').get()?.n,6);
   db.close();
+});
+
+async function adminLogin(f: Awaited<ReturnType<typeof fixture>>) {
+  const address = 'genyzstudio@gmail.com';
+  const now = Math.floor(Date.now() / 1000);
+  f.sql.prepare('INSERT OR REPLACE INTO workshop_login_codes(email, code_hash, expires_at, attempts, created_at) VALUES (?, ?, ?, 0, ?)').run(address, await loginCodeHash(address, code, secret), now + 600, now);
+  const result = await f.request('login', 'POST', { email: address, code });
+  assert.equal(result.status, 200);
+  return result.headers.get('Set-Cookie')!.split(';')[0];
+}
+test('only verified fixed admin mailbox can manage protection; defaults stay protected', async () => {
+  const f = await fixture();
+  assert.equal((await f.request('admin-access')).status, 401);
+  const learner = await f.login();
+  assert.equal((await f.request('admin-access', 'GET', undefined, learner)).status, 403);
+  assert.equal((await f.request('save-access', 'PUT', { mode: 'public', publicLessons: [], email: 'genyzstudio@gmail.com' }, learner)).status, 403);
+  assert.equal((await f.request('request-code', 'POST', { email: 'genyzstudio@gmail.com' })).status, 200);
+  assert.equal(f.sent.at(-1)?.to[0], 'genyzstudio@gmail.com');
+  assert.equal(f.sql.prepare('SELECT id FROM workshop_codes WHERE email=?').get('genyzstudio@gmail.com'), undefined);
+  assert.equal((await f.request('login', 'POST', { email: 'genyzstudio@gmail.com', code: 'invalid' })).status, 401);
+  const admin = await adminLogin(f);
+  const data = await (await f.request('admin-access', 'GET', undefined, admin)).json() as { courses: { mode: string }[] };
+  assert.equal(data.courses.length, workshopCourses.length);
+  assert.ok(data.courses.every(course => course.mode === 'protected'));
+  assert.equal((await f.request('save-access', 'PUT', { mode: 'public', publicLessons: [] }, admin, { Origin: 'https://other.test' })).status, 403);
+  f.sql.prepare('UPDATE workshop_codes SET revoked=1 WHERE email=?').run('genyzstudio@gmail.com');
+  assert.equal((await f.request('admin-access', 'GET', undefined, admin)).status, 401);
+});
+test('partial access filters both locales, shared preparation and workbooks; enrolled learners retain all lessons', async () => {
+  const f = await fixture();
+  const admin = await adminLogin(f);
+  const curriculum = workshopCurriculum('vi', 'master-frame');
+  const publicLessons = curriculum.syllabus.slice(0, 2).map(item => item.id);
+  assert.equal((await f.request('save-access?course=master-frame', 'PUT', { mode: 'partial', publicLessons }, admin)).status, 200);
+  for (const locale of ['vi', 'en'] as const) {
+    const result = await f.request(`content?course=master-frame&locale=${locale}`);
+    assert.equal(result.status, 200);
+    assert.equal(result.headers.get('Cache-Control'), 'private, no-store');
+    const data = await result.json() as import('../content/workshop/types').WorkshopContent;
+    assert.equal(data.authenticated, false);
+    assert.equal(data.preparationAvailable, false);
+    assert.deepEqual(data.lessons.map(item => item.id), publicLessons);
+    assert.equal(data.preparation.visualGuide, undefined);
+    assert.deepEqual(data.tools, []);
+    const workbook = formatWorkshopWorkbook(data, locale);
+    const serialized = JSON.stringify(data);
+    for (const lesson of workshopCurriculum(locale, 'master-frame').lessons.filter(item => !publicLessons.includes(item.id))) {
+      assert.ok(!serialized.includes(lesson.goal));
+      assert.ok(!workbook.includes(lesson.goal));
+    }
+    assert.ok(data.syllabus.filter(item => !publicLessons.includes(item.id)).every(item => !item.summary && !item.output));
+  }
+  assert.equal((await f.request('content?course=five-levels')).status, 401);
+  assert.equal((await f.request('progress?course=master-frame', 'PUT', { current: publicLessons[0], completed: [] })).status, 401);
+  const learner = await f.login();
+  const complete = await (await f.request('content?course=master-frame', 'GET', undefined, learner)).json() as { lessons: unknown[]; authenticated: boolean };
+  assert.equal(complete.authenticated, true);
+  assert.equal(complete.lessons.length, curriculum.lessons.length);
+  const settings = await (await f.request('admin-access', 'GET', undefined, admin)).json() as { courses: {id: string; publicLessons: string[]}[] };
+  assert.deepEqual(settings.courses.find(item => item.id === 'master-frame')?.publicLessons, publicLessons);
+});
+test('public media permissions follow lesson references, previews and policy changes without course spoofing', async () => {
+  const f = await fixture();
+  const admin = await adminLogin(f);
+  const curriculum = workshopCurriculum('vi', 'master-frame');
+  const publicLessons = curriculum.syllabus.slice(0, 2).map(item => item.id);
+  await f.request('save-access?course=master-frame', 'PUT', { mode: 'partial', publicLessons }, admin);
+  const exposed = await (await f.request('content?course=master-frame')).text();
+  const publicImage = Object.keys(workshopMedia).find(path => path.endsWith('.png') && exposed.includes(path))!;
+  assert.ok(publicImage);
+  const hiddenImage = Object.keys(workshopMedia).find(path => path.endsWith('.png') && JSON.stringify(curriculum).includes(path) && !exposed.includes(path))!;
+  assert.ok(hiddenImage);
+  f.env.ASSETS = { async fetch(request) { return new Response(new Uint8Array([1]), { status: request.headers.has('Range') ? 206 : 200, headers: { 'Content-Type': workshopMedia[new URL(request.url).pathname], 'Content-Range': 'bytes 0-0/1' } }); } };
+  const route = (path: string) => path.replace('/api/workshop/', '');
+  for (const path of [publicImage, workshopImagePreview(publicImage, 480), workshopImagePreview(publicImage, 1280)]) assert.equal((await f.request(route(path))).status, 200);
+  assert.equal((await f.request(route(publicImage), 'GET', undefined, undefined, { Range: 'bytes=0-0' })).status, 206);
+  assert.equal((await f.request(`${route(hiddenImage)}?course=master-frame`)).status, 401);
+  assert.equal((await f.request(route(workshopImagePreview(hiddenImage, 480)))).status, 401);
+  await f.request('save-access?course=master-frame', 'PUT', { mode: 'protected', publicLessons: [] }, admin);
+  assert.equal((await f.request(route(publicImage))).status, 401);
+  assert.equal((await f.request('content?course=master-frame')).status, 401);
+  await f.request('save-access?course=master-frame', 'PUT', { mode: 'public', publicLessons: [] }, admin);
+  assert.equal((await f.request(route(hiddenImage))).status, 200);
+  const full = await (await f.request('content?course=master-frame')).json() as { preparationAvailable: boolean; lessons: unknown[] };
+  assert.equal(full.preparationAvailable, true);
+  assert.equal(full.lessons.length, curriculum.lessons.length);
+});
+test('invalid policies cannot open workshops or change saved settings', async () => {
+  const f = await fixture();
+  const admin = await adminLogin(f);
+  for (const body of [null, {}, {mode: 'invalid', publicLessons: []}, {mode: 'partial', publicLessons: []}, {mode: 'partial', publicLessons: ['story', 'story']}, {mode: 'partial', publicLessons: ['unknown']}, {mode: 'public', publicLessons: ['story']}, {mode: 'partial', publicLessons: workshopCurriculum('vi').syllabus.map(item => item.id)}]) {
+    assert.equal((await f.request('save-access', 'PUT', body, admin)).status, 400);
+  }
+  assert.equal((await f.request('save-access?course=unknown', 'PUT', {mode: 'public', publicLessons: []}, admin)).status, 404);
+  assert.equal((await f.request('content')).status, 401);
+});
+
+test('Visual Effects is protected in both locales and isolates progress from existing courses', async () => {
+  const f = await fixture();
+  for (const locale of ['vi','en']) assert.equal((await f.request(`content?course=visual-effects&locale=${locale}`)).status, 401);
+  assert.equal((await f.request('progress?course=visual-effects', 'PUT', {completed:['story'],current:'references'})).status, 401);
+  const cookie = await f.login();
+  for (const locale of ['vi','en']) {
+    const result = await f.request(`content?course=visual-effects&locale=${locale}`, 'GET', undefined, cookie);
+    assert.equal(result.status, 200);
+    const data = await result.json();
+    assert.equal(data.lessons.length, 9);
+    assert.equal(data.lessons.filter((lesson: WorkshopLesson) => lesson.steps.some(step => step.promptFormat === 'yaml')).length, 6);
+  }
+  const progress = {completed:['story','references'],current:'delivery'};
+  assert.equal((await f.request('progress?course=visual-effects', 'PUT', progress, cookie)).status, 200);
+  assert.deepEqual((await (await f.request('content?course=visual-effects&locale=en', 'GET', undefined, cookie)).json()).progress, progress);
+  assert.deepEqual((await (await f.request('content?course=ai-cinema-workflow', 'GET', undefined, cookie)).json()).progress.completed, []);
+  assert.deepEqual((await (await f.request('content?course=clever-rat', 'GET', undefined, cookie)).json()).progress.completed, []);
+});
+
+test('AI Cinema remains protected, has seven localized lessons and isolated progress', async () => {
+  const f = await fixture();
+  assert.equal((await f.request('content?course=ai-cinema-workflow')).status, 401);
+  const cookie = await f.login();
+  for (const locale of ['vi', 'en']) {
+    const response = await f.request(`content?course=ai-cinema-workflow&locale=${locale}`, 'GET', undefined, cookie);
+    assert.equal(response.status, 200);
+    const data = await response.json();
+    assert.equal(data.lessons.length, 7);
+    assert.equal(data.syllabus.length, 7);
+    assert.equal(data.lessons[2].techniques.length, 25);
+    assert.equal(data.lessons[6].steps[2].promptFormat, 'yaml');
+    assert.deepEqual(data.syllabus.map((item: {title: string}) => item.title.match(/^L\d+/)?.[0]), ['L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13']);
+  }
+  const progress = { completed: ['story', 'references'], current: 'delivery' };
+  assert.equal((await f.request('progress?course=ai-cinema-workflow', 'PUT', progress, cookie)).status, 200);
+  assert.deepEqual((await (await f.request('content?course=ai-cinema-workflow&locale=en', 'GET', undefined, cookie)).json()).progress, progress);
+  assert.deepEqual((await (await f.request('content?course=fight-scenes', 'GET', undefined, cookie)).json()).progress.completed, []);
+});
+
+test('Seedance Masterclass is protected in both locales and isolates progress from existing courses', async () => {
+  const f = await fixture();
+  for (const locale of ['vi', 'en']) assert.equal((await f.request(`content?course=seedance-masterclass&locale=${locale}`)).status, 401);
+  assert.equal((await f.request('progress?course=seedance-masterclass', 'PUT', { completed: ['story'], current: 'references' })).status, 401);
+  const cookie = await f.login();
+  for (const locale of ['vi', 'en']) {
+    const result = await f.request(`content?course=seedance-masterclass&locale=${locale}`, 'GET', undefined, cookie);
+    assert.equal(result.status, 200);
+    const data = await result.json();
+    assert.equal(data.lessons.length, 7);
+    assert.equal(data.syllabus.length, 7);
+  }
+  const progress = { completed: ['story', 'references'], current: 'delivery' };
+  assert.equal((await f.request('progress?course=seedance-masterclass', 'PUT', progress, cookie)).status, 200);
+  assert.deepEqual((await (await f.request('content?course=seedance-masterclass&locale=en', 'GET', undefined, cookie)).json()).progress, progress);
+  assert.deepEqual((await (await f.request('content?course=visual-effects', 'GET', undefined, cookie)).json()).progress.completed, []);
+});
+
+test('Seedance practice archive requires full-course public or enrolled access and keeps private cache headers', async () => {
+  const f = await fixture();
+  let fetched = false;
+  f.env.ASSETS = { async fetch() { fetched = true; return new Response(new Uint8Array([80, 75, 3, 4]), { headers: { 'Content-Type': 'application/zip' } }); } };
+  const route = 'examples/sd25-practice-pack.zip';
+  assert.equal((await f.request(route)).status, 401);
+  assert.equal(fetched, false);
+  f.sql.exec("INSERT OR REPLACE INTO workshop_access VALUES ('seedance-masterclass','partial','[\"story\"]','test@example.test',1)");
+  assert.equal((await f.request(route)).status, 401);
+  f.sql.exec("UPDATE workshop_access SET public_lessons='[\"delivery\"]' WHERE course_id='seedance-masterclass'");
+  assert.equal((await f.request(route)).status, 401);
+  const partial = await (await f.request('content?course=seedance-masterclass')).text();
+  assert.ok(!partial.includes('sd25-practice-pack.zip'));
+  f.sql.exec("UPDATE workshop_access SET mode='public' WHERE course_id='seedance-masterclass'");
+  const result = await f.request(route);
+  assert.equal(result.status, 200);
+  assert.equal(result.headers.get('Content-Type'), 'application/zip');
+  assert.equal(result.headers.get('Cache-Control'), 'private, no-store');
+  f.sql.exec("UPDATE workshop_access SET mode='protected' WHERE course_id='seedance-masterclass'");
+  const cookie = await f.login();
+  assert.equal((await f.request(route, 'GET', undefined, cookie)).status, 200);
 });

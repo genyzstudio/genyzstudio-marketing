@@ -2,10 +2,8 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { WorkshopImage as Image } from './workshop-image';
-import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, Copy, DownloadSimple, LockKey, SignOut, BookOpen } from '@phosphor-icons/react';
-import { Wordmark } from './header';
-import { LanguageSwitch } from './language-switch';
+import { ArrowLeft, ArrowRight, Check, Copy, DownloadSimple, LockKey, SignOut, BookOpen, List, CaretDown, ImageSquare, Camera, FilmStrip, Scissors, SlidersHorizontal, Coins } from '@phosphor-icons/react';
+import { WorkshopHeader, WorkshopSwitcher } from './workshop-navigation';
 import type { LessonStep, WorkshopContent, WorkshopLesson, WorkshopProgress } from '../content/workshop/types';
 import type { PipelineId } from '../content/pipeline';
 import { workshopText, type WorkshopLocale } from '../content/workshop/copy';
@@ -27,14 +25,14 @@ async function api<T>(locale: WorkshopLocale, route: string, method = 'GET', bod
 function DownloadWorkbook({ content, locale }: { content: WorkshopContent; locale: WorkshopLocale }) {
   const t = workshopText(locale);
   function download() {
-    const text = formatWorkshopWorkbook(content, locale);
+    const text = formatWorkshopWorkbook(content, locale, window.location.origin);
     const url = URL.createObjectURL(new Blob(['\uFEFF', text], { type: 'text/plain;charset=utf-8' }));
     const link = document.createElement('a'); link.href = url; link.download = `${content.workbookName || 'GenYZ-Clever-Rat'}-workbook-${locale}.txt`; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   return <button className="wk-text-button" onClick={download}><DownloadSimple size={18} aria-hidden="true" />{t("Tải sổ thực hành")}</button>;
 }
-function Prompt({ text, locale, language = "en", summary }: { text: string; locale: WorkshopLocale; language?: "vi" | "en"; summary?: string }) {
+function Prompt({ text, locale, language = "en", summary, format = "text" }: { format?: "text" | "yaml"; text: string; locale: WorkshopLocale; language?: "vi" | "en"; summary?: string }) {
   const t = workshopText(locale);
   const promptId = useId();
   const promptRef = useRef<HTMLPreElement>(null);
@@ -42,7 +40,7 @@ function Prompt({ text, locale, language = "en", summary }: { text: string; loca
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
-  const formatted = formatWorkshopPrompt(text, language);
+  const formatted = formatWorkshopPrompt(text, language, format);
   useEffect(() => {
     const element = promptRef.current;
     if (!element) return;
@@ -79,8 +77,44 @@ function IllustrationPrompt({ promptVi, promptEn, locale, summary }: { promptVi:
     {promptEn && <details className="wk-prompt-alternative"><summary>{locale === 'vi' ? 'Bản tiếng Anh — dùng khi cần' : 'Vietnamese version'}</summary><Prompt summary={summary} text={locale === 'vi' ? promptEn : promptVi} locale={locale} language={locale === 'vi' ? 'en' : 'vi'} /></details>}
   </>;
 }
+export function StepInstruction({ step }: { step: LessonStep }) {
+  return <><p>{step.instruction}</p>{!!step.instructionPoints?.length && <ul className="wk-instruction-points">{step.instructionPoints.map(point => <li key={point}>{point}</li>)}</ul>}</>;
+}
+
+export function StepDiagram({ step }: { step: LessonStep }) {
+  const diagram = step.diagram;
+  if (!diagram) return null;
+  const icons = diagram.kind === 'compose' ? [ImageSquare, ImageSquare, ImageSquare, ImageSquare, Camera]
+    : diagram.kind === 'upload' ? [ImageSquare, Camera, SlidersHorizontal, Coins]
+    : [FilmStrip, Scissors, FilmStrip, ImageSquare];
+  return <figure className={`wk-diagram wk-diagram--${diagram.kind}`}>
+    <h3>{diagram.title}</h3>
+    <ol className="wk-diagram-flow">{diagram.items.map((item, i) => {
+      const Icon = icons[i];
+      return <li key={`${i}-${item.label}`}>
+        {item.image ? <Image src={item.image.src} alt={item.image.alt} width={item.image.width} height={item.image.height} sizes="(max-width: 760px) 40vw, 200px" /> : <div className="wk-diagram-icon"><Icon size={30} weight="duotone" aria-hidden="true" /></div>}
+        <div><strong>{item.label}</strong><span>{item.detail}</span></div>
+        {i < diagram.items.length - 1 && !(diagram.kind === 'cut' && i === 2) && <ArrowRight className="wk-diagram-arrow" size={19} aria-hidden="true" />}
+      </li>;
+    })}</ol>
+    <figcaption>{diagram.caption}</figcaption>
+  </figure>;
+}
+export function StepVisualTarget({ step, locale }: { step: LessonStep; locale: WorkshopLocale }) {
+  const target = step.visualTarget;
+  if (!target) return null;
+  const vi = locale === 'vi';
+  return <figure className="wk-visual-target">
+    <h3>{target.evidence === 'gpt-image-illustration' ? (vi ? 'Hình minh họa để đối chiếu' : 'Illustrated target') : (vi ? 'Ví dụ để đối chiếu' : 'Example to compare')}</h3>
+    <a href={target.image} target="_blank" rel="noreferrer" aria-label={vi ? 'Mở ảnh ở kích thước đầy đủ' : 'Open full-size image'}><Image src={target.image} alt={target.alt} width={target.width} height={target.height} sizes="(max-width: 760px) 100vw, 850px" /></a>
+    <figcaption><p>{target.caption}</p><p className="wk-small">{target.evidence === 'gpt-image-illustration'
+      ? (vi ? 'Minh họa bằng GPT Image, tạo riêng cho phần giải thích. Đây không phải video đã chạy từ prompt của bước này; ảnh tĩnh không xác nhận được chuyển động hay thời gian.' : 'GPT Image illustration made separately for this explanation. It is not a video generated from this step’s prompt; a still cannot verify motion or timing.')
+      : (vi ? 'Dùng ví dụ có sẵn trong workshop để đối chiếu. Xem phần ví dụ gốc để biết prompt, thiết lập và các lỗi đã ghi nhận.' : 'An existing course example for comparison. See the original example for its prompt, settings and recorded limitations.')}</p></figcaption>
+  </figure>;
+}
+
 export function StepPrompt({ step, locale }: { step: LessonStep; locale: WorkshopLocale }) {
-  if (!step.prompt) return null;
+  if (!step.prompt && !step.resultText && !step.referenceImages?.length) return null;
   const vi = locale === 'vi';
   const example = step.testedExample;
   return <div className="wk-step-prompt">
@@ -91,9 +125,9 @@ export function StepPrompt({ step, locale }: { step: LessonStep; locale: Worksho
         ? (vi ? 'Câu lệnh này chưa chạy thử. Các câu lệnh đã thử và video kết quả nằm ở phần ví dụ của bài học.' : 'This exact prompt has not been run. Tested prompts and their videos are in this level’s examples.')
         : (vi ? 'Câu lệnh này chưa chạy thử. Hãy kiểm tra kết quả sau khi tạo.' : 'This prompt has not been run. Review its output after generation.')}</p>}
     {step.referenceImages?.length ? <details><summary>{vi ? 'Ảnh mẫu cần tải lên' : 'Reference images to upload'}</summary><ul>{step.referenceImages.map(input => <li key={input.src}><a href={input.src} target="_blank" rel="noreferrer">{input.label}</a></li>)}</ul></details> : null}
-    <Prompt key={step.prompt} summary={step.title} text={vi && step.promptVi ? step.promptVi : step.prompt} locale={locale} language={vi && step.promptVi ? 'vi' : step.promptLanguage || 'en'} />
-    {step.promptVi && <details className="wk-prompt-alternative"><summary>{vi ? 'Bản tiếng Anh — dùng khi cần' : 'Vietnamese version'}</summary><Prompt key={step.promptVi} text={vi ? step.prompt : step.promptVi} locale={locale} language={vi ? 'en' : 'vi'} /></details>}
-    {step.resultText && <section className="wk-planning-result"><h3>{vi ? 'Bản phân tích mẫu' : 'Worked planning response'}</h3><pre>{step.resultText}</pre></section>}
+    {step.prompt && <Prompt format={step.promptFormat} key={step.prompt} summary={step.title} text={vi && step.promptVi ? step.promptVi : step.prompt} locale={locale} language={vi && step.promptVi ? 'vi' : step.promptLanguage || 'en'} />}
+    {step.prompt && step.promptVi && <details className="wk-prompt-alternative"><summary>{vi ? 'Bản tiếng Anh — dùng khi cần' : 'Vietnamese version'}</summary><Prompt format={step.promptFormat} key={step.promptVi} text={vi ? step.prompt : step.promptVi} locale={locale} language={vi ? 'en' : 'vi'} /></details>}
+    {step.resultText && <section className="wk-planning-result"><h3>{step.resultTitle || (vi ? 'Ví dụ và phiếu thực hành' : 'Worked example and practice sheet')}</h3><pre>{step.resultText}</pre></section>}
     {example && <figure className="wk-tested-example">
       <h3>{vi ? 'Kết quả đã tạo từ câu lệnh tiếng Việt' : 'Result generated with the Vietnamese prompt'}</h3>
       {example.inputImage && <details><summary>{vi ? 'Ảnh đầu vào đã dùng' : 'Input image used'}</summary><Image src={example.inputImage} alt={vi ? 'Ảnh đầu vào để so với kết quả chỉnh sửa' : 'Input image for comparison with the edit'} width={example.inputWidth || example.width} height={example.inputHeight || example.height} sizes="(max-width: 760px) 100vw, 700px" /></details>}
@@ -124,12 +158,12 @@ export function WorkshopVisualExamples({ lesson, locale }: { lesson: WorkshopLes
   </section>;
 }
 export function StepMedia({ step, locale }: { step: LessonStep; locale: WorkshopLocale }) {
-  if (!step.media?.length) return null;
-  return <><div className="wk-visual-grid">{step.media.map(output => <figure key={output.src}>
+  if (!step.media?.length && !step.downloads?.length && !step.resultReview) return null;
+  return <><div className="wk-visual-grid">{(step.media || []).map(output => <figure key={output.src}>
     <h3>{output.label}</h3>
     {output.kind === 'video' ? <video controls preload="none" playsInline width={output.width} height={output.height} poster={output.poster} src={output.src} aria-label={output.label} /> : <a href={output.src} target="_blank" rel="noreferrer"><Image src={output.src} alt={output.label} width={output.width} height={output.height} sizes="(max-width: 760px) 100vw, 700px" /></a>}
     <a className="wk-text-button" href={output.src} download>{locale === 'vi' ? 'Tải file' : 'Download'} · {output.label}</a>
-  </figure>)}</div>{step.resultReview && <p className="wk-visual-review">{step.resultReview}</p>}</>;
+  </figure>)}</div>{step.downloads?.map(file => <p key={file.src}><a className="wk-text-button" href={file.src} download>{locale === 'vi' ? 'Tải file' : 'Download'} · {file.label}</a></p>)}{step.resultReview && <p className="wk-visual-review">{step.resultReview}</p>}</>;
 }
 function Preparation({ content, locale }: { content: WorkshopContent; locale: WorkshopLocale }) {
   const t = workshopText(locale);
@@ -170,7 +204,7 @@ export function WorkshopTechniqueLibrary({ lesson, locale }: { lesson: WorkshopL
     {lesson.techniques.map((lab, index) => <details key={lab.id} className="wk-technique">
       <summary><span>{String(index + 1).padStart(2, '0')}</span> {lab.title}</summary>
       <div className="wk-technique-body"><p>{lab.goal}</p><p className="wk-input"><strong>{en ? 'Inputs: ' : 'Đầu vào: '}</strong>{lab.input}</p>
-        <ol className="wk-steps">{lab.steps.map((step, i) => <li key={step.title}><span className="wk-step-count" aria-hidden="true">{i + 1}</span><div><p className="wk-tool-label">{step.tool}</p><h3>{step.title}</h3><p>{step.instruction}</p>{step.prompt && <StepPrompt step={step} locale={locale} />}<StepMedia step={step} locale={locale} /><p className="wk-save"><strong>{en ? 'Save: ' : 'Lưu lại: '}</strong>{step.save}</p></div></li>)}</ol>
+        <ol className="wk-steps">{lab.steps.map((step, i) => <li key={step.title}><span className="wk-step-count" aria-hidden="true">{i + 1}</span><div><p className="wk-tool-label">{step.tool}</p><h3>{step.title}</h3><StepInstruction step={step} />{(step.prompt || step.resultText || step.referenceImages?.length) && <StepPrompt step={step} locale={locale} />}<StepDiagram step={step} /><StepVisualTarget step={step} locale={locale} /><StepMedia step={step} locale={locale} /><p className="wk-save"><strong>{en ? 'Save: ' : 'Lưu lại: '}</strong>{step.save}</p></div></li>)}</ol>
         <p className="wk-technique-check"><strong>{en ? 'Review: ' : 'Kiểm tra: '}</strong>{lab.check}</p>
         <p><strong>{en ? 'If it fails: ' : 'Nếu chưa đạt: '}</strong>{lab.fix}</p>
       </div>
@@ -185,11 +219,18 @@ export function Lesson({ locale, lesson, workshopSyllabus, completed, busy, onCo
   return <article className="wk-lesson" aria-labelledby="lesson-title">
     <p className="wk-eyebrow">Module {String(index + 1).padStart(2, '0')} · {syllabus.minutes} {t("phút thực hành dự kiến")}</p>
     <h1 id="lesson-title" lang={locale} tabIndex={-1}>{syllabus.title}</h1><p className="wk-lesson-goal">{lesson.goal}</p>
-    <div className="wk-input"><BookOpen size={22} aria-hidden="true" /><div><strong>{t("Trước khi bắt đầu")}</strong><p>{lesson.input}</p><p className="wk-small">{lesson.terms}</p></div></div>
+    <div className="wk-input"><BookOpen size={22} aria-hidden="true" /><div>
+      <h2>{t("Trước khi bắt đầu")}</h2>
+      {lesson.inputPoints?.length ? <ul className="wk-instruction-points">{lesson.inputPoints.map(point => <li key={point}>{point}</li>)}</ul> : <p>{lesson.input}</p>}
+      {lesson.termDefinitions?.length ? <>
+        <h2 className="wk-terms-title">{lesson.termsTitle || (locale === 'vi' ? 'Giải thích thuật ngữ' : 'Terms explained')}</h2>
+        <ul className="wk-instruction-points">{lesson.termDefinitions.map(item => <li key={item.term}><strong>{item.term}:</strong> {item.definition}</li>)}</ul>
+      </> : <p className="wk-small">{lesson.terms}</p>}
+    </div></div>
     {lesson.visualExamples?.length ? <a className="wk-text-button" href={`#visuals-${lesson.id}`}>{locale === 'en' ? 'Watch the tested examples ↓' : 'Xem ảnh và video đã tạo thử ↓'}</a> : null}
     {lesson.techniques?.length ? <a className="wk-text-button" href={`#techniques-${lesson.id}`}>{locale === 'en' ? `Explore ${lesson.techniques.length} detailed technique ${lesson.techniques.length === 1 ? 'lab' : 'labs'} ↓` : `Khám phá ${lesson.techniques.length} bài kỹ thuật chi tiết ↓`}</a> : null}
     <ol className="wk-steps">{lesson.steps.map((step, i) => <li key={step.title}>
-      <span className="wk-step-count" aria-hidden="true">{i + 1}</span><div><p className="wk-tool-label">{step.tool}</p><h2>{step.title}</h2><p>{step.instruction}</p>{step.prompt && <StepPrompt step={step} locale={locale} />}<StepMedia step={step} locale={locale} /><p className="wk-save"><DownloadSimple size={16} aria-hidden="true" /><span><strong>{t("Lưu lại:")}</strong> {step.save}</span></p></div>
+      <span className="wk-step-count" aria-hidden="true">{i + 1}</span><div><p className="wk-tool-label">{step.tool}</p><h2>{step.title}</h2><StepInstruction step={step} />{(step.prompt || step.resultText || step.referenceImages?.length) && <StepPrompt step={step} locale={locale} />}<StepDiagram step={step} /><StepVisualTarget step={step} locale={locale} /><StepMedia step={step} locale={locale} /><p className="wk-save"><DownloadSimple size={16} aria-hidden="true" /><span><strong>{t("Lưu lại:")}</strong> {step.save}</span></p></div>
     </li>)}</ol>
     <WorkshopVisualExamples lesson={lesson} locale={locale} />
     <WorkshopTechniqueLibrary lesson={lesson} locale={locale} />
@@ -197,7 +238,7 @@ export function Lesson({ locale, lesson, workshopSyllabus, completed, busy, onCo
       {lesson.example.image && <Image src={lesson.example.image} alt={lesson.example.title} width={960} height={540} sizes="(max-width: 760px) 100vw, 700px" />}
       {lesson.example.video && <video controls preload="none" playsInline poster={lesson.example.poster} src={lesson.example.video} aria-label={lesson.example.title} />}
       {lesson.example.audio && <audio controls preload="none" src={lesson.example.audio} aria-label={lesson.example.title} />}
-      {lesson.example.href && <a className="wk-text-button" href={lesson.example.href} target="_blank" rel="noreferrer">{locale === "en" ? "Watch source chapter" : "Xem chương video nguồn"} <ArrowRight size={16} aria-hidden="true" /></a>}
+      {lesson.example.href && <a className="wk-text-button" href={lesson.example.href} target="_blank" rel="noreferrer">{lesson.example.hrefLabel || (locale === "en" ? "Watch source chapter" : "Xem chương video nguồn")} <ArrowRight size={16} aria-hidden="true" /></a>}
       <a className="wk-text-button" href={locale === "en" ? "/en#pipeline-map" : "/#pipeline-map"} target="_blank" rel="noreferrer">{t("Khám phá tư liệu các phim")} <ArrowRight size={16} aria-hidden="true" /></a>
     </section>
     <section className="wk-fixes"><h2>{t("Nếu kết quả chưa như ý")}</h2>{lesson.troubleshooting.map(item => <details key={item.problem}><summary>{item.problem}</summary><p>{item.fix}</p></details>)}</section>
@@ -208,14 +249,16 @@ export function Lesson({ locale, lesson, workshopSyllabus, completed, busy, onCo
   </article>;
 }
 
-export function WorkshopClassroom({ locale = "vi", course = "clever-rat" }: { locale?: WorkshopLocale; course?: "clever-rat" | "five-levels" | "master-frame" | "directors-framework" | "fight-scenes" }) {
+export function WorkshopClassroom({ locale = "vi", course = "clever-rat" }: { locale?: WorkshopLocale; course?: "clever-rat" | "five-levels" | "master-frame" | "directors-framework" | "fight-scenes" | "ai-cinema-workflow" | "visual-effects" | "seedance-masterclass" }) {
   const t = workshopText(locale);
-  const home = locale === "en" ? "/en" : "/";
   const [content, setContent] = useState<WorkshopContent | null>(null);
   const [selected, setSelected] = useState<PipelineId>('story');
-  const [preparing, setPreparing] = useState(course === 'master-frame' || course === 'directors-framework' || course === 'fight-scenes');
+  const [lessonsOpen, setLessonsOpen] = useState(false);
+  const lessonToggle = useRef<HTMLButtonElement>(null);
+  const [preparing, setPreparing] = useState(true);
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -226,13 +269,13 @@ export function WorkshopClassroom({ locale = "vi", course = "clever-rat" }: { lo
 
   useEffect(() => {
     const controller = new AbortController();
-    api<WorkshopContent>(locale, `content?course=${course}`, 'GET', undefined, controller.signal).then(data => { setContent(data); setSelected(data.progress.current); }).catch(err => {
+    api<WorkshopContent>(locale, `content?course=${course}`, 'GET', undefined, controller.signal).then(data => { setContent(data); setSelected(data.progress.current); setPreparing(data.preparationAvailable !== false && data.progress.completed.length === 0); }).catch(err => {
       if (err.name !== 'AbortError' && !(err instanceof AccessError && err.status === 401)) setError(err instanceof AccessError ? err.message : t("Không kết nối được lớp học. Kiểm tra mạng và thử lại."));
     }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
   }, [locale, t, course]);
   useEffect(() => {
-    if (!content) return;
+    if (!content || content.authenticated === false) return;
     const timer = setTimeout(() => { setContent(null); setError(t("Phiên học đã hết hạn. Nhập lại mã để tiếp tục.")); }, Math.max(0, content.sessionExpiresAt - Date.now()));
     return () => clearTimeout(timer);
   }, [content, t]);
@@ -253,20 +296,25 @@ export function WorkshopClassroom({ locale = "vi", course = "clever-rat" }: { lo
     try {
       await api(locale, 'login', 'POST', { email, code });
       const data = await api<WorkshopContent>(locale, `content?course=${course}`);
-      setContent(data); setSelected(data.progress.current); setCode(''); setPreparing(course === 'master-frame' || course === 'directors-framework' || course === 'fight-scenes');
+      setContent(data); setShowLogin(false); setSelected(data.progress.current); setCode(''); setPreparing(data.preparationAvailable !== false && data.progress.completed.length === 0);
       requestAnimationFrame(() => lessonArea.current?.focus());
     } catch (err) { fail(err); } finally { setBusy(false); }
   }
   async function saveProgress(progress: WorkshopProgress) {
+    if (content?.authenticated === false) {
+      setContent({ ...content, progress });
+      setNotice(locale === 'vi' ? 'Tiến độ tạm thời; đăng nhập để lưu theo email.' : 'Progress is temporary. Sign in to save it to your email.');
+      return;
+    }
     setBusy(true); setError(''); setNotice('');
     try { await api(locale, `progress?course=${course}`, 'PUT', progress); setContent(previous => previous ? { ...previous, progress } : null); setNotice(t("Đã lưu tiến độ.")); }
     catch (err) { fail(err); } finally { setBusy(false); }
   }
   async function navigate(id: PipelineId) {
     if (!content) return;
-    setSelected(id); setPreparing(false);
-    lessonArea.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
-    requestAnimationFrame(() => lessonArea.current?.focus());
+    if (!content.lessons.some(lesson => lesson.id === id)) { setShowLogin(true); return; }
+    setSelected(id); setPreparing(false); setLessonsOpen(false);
+    requestAnimationFrame(() => { lessonArea.current?.scrollIntoView({ behavior: 'instant', block: 'start' }); lessonArea.current?.focus({ preventScroll: true }); });
     await saveProgress({ ...content.progress, current: id });
   }
   const workshopSyllabus = content?.syllabus || [];
@@ -277,16 +325,10 @@ export function WorkshopClassroom({ locale = "vi", course = "clever-rat" }: { lo
 
   return <div className="wk-page">
     <a href="#classroom" className="skip-link">{t("Đến nội dung học")}</a>
-    <header className="wk-header"><Link href={home} aria-label={t("GenYZ Studio — trang chủ")}><Wordmark /></Link><span className="wk-header-label">{t("Lớp học trực tuyến")} <span>{t("Tiếng Việt")}</span></span><LanguageSwitch locale={locale} page="workshop" course={course} /><Link href={home} className="wk-back"><ArrowLeft size={16} aria-hidden="true" />{t("Về studio")}</Link></header>
-    <nav className="wk-course-nav" aria-label={locale === 'en' ? 'Choose a workshop' : 'Chọn workshop'}>
-      <a href={`${locale === 'en' ? '/en' : ''}/workshop`} aria-current={course === 'clever-rat' ? 'page' : undefined}>{locale === 'en' ? 'The Clever Little Rat' : 'Chú chuột nhỏ thông minh'}</a>
-      <a href={`${locale === 'en' ? '/en' : ''}/workshop/five-levels`} aria-current={course === 'five-levels' ? 'page' : undefined}>{locale === 'en' ? '5 Levels of AI Filmmaking' : '5 cấp độ làm phim AI'}</a>
-      <a href={`${locale === 'en' ? '/en' : ''}/workshop/master-frame`} aria-current={course === 'master-frame' ? 'page' : undefined}>{locale === 'en' ? 'Master the Frame' : 'Làm chủ khung hình'}</a>
-      <a href={`${locale === 'en' ? '/en' : ''}/workshop/fight-scenes`} aria-current={course === 'fight-scenes' ? 'page' : undefined}>{locale === 'en' ? 'AI Action Scenes' : 'Dàn dựng cảnh hành động'}</a>
-      <a href={`${locale === 'en' ? '/en' : ''}/workshop/directors-framework`} aria-current={course === 'directors-framework' ? 'page' : undefined}>{locale === 'en' ? 'Director’s Framework' : 'Tư duy đạo diễn'}</a>
-    </nav>
-    {!content ? <main id="classroom" className="wk-public">
-      <section className="wk-welcome"><div className="wk-welcome-copy"><p className="wk-eyebrow">GenYZ Studio · {course === "five-levels" ? (locale === "en" ? "5 Levels of AI Filmmaking" : "5 cấp độ làm phim AI") : "Workshop"}</p><h1>{t("Lớp học riêng.")}<br /><em>{t("Truy cập bằng mã.")}</em></h1><p>{t("Dùng email đã được cấp quyền học để nhận mã đăng nhập. Nội dung workshop chỉ mở sau khi xác thực email và mã.")}</p></div>
+    <WorkshopHeader locale={locale} course={course} />
+    <WorkshopSwitcher locale={locale} course={course} />
+    {!content || showLogin ? <main id="classroom" className="wk-public">
+      <section className="wk-welcome">{content && <button className="wk-text-button" onClick={() => setShowLogin(false)}>{locale === "vi" ? "← Trở lại bài học công khai" : "← Back to public lessons"}</button>}<div className="wk-welcome-copy"><p className="wk-eyebrow">GenYZ Studio · {course === "five-levels" ? (locale === "en" ? "5 Levels of AI Filmmaking" : "5 cấp độ làm phim AI") : "Workshop"}</p><h1>{content ? (locale === "vi" ? "Bài học được bảo vệ." : "Protected lesson.") : t("Lớp học riêng.")}<br /><em>{t("Truy cập bằng mã.")}</em></h1><p>{content ? (locale === "vi" ? "Đăng nhập bằng email đã được cấp quyền để xem các bài được bảo vệ. Bạn vẫn có thể quay lại các bài công khai." : "Sign in with an enrolled email to view protected lessons. You can still return to the public lessons.") : t("Dùng email đã được cấp quyền học để nhận mã đăng nhập. Nội dung workshop chỉ mở sau khi xác thực email và mã.")}</p></div>
         <div className="wk-admission"><div className="wk-ticket-heading"><LockKey size={28} aria-hidden="true" /><span>{t("Vé vào lớp học")}</span></div><h2>{t("Đăng nhập bằng email")}</h2><p>{t("Nhập email đã đăng ký để nhận mã đăng nhập qua hộp thư.")}</p><form onSubmit={sent ? login : requestCode}>
           <label htmlFor="workshop-email">Email</label><input id="workshop-email" type="email" autoComplete="email" required maxLength={254} value={email} disabled={busy} onChange={event => { setEmail(event.target.value); setSent(false); setNotice(''); setCode(''); }} placeholder="you@example.com" />
           {sent && <><label htmlFor="workshop-code">{t("Mã truy cập")}</label><input id="workshop-code" ref={input} value={code} onChange={event => setCode(event.target.value)} type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" required minLength={6} maxLength={6} aria-describedby="login-help" placeholder="000000" /></>}
@@ -298,18 +340,24 @@ export function WorkshopClassroom({ locale = "vi", course = "clever-rat" }: { lo
         </div>
       </section>
     </main> : <main id="classroom" className="wk-classroom">
-      <aside className="wk-sidebar"><div className="wk-sidebar-title"><p className="wk-eyebrow">{t("Phim đầu tiên của bạn")}</p><h2>{content.courseTitle}</h2></div><label className="wk-progress-label" htmlFor="course-progress">{completed.length}/{workshopSyllabus.length} {t("module hoàn thành")}</label><progress id="course-progress" value={completed.length} max={workshopSyllabus.length} />
-        <nav aria-label={t("Nội dung workshop")}><button className="wk-prepare-button" aria-current={preparing ? 'page' : undefined} onClick={() => setPreparing(true)}>{(course === 'master-frame' || course === 'directors-framework' || course === 'fight-scenes') ? (locale === 'vi' ? 'Bắt đầu: quy trình tổng thể' : 'Start · Overall workflow') : t("Chuẩn bị & thuật ngữ")}</button>{workshopPhases.map((phase, p) => <div key={phase} className="wk-nav-phase"><h3 lang="en">{phase}</h3>{workshopSyllabus.filter(module => module.phase === p).map(module => <button key={module.id} disabled={busy} aria-current={!preparing && selected === module.id ? 'step' : undefined} onClick={() => void navigate(module.id)}><span>{completed.includes(module.id) ? <Check size={17} aria-label={t("Đã hoàn thành")} /> : String(workshopSyllabus.indexOf(module) + 1).padStart(2, '0')}</span><span className="wk-nav-title" lang="en">{module.title}</span></button>)}</div>)}</nav>
-        <DownloadWorkbook locale={locale} content={content} /><p className="wk-small">{t("Sổ gồm hướng dẫn và prompt để thực hành ngoại tuyến. Tiến độ chỉ được lưu khi có kết nối.")}</p><button className="wk-text-button" disabled={busy} onClick={async () => {
+      <aside className="wk-sidebar" data-open={lessonsOpen} onKeyDown={event => { if (event.key === 'Escape' && lessonsOpen) { setLessonsOpen(false); lessonToggle.current?.focus(); } }}>
+        <button ref={lessonToggle} className="wk-mobile-lessons" aria-expanded={lessonsOpen} aria-controls="workshop-lesson-menu" onClick={() => setLessonsOpen(!lessonsOpen)}><List size={22} aria-hidden="true" /><span><strong>{locale === 'vi' ? 'Bài học' : 'Lessons'} · {completed.length}/{workshopSyllabus.length}</strong><small>{preparing ? (locale === 'vi' ? 'Chuẩn bị trước khi học' : 'Before you begin') : workshopSyllabus[index]?.title}</small></span><CaretDown size={18} aria-hidden="true" /></button>
+        <div id="workshop-lesson-menu" className="wk-sidebar-body"><div className="wk-sidebar-title"><p className="wk-eyebrow">Workshop</p><h2>{content.courseTitle}</h2></div><label className="wk-progress-label" htmlFor="course-progress">{completed.length}/{workshopSyllabus.length} {t("module hoàn thành")}</label><progress id="course-progress" value={completed.length} max={workshopSyllabus.length} />
+        <nav aria-label={t("Nội dung workshop")}>{content.preparationAvailable !== false && <button className="wk-prepare-button" aria-current={preparing ? 'page' : undefined} onClick={() => { setPreparing(true); setLessonsOpen(false); requestAnimationFrame(() => { lessonArea.current?.scrollIntoView({ behavior: 'instant', block: 'start' }); lessonArea.current?.focus({ preventScroll: true }); }); }}>{(course === 'master-frame' || course === 'directors-framework' || course === 'fight-scenes' || course === 'ai-cinema-workflow' || course === 'visual-effects' || course === 'seedance-masterclass') ? (locale === 'vi' ? 'Bắt đầu: quy trình tổng thể' : 'Start · Overall workflow') : t("Chuẩn bị & thuật ngữ")}</button>}{workshopPhases.map((phase, p) => <div key={phase} className="wk-nav-phase"><h3 lang={locale}>{phase}</h3>{workshopSyllabus.filter(module => module.phase === p).map(module => <button key={module.id} disabled={busy} aria-current={!preparing && selected === module.id ? 'step' : undefined} onClick={() => void navigate(module.id)}><span>{completed.includes(module.id) ? <Check size={17} aria-label={t("Đã hoàn thành")} /> : String(workshopSyllabus.indexOf(module) + 1).padStart(2, '0')}</span><span className="wk-nav-title" lang={locale}>{module.title}{!content.lessons.some(lesson => lesson.id === module.id) && <LockKey size={16} aria-label={locale === "vi" ? "Cần đăng nhập" : "Sign in required"} />}</span></button>)}</div>)}</nav>
+        {content.authenticated === false && <p className="wk-small">{content.lessons.length === content.syllabus.length ? (locale === "vi" ? "Toàn bộ bài học đang mở. Bạn có thể đọc và thực hành ngay; đăng nhập nếu muốn lưu tiến độ theo email." : "All lessons are open. You can read and practise now; sign in if you want to save progress to your email.") : (locale === "vi" ? "Bạn đang xem các bài công khai. Đăng nhập bằng email đã được cấp quyền để mở các bài còn lại." : "You are viewing public lessons. Sign in with an enrolled email to open the remaining lessons.")}</p>}<DownloadWorkbook locale={locale} content={content} /><p className="wk-small">{content.authenticated === false ? (locale === "vi" ? "Sổ chỉ gồm các bài công khai. Tiến độ tạm thời sẽ mất khi tải lại trang; đăng nhập để lưu theo email." : "The workbook contains only public lessons. Temporary progress resets on reload; sign in to save it to your email.") : t("Sổ gồm hướng dẫn và prompt để thực hành ngoại tuyến. Tiến độ chỉ được lưu khi có kết nối.")}</p><button className="wk-text-button" disabled={busy} onClick={async () => {
+          if (content.authenticated === false) { setShowLogin(true); return; }
           setBusy(true); setError('');
-          try { await api(locale, 'logout', 'POST', {}); setContent(null); setNotice(''); setCode(''); }
+          try { await api(locale, 'logout', 'POST', {}); setContent(null); setNotice(''); setCode('');
+            try { const data = await api<WorkshopContent>(locale, `content?course=${course}`); setContent(data); setSelected(data.progress.current); setPreparing(false); } catch (err) { if (!(err instanceof AccessError && err.status === 401)) throw err; }
+          }
           catch (err) { fail(err); } finally { setBusy(false); }
-        }}><SignOut size={17} aria-hidden="true" />{t("Đăng xuất")}</button>
+        }}><SignOut size={17} aria-hidden="true" />{content.authenticated === false ? t("Đăng nhập bằng email") : t("Đăng xuất")}</button>
+        </div>
       </aside>
       <div className="wk-lesson-area" ref={lessonArea} tabIndex={-1}>
         <div className="wk-status" aria-live="polite">{notice}</div>{error && <p className="wk-error" role="alert">{error}</p>}
         {completed.length === workshopSyllabus.length && <div className="wk-finished"><Check size={25} aria-hidden="true" /><div><strong>{t("Bạn đã đi hết quy trình!")}</strong><p>{course === 'master-frame' ? (locale === 'vi' ? 'Lưu lại các frame, storyboard và sổ thực hành. Hãy thử áp dụng quy trình này cho một câu chuyện của riêng bạn.' : 'Save your frames, storyboard and workbook. Try applying this workflow to your own story.') : t("Giữ bản phim và sổ thực hành. Bây giờ hãy thử kể một câu chuyện của riêng bạn.")}</p></div></div>}
-        {preparing ? <><Preparation locale={locale} content={content} /><button className="button button-primary" disabled={busy} onClick={() => (course === 'master-frame' || course === 'directors-framework' || course === 'fight-scenes') ? void navigate('story') : setPreparing(false)}>{course === 'fight-scenes' ? (locale === 'vi' ? 'Bắt đầu · Cảnh hành động dễ theo dõi' : 'Start · Readable action') : course === 'directors-framework' ? (locale === 'vi' ? 'Bắt đầu · Hai shot, một câu chuyện' : 'Start · Two shots, one story') : course === 'master-frame' ? (locale === 'vi' ? 'Bắt đầu ví dụ · Hộ Vệ Sông Hồng' : 'Start the example · Guardians of the Red River') : t("Trở lại bài học")} <ArrowRight size={18} /></button></> : lesson && <>
+        {preparing ? <><Preparation locale={locale} content={content} /><button className="button button-primary" disabled={busy} onClick={() => void navigate(selected)}>{locale === 'vi' ? 'Mở bài học' : 'Open lesson'} · {workshopSyllabus[index]?.title} <ArrowRight size={18} /></button></> : lesson && <>
           <Lesson locale={locale} key={`${lesson.id}-${completed.includes(lesson.id)}`} lesson={lesson} workshopSyllabus={workshopSyllabus} completed={completed.includes(lesson.id)} busy={busy} onComplete={() => void saveProgress({ current: selected, completed: completed.includes(selected) ? completed.filter(id => id !== selected) : [...completed, selected] })} />
           <nav className="wk-lesson-navigation" aria-label={t("Chuyển module")}><button disabled={index === 0 || busy} onClick={() => void navigate(workshopSyllabus[index - 1].id)}><ArrowLeft size={18} aria-hidden="true" />{t("Module trước")}</button><span>{index + 1} / {workshopSyllabus.length}</span><button disabled={index === workshopSyllabus.length - 1 || busy} onClick={() => void navigate(workshopSyllabus[index + 1].id)}>{t("Module sau")}<ArrowRight size={18} aria-hidden="true" /></button></nav>
         </>}

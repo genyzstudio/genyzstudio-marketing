@@ -1,0 +1,85 @@
+import type { Curriculum } from './workshop-content';
+import type { LessonStep, WorkshopTechnique } from '../content/workshop/types';
+import type { PromptPair } from './workshop-seedance-masterclass-prompts';
+
+const root = '/api/workshop/examples/';
+export const seedanceReadyFrames = [
+  { file: 'sd25-calling-shot-01-start-v1.png', width: 1672, height: 941 },
+  { file: 'sd25-calling-shot-02-start-v1.png', width: 1672, height: 941 },
+  { file: 'sd25-calling-shot-03-start-v1.png', width: 1672, height: 941 },
+] as const;
+export const seedanceBlackEnding = 'sd25-calling-black-end-v1.png';
+
+/** Video exercises paired with generated starting images; no Seedance runs claimed. */
+export const seedanceReadyFramePrompts: readonly PromptPair[] = [
+  [
+    'Dùng ảnh đính kèm làm khung hình đầu tiên. Máy quay cố định ngang mắt, toàn cảnh chòi. Lan đang đứng gần lối vào, bên trái ghế. Cô đi hai bước nhỏ về phía ghế bên phải màn hình, rồi dừng trước ghế với một khoảng trống vừa đủ; giữ yên ở nhịp cuối. Hai tay giữ dây ba lô, không chạm đèn. Giữ khuôn mặt, một bím tóc đen, áo vàng mù tạt, quần xanh than, giày nâu và ba lô xanh rêu. Đèn đồng trên ghế tắt suốt clip, không dịch chuyển. Giữ bố cục chòi, cây, con đường trống và ánh sáng chiều như ảnh đầu. Một cú máy liên tục, tốc độ tự nhiên, không cắt cảnh, không thêm người, chữ, thoại hoặc nhạc.',
+    'Use the attached image as the first frame. Locked eye-level wide camera in the shelter. Lan starts near the entrance, left of the bench. She takes two small steps toward the bench on screen right, stops with a comfortable gap before it, and holds still for the final beat. Both hands stay on her backpack straps; she does not touch the lantern. Preserve her face, single black braid, mustard jacket, navy trousers, brown shoes and moss-green backpack. The brass lantern stays unlit and stationary throughout. Keep the shelter layout, tree, empty path and afternoon light from the starting image. One continuous take at natural speed, no cuts, extra people, text, speech or music.',
+  ],
+  [
+    'Dùng ảnh đính kèm làm khung hình đầu tiên. Lan đã đứng gần ghế, đèn đồng trên ghế đang tắt. Giữ camera cố định, giữ nguyên vị trí hai chân và cơ thể Lan; không cho cô bước lại từ lối vào. Đèn từ từ sáng vàng dịu tại đúng chỗ trên ghế. Lan hạ mắt và đầu nhẹ để nhìn chiếc đèn, hai tay vẫn giữ dây ba lô, không chạm vào đèn. Giữ yên ở cuối cảnh khi đèn đã sáng. Giữ khuôn mặt, tóc, trang phục, ba lô, hình dạng đèn và bối cảnh. Ánh sáng từ đèn chỉ tác động gần chiếc đèn; không chuyển cả cảnh sang đêm. Con đường vẫn vắng. Một cú máy liên tục, không chữ, người mới, thoại hoặc nhạc.',
+    'Use the attached image as the first frame. Lan is already standing near the bench and the brass lantern is unlit. Keep the camera locked and her feet and body position fixed; do not make her walk in again. The lantern gradually lights with a soft amber glow in its exact place on the bench. Lan lowers her eyes and head slightly toward it, keeping both hands on her backpack straps without touching it. Hold the final beat once the lantern is lit. Preserve her face, hair, outfit, backpack, lantern shape and environment. Lantern light stays local; do not turn the whole scene into night. The path remains empty. One continuous take, no text, extra people, speech or music.',
+  ],
+  [
+    'Dùng ảnh đính kèm làm khung hình đầu tiên. Lan đứng gần ghế và đang nhìn xuống đèn đã sáng vàng. Camera cố định; đèn giữ sáng và giữ vị trí. Lan từ từ quay đầu và xoay nhẹ vai về phía con đường trống ở phía trái màn hình, hai chân giữ nguyên chỗ. Cho cô dừng ở góc quay tự nhiên, không vặn cổ quá mức hoặc ép mặt quay về camera. Cô khép miệng, hơi căng người, không mỉm cười, vẫy tay hay đi theo con đường. Giữ yên ở nhịp cuối. Giữ nhân vật, trang phục, ba lô, hình học chòi và ánh sáng chiều. Không thêm người hay bóng người trên đường. Một cú máy liên tục, không chữ, thoại, nhạc hoặc chuyển sang màn đen.',
+    'Use the attached image as the first frame. Lan stands near the bench looking down at the already glowing amber lantern. Keep the camera locked and the lantern lit and stationary. Lan slowly turns her head and slightly turns her shoulders toward the empty path on screen left, keeping both feet planted. Stop at a comfortable natural angle; do not overtwist her neck or force her face toward the camera. Her mouth stays closed and her posture slightly tense; no smile, wave or step toward the path. Hold still for the final beat. Preserve her identity, clothes, backpack, shelter geometry and afternoon light. Add no person or human silhouette on the path. One continuous take, no text, speech, music or cut to black.',
+  ],
+];
+
+export function addSeedanceReadyFrames(course: Curriculum, locale: 'vi' | 'en'): void {
+  const t = (vi: string, en: string) => locale === 'vi' ? vi : en;
+  const motion = course.lessons.find(lesson => lesson.id === 'motion')!;
+  const delivery = course.lessons.find(lesson => lesson.id === 'delivery')!;
+  const titles: PromptPair[] = [
+    ['Shot 1 · Hai bước rồi dừng', 'Shot 1 · Two steps, then stop'],
+    ['Shot 2 · Chiếc đèn tự sáng', 'Shot 2 · The lantern lights itself'],
+    ['Shot 3 · Nhìn về phía tiếng gọi', 'Shot 3 · Look toward the call'],
+  ];
+  const instructions: PromptPair[] = [
+    [
+      'Tạo thư mục 02-location/ready-frames và tải ảnh gốc bên dưới vào đó bằng nút “Tải file”; giữ nguyên tên file, không chụp lại ảnh xem nhanh. Mở ảnh lớn: Lan ở gần lối vào, còn khoảng trống tới ghế và đèn đang tắt. Trong công cụ video, xác nhận Seedance 2.5, chọn chế độ tạo từ một khung đầu rồi tải đúng ảnh shot 1 vào ô First frame/Start image. Chờ ảnh thu nhỏ xuất hiện. Dán một bản prompt, Việt hoặc Anh. Chọn 16:9, khoảng 6 giây và 720p nếu có; nếu không, chọn thời lượng 5–8 giây được hỗ trợ và ghi lại. Tắt âm thanh nếu có lựa chọn. Xem giá trước khi tạo. Sau khi chạy, kiểm tra hai bước và đoạn dừng; giữ đoạn Lan đứng yên để ghép thêm hai tiếng chân ở bài 7. Nếu clip 1 đã có một lượt đạt, dùng lại clip đó. Mọi lượt trong phần này đều tính vào giới hạn ba lần cho shot 1 và ngân sách chung.',
+      'Create 02-location/ready-frames and save the original below with Download; keep its filename rather than taking a screenshot of the preview. Open it large: Lan is near the entrance, there is room to approach the bench, and the lantern is unlit. In the video tool, confirm Seedance 2.5, choose a mode with one starting frame and put this shot-1 image in First frame/Start image. Wait for its thumbnail. Paste one prompt language. Select 16:9, about six seconds and 720p if offered; otherwise choose a supported 5–8-second duration and record it. Turn audio off where available. Check the price before generating. Review the two steps and the hold; keep Lan still long enough to add the extra footsteps in Module 7. Reuse an existing successful shot 1 if you have one. All attempts here count toward the same three-attempt shot-1 limit and total budget.',
+    ],
+    [
+      'Tải ảnh gốc shot 2. Ở ảnh này, Lan đã dừng gần ghế nhưng đèn vẫn tắt; đây là trạng thái trước khi đèn tự sáng. Tạo một job mới, xóa ảnh shot 1 khỏi ô khung đầu và tải ảnh shot 2 vào; không tải đồng thời hai ảnh vào cùng vai trò. Dùng prompt ngay bên dưới, giữ thiết lập, kiểm tra giá rồi tạo một lượt trong ngân sách. Kết quả cần có đèn sáng lên và Lan nhìn xuống, không bước lại hay chạm đèn. Ảnh mẫu này được tạo bằng GPT Image, không lấy từ clip 1 của bạn. Nếu đang dựng nối liền, ưu tiên thay nó bằng khung tại điểm cắt thật của shot 1; chỉ dùng prompt khi khung đó vẫn có đèn tắt. Nếu hai clip nhảy vị trí khi ghép, quay lại cách lấy khung nối ở bài 6.',
+      'Download the original shot-2 image. Lan has stopped near the bench, but the lantern is still unlit: this is before it lights itself. Start a new job, remove the shot-1 image from the starting-frame slot and upload shot 2 instead; do not put both images in the same role. Use the prompt below, retain the settings, check the price and generate one attempt within budget. The lantern should light and Lan should look down without walking again or touching it. This sample came from GPT Image, not your shot-1 clip. For a continuous edit, preferably replace it with the actual frame at your chosen shot-1 cut; use this prompt only if that frame still has an unlit lantern. If the clips jump in position, return to the ending-frame handoff in Module 6.',
+    ],
+    [
+      'Tải ảnh gốc shot 3: đèn đã sáng, Lan đang nhìn xuống đèn. Tạo job mới với ảnh này ở ô khung đầu và prompt bên dưới; kiểm tra thiết lập, giá và lượt còn lại. Clip chỉ cần Lan quay đầu và xoay vai nhẹ về con đường vắng, rồi đứng yên. Không yêu cầu cô nói và không tạo màn đen bằng Seedance. Câu “Về thôi, Lan.” sẽ được đặt ngay trước lúc cô nhìn trong CapCut. Nếu đang nối từ clip 2, dùng khung tại điểm cắt thật thay ảnh mẫu và xác nhận đèn đã sáng; vị trí Lan có thể khác ảnh minh họa, không ép cô nhảy sang vị trí mới. Xem lại góc cổ và vai, giữ đoạn quay tự nhiên; không cần thấy rõ mặt sau khi cô nhìn ra đường. Lưu ba clip, rồi làm phần dựng và âm thanh ở bài 7.',
+      'Download the original shot-3 image: the lantern is already lit and Lan is looking down at it. Start a new job with this image in the starting-frame slot and the prompt below; check settings, price and attempts remaining. The clip only needs a natural head and slight shoulder turn toward the empty path, then a hold. Do not ask her to speak or ask Seedance for a black ending. Place “Về thôi, Lan.” just before her look in CapCut. When continuing your actual shot 2, use its chosen cut frame instead and confirm the lantern is lit; her position may differ from the sample, so do not force a jump to a new position. Check the neck and shoulder turn, keeping the natural section; her face need not remain visible once she looks out. Save the three clips, then follow Module 7 for editing and sound.',
+    ],
+  ];
+  const stateNotes: PromptPair[] = [
+    ['Đầu: gần lối vào, đèn tắt. Cuối: Lan dừng gần ghế, đèn vẫn tắt. Tiếng chân thừa ghép sau khi cô đã dừng.', 'Start: near entrance, lantern unlit. End: stopped near bench, lantern still unlit. Add the extra footsteps after she stops.'],
+    ['Đầu: Lan đã dừng, đèn tắt. Cuối: đèn sáng, Lan nhìn xuống. Chỉ ánh đèn thay đổi, không chuyển trời tối.', 'Start: Lan stopped, lantern unlit. End: lantern lit, Lan looking down. Only lantern light changes; daylight remains.'],
+    ['Đầu: đèn sáng, Lan nhìn xuống. Cuối: Lan nhìn về đường trống, vẫn đứng yên, đèn sáng. Câu gọi được ghép ngoài hình.', 'Start: lantern lit, Lan looking down. End: looking toward the empty path, still standing, lantern lit. Add the offscreen call in the edit.'],
+  ];
+  const steps: LessonStep[] = seedanceReadyFrames.map((asset, index) => ({
+    title: titles[index][locale === 'vi' ? 0 : 1],
+    instruction: instructions[index][locale === 'vi' ? 0 : 1],
+    tool: 'Seedance 2.5',
+    prompt: seedanceReadyFramePrompts[index][1], promptVi: seedanceReadyFramePrompts[index][0],
+    promptLanguage: 'en', promptKind: 'video', promptFormat: 'text',
+    promptEvidence: t('Ảnh đầu đã được tạo bằng GPT Image và kiểm tra bằng mắt. Prompt Seedance bên dưới là bài thực hành chưa chạy thử; chưa có video kết quả.', 'The starting image was generated with GPT Image and visually checked. The Seedance prompt below is an untested practice exercise; there is no video result yet.'),
+    referenceImages: [{ label: t('Ô khung hình đầu — chỉ tải ảnh này', 'Starting-frame slot — upload this image only'), src: root + asset.file }],
+    media: [{ label: t(`Ảnh đầu shot ${index + 1} · bản gốc ${asset.width}×${asset.height}`, `Shot ${index + 1} starting image · ${asset.width}×${asset.height} original`), src: root + asset.file, kind: 'image', width: asset.width, height: asset.height }],
+    resultText: stateNotes[index][locale === 'vi' ? 0 : 1],
+    resultReview: t('Ảnh đơn nguyên bản, không cắt từ storyboard. Các ảnh mẫu không bảo đảm clip tạo riêng sẽ nối khớp; kiểm tra hai bên điểm cắt trước khi dựng. Nếu chưa tạo video, ghi “chưa thử”, không đánh dấu chuyển động là đạt.', 'A full-size single image, not a crop from the storyboard. Separate sample images do not guarantee seamless generated clips; inspect both sides of each cut. If no video was generated, record “untested” rather than passing motion.'),
+    save: `02-location/ready-frames/${asset.file} + 04-clips/ready-shot-0${index + 1}-v01.mp4`,
+  }));
+  const lab: WorkshopTechnique = {
+    id: 'sd25-ready-frames',
+    title: t('Tùy chọn · Làm theo với ba ảnh đầu có sẵn', 'Optional · Follow along with three ready-made starting frames'),
+    goal: t('Tập tạo từng shot với đúng ảnh, prompt và trạng thái của câu chuyện “Ai đang gọi mình?”.', 'Practice each shot with the matching image, prompt and story state for “Who Is Calling Me?”.'),
+    input: t('Dùng cả bộ ba ảnh ở đây khi bạn muốn luyện tạo video trước khi tự làm ảnh. Trước khi tạo trong bài 5, kiểm tra model, chế độ và giá trên giao diện; chỉ tạo khi chi phí phù hợp. Chưa cần tạo lại nhân vật. Chỉ một ảnh cho mỗi lượt tạo, không tải cả storyboard. Ảnh 2 và 3 là đầu vào luyện tập độc lập, không phải khung cuối của video đã có. Khi nối phim thật, ưu tiên khung tại điểm cắt của clip trước theo bài 6. Không trộn bộ này với nhân vật tự tạo. Dùng lại những clip đã đạt, không tạo thêm chỉ vì chuyển bài. Nếu hết ngân sách, dùng ba ảnh để dựng ANIMATIC và giữ phần chuyển động là chưa đánh giá.', 'Use this entire set to practice video generation before making your own images. Before generating in Module 5, check the model, mode and displayed price; generate only at a cost you accept. You do not need to remake the character. Use one image per job, never the whole storyboard. Images 2 and 3 are independent practice inputs, not end frames from existing videos. For a continuous film, prefer each preceding clip’s actual cut frame as taught in Module 6. Do not mix this set with a different character. Reuse successful clips rather than generating again when changing modules. Without budget, edit these stills as an ANIMATIC and leave motion unassessed.'),
+    steps,
+    check: t('Tôi đã chọn đúng file cho từng shot, giữ đèn tắt → sáng → giữ sáng trong ba clip và kiểm tra chuyển động thật; hoặc ghi rõ chưa tạo video. Khi ghép, tôi đã so vị trí, camera và trạng thái ở mỗi điểm cắt.', 'I selected the correct file for each shot, checked unlit → lighting up → staying lit across the clips, and inspected actual motion, or recorded that video is untested. I compared position, camera and state at each join.'),
+    fix: t('Nếu đèn đã sáng ngay đầu shot 2, kiểm tra lại file tải lên. Nếu shot 3 quay cổ bất thường, giảm góc quay hoặc cắt sớm. Nếu clip nối bị nhảy, dùng khung thật từ clip trước thay ảnh mẫu; đừng tăng số lượt vượt ngân sách.', 'If shot 2 starts with a lit lantern, check the uploaded file. If shot 3 twists the neck unnaturally, reduce the turn or cut sooner. If a join jumps, replace the sample with the preceding clip’s actual cut frame; do not exceed the attempt budget.'),
+  };
+  motion.techniques = [lab, ...(motion.techniques ?? [])];
+  motion.steps[1].instruction += t(' Muốn làm theo với ảnh sẵn có, mở “Tùy chọn · Làm theo với ba ảnh đầu có sẵn” ở cuối bài này. Phần đó có ảnh gốc tải riêng và prompt khớp từng shot; các lượt tạo vẫn tính chung vào ngân sách và giới hạn ba lượt mỗi shot.', ' To use supplied images, open “Optional · Follow along with three ready-made starting frames” at the end of this module. It pairs each original download with its own shot prompt; attempts still count toward the shared budget and three-attempt limit per shot.');
+  course.preparation.steps.push({ heading: t('Luyện với bộ ảnh có sẵn', 'Practice with supplied starting frames'), text: t('Bài 5 có phần “Làm theo với ba ảnh đầu có sẵn”: mỗi shot có một ảnh đơn để tải, prompt Seedance song ngữ và cách kiểm tra. Bạn có thể dùng bộ này để luyện trước khi tự tạo ảnh. Màn đen cuối phim có file tải ở bài 7 và được ghép trong CapCut.', 'Module 5 includes “Follow along with three ready-made starting frames”: each shot has a full-size image download, bilingual Seedance prompt and review instructions. Use the set before creating your own images if you prefer. Download the black ending in Module 7 and add it in CapCut.') });
+  const ending = delivery.steps.find(step => step.save.startsWith('05-edit/black-end.png'))!;
+  ending.downloads = [...(ending.downloads ?? []), { label: t('Màn đen 1920×1080 · ghép trong CapCut', 'Black ending 1920×1080 · for CapCut'), src: root + seedanceBlackEnding }];
+  ending.instruction += t(' Bạn cũng có thể tải file màn đen bên dưới, lưu thành 05-edit/black-end.png rồi nhập vào CapCut. Đây là ảnh màu đen tạo bằng phần mềm, không phải ảnh GPT Image hay một shot Seedance; không có prompt video cho đoạn này.', ' Alternatively, download the black image below, save it as 05-edit/black-end.png and import it into CapCut. This is a plain software-created black image, not a GPT Image output or a Seedance shot; it has no video prompt.');
+}

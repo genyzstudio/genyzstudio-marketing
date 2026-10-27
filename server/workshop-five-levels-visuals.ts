@@ -101,7 +101,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     },
     {
       "id": "sizes",
-      "title": "Năm cỡ cảnh — nhìn từ rộng đến gần",
+      "title": "Năm cỡ cảnh, từ rộng đến gần",
       "instruction": "Đọc từ trái sang phải: extreme wide shot → wide shot → medium shot → close-up → extreme close-up. Mỗi cỡ cảnh giúp người xem tập trung vào một phần khác nhau của câu chuyện.",
       "promptVi": "Dùng ảnh tiệm sửa đèn đính kèm làm mẫu duy nhất. Tạo bảng so sánh 5 shot sizes bằng 5 ô ảnh chân thực xếp một hàng ngang, mỗi ô cùng tỷ lệ dọc và không có chữ. Từ trái sang phải: (1) extreme wide shot thấy toàn căn phòng và người thợ nhỏ trong phòng; (2) wide shot thấy toàn thân người thợ sau bàn và căn phòng; (3) medium shot thấy từ thắt lưng lên, hai tay trên bàn và chiếc đèn; (4) close-up khuôn mặt người thợ; (5) extreme close-up một mắt và một phần sống mũi. Mọi ô cùng một khoảnh khắc, cùng khuôn mặt, áo chàm, tạp dề be, chiếc đèn chưa sáng, cửa sổ bên trái và ánh sáng xanh chạng vạng. Máy quay eye-level ở tất cả ô, chỉ thay shot size. Không đổi biểu cảm, không thêm người, không chữ hoặc logo. Dùng trong bài học để nhìn rõ khác biệt giữa năm cỡ cảnh.",
       "inputs": [
@@ -209,7 +209,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
   "motion": [
     {
       "id": "static",
-      "title": "Camera đứng yên — mốc để đối chiếu",
+      "title": "Camera đứng yên làm mốc đối chiếu",
       "instruction": "Quan sát mép cửa sổ và cạnh bàn, thay vì chỉ nhìn mặt nhân vật. Các đường này giúp nhận ra camera có di chuyển ngoài ý muốn hay không.",
       "promptVi": "Dùng ảnh đã tải làm khung hình mở đầu chính xác. Người sửa đèn nhìn yên vào chiếc đèn chưa sáng, hai bàn tay đặt riêng trên bàn. Locked camera, eye-level, một cảnh liên tục 5 giây. Chỉ có nhịp thở rất nhẹ. Giữ nguyên khuôn mặt, áo chàm, tạp dề be, thiết kế đèn và ánh sáng từ cửa sổ bên trái. Đèn luôn tắt. Không lời thoại, không âm nhạc, không cắt cảnh.",
       "inputs": [
@@ -233,7 +233,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     },
     {
       "id": "dolly-first",
-      "title": "Dolly-in lần 1 — phát hiện sai chuyển động",
+      "title": "Dolly-in lần 1: phát hiện sai chuyển động",
       "instruction": "Dolly-in nghĩa là camera tiến về phía chủ thể. Nhân vật tự cúi về phía camera không phải cùng một kỹ thuật.",
       "promptVi": "Dùng ảnh đã tải làm khung hình mở đầu chính xác. Người sửa đèn nhìn yên vào chiếc đèn chưa sáng, hai bàn tay đặt riêng trên bàn. Slow dolly-in: camera từ từ tiến gần người thợ khoảng 30 cm, không zoom lens, eye-level, một cảnh liên tục 5 giây. Chỉ có nhịp thở rất nhẹ. Giữ nguyên khuôn mặt, áo chàm, tạp dề be, thiết kế đèn và ánh sáng từ cửa sổ bên trái. Đèn luôn tắt. Không lời thoại, không âm nhạc, không cắt cảnh.",
       "inputs": [
@@ -281,7 +281,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     },
     {
       "id": "endpoints",
-      "title": "Start/end frame — nối hai trạng thái",
+      "title": "Start/end frame: nối hai trạng thái",
       "instruction": "Gắn đèn tắt vào Start và đèn sáng vào End. So sánh với clip ở cấp độ 1 chỉ dùng ảnh mở đầu.",
       "promptVi": "Nối start frame đèn tắt và end frame đèn sáng. Một cảnh liên tục 5 giây, locked camera. Ngọn bấc ở đáy kính từ từ cháy sáng màu vàng hổ phách, phản sáng ấm xuất hiện nhẹ trên bàn. Không đổi thiết kế đèn, quai, kính, cửa sổ hoặc đồ vật. Không có người, không camera movement, không cắt cảnh, không chữ, không lời thoại, không âm nhạc.",
       "inputs": [
@@ -335,7 +335,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     {
       "id": "acting",
       "title": "Chỉ đạo diễn xuất bằng mốc hành động",
-      "instruction": "Nhìn xuống → thở ra → ngẩng mắt → mỉm cười → giữ. Mốc thời gian cụ thể giúp dễ đánh giá hơn từ chung chung như «buồn rồi vui».",
+      "instruction": "Nhìn xuống → thở ra → ngẩng mắt → mỉm cười → giữ. Mốc thời gian cụ thể giúp dễ đánh giá hơn những từ chung chung như «buồn rồi vui».",
       "promptVi": "Dùng ảnh đã tải làm start frame. Một cảnh 5 giây, locked camera, medium shot. Người thợ nhìn xuống chiếc đèn tắt trong giây đầu, thở ra nhẹ, rồi từ giây 2 đến 4 ngẩng mắt lên và mỉm cười rất nhẹ, cuối cùng giữ biểu cảm một giây. Hai bàn tay luôn đặt riêng trên bàn, không giơ tay. Giữ cùng khuôn mặt, tóc, áo chàm, tạp dề và ánh sáng xanh từ cửa sổ. Không đổi đèn, không thêm người, không lời thoại, không âm nhạc, không cắt cảnh.",
       "inputs": [
         {
@@ -381,7 +381,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     },
     {
       "id": "reaction",
-      "title": "Sửa diễn xuất — giữ ánh mắt và bỏ hơi trắng",
+      "title": "Sửa diễn xuất: giữ ánh mắt và bỏ hơi trắng",
       "instruction": "So với lần trước: bỏ hành động thở ra, giữ mắt hướng về đèn và bắt đầu từ frame đèn đã sáng.",
       "promptVi": "Dùng ảnh đã tải làm start frame. Đèn đã sáng từ đầu và luôn sáng dịu. Một cảnh 5 giây, locked camera. Người thợ nhìn vào đèn, từ giây 1 đến 3 khóe miệng nâng thành nụ cười nhẹ, từ giây 3 đến 5 giữ nụ cười và nhìn xuống đèn. Đầu, thân và hai tay giữ nguyên vị trí. Không nhìn camera, không thở khói, không hơi trắng, không thêm hành động hay người. Giữ áo chàm, tạp dề, bàn và ánh cửa sổ xanh. Không lời thoại, không âm nhạc, không cắt cảnh.",
       "settings": "OpenArt · Seedance 2.5 Draft · 480p · 5 giây · 1 take mỗi prompt · Audio On. Các clip gốc được giữ nguyên; bản dựng cuối bỏ âm thanh. Không có seed cố định nên đây là các lần thử, chưa đủ để xác định riêng từng yếu tố ảnh hưởng đến kết quả.",
@@ -434,7 +434,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     },
     {
       "id": "hold",
-      "title": "Shot kết — giữ đèn sáng xuyên suốt",
+      "title": "Shot kết: giữ đèn sáng xuyên suốt",
       "instruction": "Một shot ít chuyển động giúp người xem có thời gian cảm nhận phần kết. Gắn ảnh đèn đã sáng để tránh tạo thêm một lần bật đèn.",
       "promptVi": "Dùng ảnh đã tải làm start frame. Chiếc đèn đã sáng ngay từ đầu. Giữ camera đứng yên 5 giây, chỉ ngọn lửa nhỏ rung nhẹ tự nhiên và phản sáng ấm trên kính. Không tắt rồi thắp lại đèn, không thêm khói, không thay đồ vật, không có người, không cắt cảnh, không lời thoại, không nhạc.",
       "settings": "OpenArt · Seedance 2.5 Draft · 480p · 5 giây · 1 take mỗi prompt · Audio On. Các clip gốc được giữ nguyên; bản dựng cuối bỏ âm thanh. Không có seed cố định nên đây là các lần thử, chưa đủ để xác định riêng từng yếu tố ảnh hưởng đến kết quả.",
@@ -459,7 +459,7 @@ const examples: Partial<Record<PipelineId, WorkshopVisualExample[]>> = {
     {
       "id": "edit",
       "title": "Bản dựng nháp 20 giây — từ các take đã chọn",
-      "instruction": "00:00–00:05: người thợ chờ bên đèn tắt. 00:05–00:10: đèn sáng. 00:10–00:15: người thợ mỉm cười. 00:15–00:20: chiếc đèn tiếp tục sáng. Tải bốn clip nguồn trong bài và xếp theo thứ tự này trong CapCut.",
+      "instruction": "00:00-00:05: người thợ chờ bên đèn tắt. 00:05-00:10: đèn sáng. 00:10-00:15: người thợ mỉm cười. 00:15-00:20: chiếc đèn tiếp tục sáng. Tải bốn clip nguồn trong bài và xếp theo thứ tự này trong CapCut.",
       "settings": "Dựng từ 4 clip AI: camera-static-vi-v1 → endpoints-vi-v1 → reaction-vi-v1 → lantern-hold-vi-v1. Mỗi clip lấy 5 giây, hard cut, 852×480, 24 fps, H.264, bỏ audio. Đây là bản dựng hình để học nhịp; có thể bổ sung âm thanh sau.",
       "inputs": [{"label":"Shot 1 — chờ đợi","src":"/api/workshop/examples/camera-static-vi-v1.mp4"},{"label":"Shot 2 — thắp đèn","src":"/api/workshop/examples/endpoints-vi-v1.mp4"},{"label":"Shot 3 — phản ứng","src":"/api/workshop/examples/reaction-vi-v1.mp4"},{"label":"Shot 4 — hình kết","src":"/api/workshop/examples/lantern-hold-vi-v1.mp4"}],
       "outputs": [
@@ -569,7 +569,7 @@ const english: Record<string, [string, string, string]> = {
   ],
   "edit": [
     "A 20-second rough cut · diagnose continuity",
-    "00:00–00:05 waiting; 00:05–00:10 ignition; 00:10–00:15 reaction; 00:15–00:20 lit lantern. Download the four source clips and assemble them in this order.",
+    "00:00-00:05 waiting; 00:05-00:10 ignition; 00:10-00:15 reaction; 00:15-00:20 lit lantern. Download the four source clips and assemble them in this order.",
     "Diagnostic assembly, not a continuity-approved film: shots 2 and 4 keep nearly the same view of the table as shot 1 but the repairer disappears. Use tighter inserts hiding his position, or regenerate with his hands/apron visible behind the lamp. The reaction is medium rather than the planned close-up, and no action explains the ignition. The silent edit does not demonstrate voice reference, lip-sync or live-action VFX."
   ]
 };

@@ -7,7 +7,7 @@ export const home = {
     { label: "Phim của studio", href: "#san-pham" },
     { label: "Cách kể chuyện", href: "#cau-chuyen" },
     { label: "Học làm phim", href: "#lo-trinh" },
-    { label: "Workshop", href: "#workshop" },
+    { label: "Thư viện workshop", href: "/workshops" },
   ],
   hero: {
     title: "Tự tay làm video AI đầu tiên.",

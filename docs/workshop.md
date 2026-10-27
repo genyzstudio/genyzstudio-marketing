@@ -2,18 +2,38 @@
 
 # Bilingual AI video workshop
 
-The classroom is available at `/workshop` (Vietnamese) and `/en/workshop` (English). Nine protected modules follow the studio pipeline. Both editions use English generation prompts and share learner progress. Only the email login form and support link are public.
+The classroom is available at `/workshop` (Vietnamese) and `/en/workshop` (English). Nine protected modules follow the studio pipeline. Both editions use English generation prompts and share learner progress. Workshops are fully protected by default; the administrator can open all or selected lessons through `/admin`.
 
 ## Email access
 
 Cloudflare Pages Functions handles `/api/workshop/*`; Cloudflare D1 stores paid access, sessions, and progress. `workshop_codes` retains its legacy name but now represents an email-bound entitlement: email, expiry, revocation, payment reference, progress. The legacy permanent code hash is no longer accepted for login. Migration 0002 invalidates previous sessions; anonymous records must be assigned an email before they can regain access.
 
-- `POST request-code`: accepts email, sends a six-digit code only to an active learner. Registered, unknown, expired and revoked emails receive the same generic response. Provider delivery failures also receive that response; operators see a redacted failure event and should monitor provider delivery logs.
+- `POST request-code`: accepts email, sends a six-digit code to an active learner or the fixed administrator mailbox. Registered, unknown, expired and revoked emails receive the same generic response. Provider delivery failures also receive that response; operators see a redacted failure event and should monitor provider delivery logs.
 - `POST login`: requires email and code. Codes expire within ten minutes, allow five guesses and are atomically consumed once. Resends are at least 60 seconds apart and do not reset the active attempt budget or expiry. A newly sent code replaces the previous one.
 - Each authentication endpoint permits ten attempts per IP per 15-minute bucket. Account challenge limits apply across IPs. Expired challenges and rate-limit records are cleaned up on authentication requests.
 - `GET content`, `PUT progress`, and `POST logout` retain server-side authorization. Revoked or expired access fails on the next protected request. Progress belongs to the email entitlement, with last-write-wins semantics.
 
 Codes are stored as HMAC-SHA256 digests using a server secret, protecting short codes against offline guessing from a database-only leak. Session tokens contain 256 random bits, are stored as hashes, and use HttpOnly, SameSite=Strict, Secure HTTPS cookies scoped to the API. Sessions last at most seven days and never exceed entitlement expiry. Mutation requests require same-origin Origin and bounded JSON bodies. Responses are private/no-store. Neither curriculum nor credentials are placed in public bundles. Already downloaded material cannot be recalled.
+
+## Workshop protection dashboard
+
+Open `/admin` and request a one-time code for **genyzstudio@gmail.com**. Only a server-verified session for this exact address can read or save settings. First successful email-code verification provisions the administrator entitlement; subsequent admin logins renew its expiry to 2100 without clearing revocation. No paid enrollment or password setup is required for this mailbox. Existing email delivery secrets are required. Revoking its `workshop_codes` row blocks admin login and existing sessions.
+
+Each workshop has three modes:
+
+- **Bảo vệ toàn bộ**: all lessons require an enrolled email (default).
+- **Công khai toàn bộ**: all lessons and shared preparation are public.
+- **Công khai một phần**: check the individual public lessons. Select lessons 1 and 2 to require login from lesson 3 onward. Shared preparation stays protected because it may include later-lesson prompts.
+
+Settings apply to both languages. Click **Lưu quyền truy cập** on each workshop; the dashboard reloads saved settings after each change. Public visitors get only permitted lesson bodies. Locked lessons show a lock and lead to login. Anonymous progress lasts only in the current page; authenticated learners keep existing saved progress and full access. Public workbooks contain only public content. Registered example images, responsive previews and videos follow the same policy; an asset referenced by any public lesson is public even if a protected lesson also uses it. Already downloaded content cannot be recalled. Changes apply on subsequent content/media requests.
+
+Before deploying the updated Functions, apply **0009_workshop_access.sql** along with any preceding migrations. Missing policy rows mean fully protected; this migration does not open any workshop. For the configured production database:
+
+```sh
+npx wrangler d1 migrations apply genyz-workshop-production --remote --env production
+```
+
+The dashboard uses `GET /api/workshop/admin-access` and same-origin `PUT /api/workshop/save-access?course=COURSE_ID`. Writes validate mode and lesson IDs, and record the verified admin email and update time. These endpoints do not grant learner access. Test rollout using an anonymous browser as well as the admin session, since enrolled users always see the full curriculum.
 
 ## Email provider configuration
 
@@ -77,7 +97,7 @@ Preserve original English source titles, terminology, tool names, interface labe
 
 ## Bilingual classroom
 
-`/workshop` serves Vietnamese explanations and `/en/workshop` serves the complete English edition. The header uses the same VN / EN links as the main site. Both routes show only the email login screen publicly, carry noindex metadata, and retrieve all curriculum data from the authenticated API. English homepage links lead to the English classroom.
+`/workshop` serves Vietnamese explanations and `/en/workshop` serves the complete English edition. The header uses the same VN / EN links as the main site. Both routes follow the same workshop access policy, carry noindex metadata, and retrieve all curriculum data from the server-filtered API. English homepage links lead to the English classroom.
 
 The API accepts `?locale=en` (otherwise Vietnamese), including localized errors. Locale does not change access checks, cookie scope, module IDs, or progress ownership. Switching languages retains the same session and saved progress. All prompts remain English; the English edition requests English script/narration output. Original source titles, tool labels, and project filenames are retained. Workbook downloads use the selected language. The public-export scan checks both protected editions.
 
@@ -230,3 +250,18 @@ The derivatives are explicitly registered under the same protected API namespace
 Revised the five core modules, technique labs, glossary, preparation instructions, tested-image reviews and visual galleries. Replaced literal translations and unnecessary English fragments with clear modern Vietnamese while retaining useful technical names. Prompt text and generated media provenance remain intact, including failed attempts and limits of the visual evidence. English curriculum, IDs and asset paths are unchanged. The workbook consumes the same revised curriculum. Verification artifacts: `artifacts/vietnamese-editorial/`.
 
 Published with the Clever Rat wording revision in production deployment `b0e69bf7`. Authenticated live browser verification confirmed the revised Five Levels lesson and storyboard notes beside the generated image. Lint, 56 tests, production build and the 61-file protected-export scan passed. No database migration, Git commit or push was performed.
+
+## AI Cinema Workflow · Step 4, Lessons 7–13
+
+Added the complete Vietnamese `/workshop/ai-cinema-workflow` and English `/en/workshop/ai-cinema-workflow` workshops. See [source mapping, terminology decisions, YAML integrity and release verification](workshop-ai-cinema.md). The seven lessons follow the Skool sequence and Loom timeline, with paired original practice prompts and 25 camera labs. Migration `0010_workshop_ai_cinema.sql` preserves existing progress/policies and keeps the new course protected by default. Production deployment `517239b6` passed 79 tests, build/type/lint checks and live anonymous-route/access checks. No Git push was performed.
+
+## Workshop library and navigation
+
+The public catalog lives at `/workshops` and `/en/workshops`. Classroom tabs are replaced by a searchable course switcher, and mobile lesson navigation is a vertical disclosure menu with current-lesson context. Existing classroom URLs, access rules and progress remain unchanged. See [navigation design and verification](workshop-navigation.md) for maintenance and release notes.
+
+## Seedance 2.5 Master Class — 24 October 2026
+
+The Vietnamese `/workshop/seedance-masterclass` and English `/en/workshop/seedance-masterclass` now teach an original beginner project, “Who Is Calling Me?”. Seven modules cover planning, character/location references in Codex or Nano Banana, prompts with ChatGPT or Claude, three short Seedance clips, continuity and CapCut editing. Voice, motion transfer, background replacement and relighting are optional labs. Existing routes, course keys, access policies and progress remain intact; returning learners see a notice to revisit the revised exercises. See [course design and validation](workshop-seedance-masterclass.md).
+### Seedance 2.5 expansion — 27 October 2026
+
+Expanded the existing seven modules to 39 core steps, 14 optional labs and 34 bilingual prompt pairs. Eight GPT Image assets include real reference sheets and a diagram failure/repair pair. The course now has an early first-clip exercise, explicit provider/input-role checks, camera and diagnosis practice, independent capstone and separate preparation/video assessment. Claude Code proofread both workbooks; Codex applied the corrections. Seedance video demonstrations and a human beginner pilot remain pending. The image/blank-worksheet ZIP requires enrolled access or a fully public course; partial-module policies cannot expose it. See [course design, provenance and validation](workshop-seedance-masterclass.md).

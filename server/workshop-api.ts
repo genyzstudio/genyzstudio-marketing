@@ -3,6 +3,8 @@ import type { PipelineId } from '../content/pipeline';
 import type { WorkshopProgress } from '../content/workshop/types';
 import { workshopCurriculum } from './workshop-content';
 import { workshopMedia } from './workshop-media';
+import { workshopCourses } from '../content/workshop/access';
+import { workshopAdminEmail, readWorkshopPolicy, publicCurriculum, isPublicWorkshopMedia } from './workshop-access';
 
 import { normalizeEmail, loginCodeHash, newLoginCode, sendLoginCode, workshopEmailDefaults } from './workshop-email';
 export interface WorkshopEnv { ASSETS?: { fetch(request: Request): Promise<Response> }; WORKSHOP_DB?: D1Database; WORKSHOP_LOGIN_SECRET?: string; RESEND_API_KEY?: string; WORKSHOP_EMAIL_FROM?: string; WORKSHOP_EMAIL_REPLY_TO?: string }
@@ -11,7 +13,7 @@ const SESSION_SECONDS = 7 * 24 * 60 * 60;
 const WINDOW_SECONDS = 15 * 60;
 const MAX_ATTEMPTS = 10;
 const MAX_BODY = 4096;
-interface AccessRow { id: string; expires_at: number; completed: string; current_module: string; session_expires: number }
+interface AccessRow { email: string; id: string; expires_at: number; completed: string; current_module: string; session_expires: number }
 
 export async function digest(value: string) {
   return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value))), byte => byte.toString(16).padStart(2, '0')).join('');
@@ -55,7 +57,7 @@ function isProgress(value: unknown, pipelineIds: PipelineId[]): value is Worksho
 async function access(request: Request, db: D1Database, now: number) {
   const token = sessionToken(request);
   if (!token) return null;
-  return db.prepare(`SELECT c.id, c.expires_at, c.completed, c.current_module, s.expires_at AS session_expires
+  return db.prepare(`SELECT c.id, c.email, c.expires_at, c.completed, c.current_module, s.expires_at AS session_expires
     FROM workshop_sessions s JOIN workshop_codes c ON c.id = s.code_id
     WHERE s.token_hash = ?1 AND s.expires_at > ?2 AND c.expires_at > ?2 AND c.revoked = 0 AND c.email IS NOT NULL`)
     .bind(await digest(token), now).first<AccessRow>();
@@ -66,12 +68,12 @@ export async function handleWorkshop(request: Request, env: WorkshopEnv, send: t
   const message = (vi: string, en: string) => locale === 'en' ? en : vi;
   const requestedCourse = new URL(request.url).searchParams.get('course');
   const course = !requestedCourse || requestedCourse === 'boat' ? 'clever-rat' : requestedCourse;
-  if (course !== 'clever-rat' && course !== 'five-levels' && course !== 'master-frame' && course !== 'directors-framework' && course !== 'fight-scenes') return response({ error: message('Không tìm thấy workshop.', 'Workshop not found.') }, 404);
+  if (course !== 'clever-rat' && course !== 'five-levels' && course !== 'master-frame' && course !== 'directors-framework' && course !== 'fight-scenes' && course !== 'ai-cinema-workflow' && course !== 'visual-effects' && course !== 'seedance-masterclass') return response({ error: message('Không tìm thấy workshop.', 'Workshop not found.') }, 404);
   const pathname = new URL(request.url).pathname;
   const exampleType = Object.hasOwn(workshopMedia, pathname) ? workshopMedia[pathname] : undefined;
   const examplePath = Boolean(exampleType);
   const route = examplePath ? 'example' : pathname.replace(/\/$/, '').split('/').pop();
-  const allowed: Record<string, string> = { 'request-code': 'POST', login: 'POST', logout: 'POST', content: 'GET', progress: 'PUT', example: 'GET' };
+  const allowed: Record<string, string> = { 'request-code': 'POST', login: 'POST', logout: 'POST', content: 'GET', progress: 'PUT', example: 'GET', 'admin-access': 'GET', 'save-access': 'PUT' };
   if (!route || !allowed[route]) return response({ error: message("Không tìm thấy.", "Not found.") }, 404);
   if (request.method !== allowed[route]) return response({ error: message("Phương thức không được hỗ trợ.", "Method not allowed.") }, 405, { Allow: allowed[route] });
   if (request.method !== 'GET' && request.headers.get('Origin') !== new URL(request.url).origin) return response({ error: message("Yêu cầu không hợp lệ.", "Invalid request.") }, 403);
@@ -103,7 +105,7 @@ export async function handleWorkshop(request: Request, env: WorkshopEnv, send: t
           ON CONFLICT(ip_hash) DO UPDATE SET attempts = attempts + 1 RETURNING attempts`).bind(emailBucket, now).first<{ attempts: number }>();
         if (!limit || limit.attempts > 1) return generic();
         const learner = await db.prepare('SELECT id FROM workshop_codes WHERE email = ?1 AND revoked = 0 AND expires_at > ?2').bind(email, now).first();
-        if (!learner) return generic();
+        if (!learner && email !== workshopAdminEmail) return generic();
         const code = newLoginCode();
         const hash = await loginCodeHash(email, code, secret);
         // Resends rotate the code without resetting an active challenge’s guess budget or expiry.
@@ -131,6 +133,13 @@ export async function handleWorkshop(request: Request, env: WorkshopEnv, send: t
       // DELETE RETURNING consumes the challenge atomically, even for concurrent submissions.
       const consumed = await db.prepare('DELETE FROM workshop_login_codes WHERE email = ?1 AND code_hash = ?2 AND expires_at > ?3 RETURNING email').bind(email, hash, now).first();
       if (!consumed) return invalid();
+      // Bootstrap only after proving ownership of the fixed administrator mailbox.
+      if (email === workshopAdminEmail) {
+        await db.prepare(`INSERT INTO workshop_codes(id, code_hash, created_at, expires_at, email)
+          SELECT ?1, ?2, ?3, ?4, ?5 WHERE NOT EXISTS (SELECT 1 FROM workshop_codes WHERE email = ?5)`)
+          .bind(crypto.randomUUID(), await digest(crypto.randomUUID()), now, 4102444800, email).run();
+        await db.prepare('UPDATE workshop_codes SET expires_at = ?1 WHERE email = ?2 AND revoked = 0').bind(4102444800, email).run();
+      }
       const row = await db.prepare('SELECT id, expires_at FROM workshop_codes WHERE email = ?1 AND revoked = 0 AND expires_at > ?2').bind(email, now).first<{ id: string; expires_at: number }>();
       if (!row) return invalid();
       const token = Array.from(crypto.getRandomValues(new Uint8Array(32)), byte => byte.toString(16).padStart(2, '0')).join('');
@@ -149,7 +158,32 @@ export async function handleWorkshop(request: Request, env: WorkshopEnv, send: t
       return response({ ok: true }, 200, { 'Set-Cookie': cookie(request, '', 0) });
     }
     const user = await access(request, db, now);
-    if (!user) return response({ error: message("Vui lòng nhập mã để vào học.", "Please enter your code to access the classroom.") }, 401, { 'Set-Cookie': cookie(request, '', 0) });
+    const unauthorized = () => response({ error: message("Vui lòng nhập mã để vào học.", "Please enter your code to access the classroom.") }, 401, { 'Set-Cookie': cookie(request, '', 0) });
+    if (route === 'admin-access' || route === 'save-access') {
+      if (!user) return unauthorized();
+      if (user.email !== workshopAdminEmail) return response({ error: message('Chỉ quản trị viên được thay đổi quyền truy cập.', 'Administrator access required.') }, 403);
+      if (route === 'admin-access') {
+        const courses = await Promise.all(workshopCourses.map(async id => {
+          const curriculum = workshopCurriculum(locale, id);
+          return { id, title: curriculum.courseTitle, lessons: curriculum.syllabus.map(({ id, title }) => ({ id, title })), ...await readWorkshopPolicy(db, id) };
+        }));
+        return response({ email: user.email, courses });
+      }
+      let body: unknown;
+      try { body = await readBody(request); } catch { return response({ error: 'Invalid access settings.' }, 400); }
+      const fields = body && typeof body === 'object' ? body as Record<string, unknown> : {};
+      const ids = workshopCurriculum(locale, course).syllabus.map(item => item.id);
+      const lessons = fields.publicLessons;
+      if (!['protected', 'public', 'partial'].includes(String(fields.mode)) || !Array.isArray(lessons) ||
+        lessons.some(id => !ids.includes(id)) || new Set(lessons).size !== lessons.length ||
+        (fields.mode === 'partial' && (lessons.length === 0 || lessons.length >= ids.length)) ||
+        (fields.mode !== 'partial' && lessons.length !== 0)) return response({ error: message('Chọn một số bài công khai hoặc dùng chế độ toàn bộ.', 'Choose some public lessons, or use an all-public/all-protected mode.') }, 400);
+      await db.prepare(`INSERT INTO workshop_access(course_id, mode, public_lessons, updated_by, updated_at) VALUES (?1, ?2, ?3, ?4, ?5)
+        ON CONFLICT(course_id) DO UPDATE SET mode=excluded.mode, public_lessons=excluded.public_lessons, updated_by=excluded.updated_by, updated_at=excluded.updated_at`)
+        .bind(course, fields.mode, JSON.stringify(lessons), user.email, now).run();
+      return response(await readWorkshopPolicy(db, course));
+    }
+    if (!user && route !== 'content' && !(route === 'example' && await isPublicWorkshopMedia(db, pathname))) return unauthorized();
     if (route === 'example') {
       if (!examplePath) return response({ error: 'Not found.' }, 404);
       if (!env.ASSETS) return response({ error: 'Example unavailable.' }, 503);
@@ -170,9 +204,17 @@ export async function handleWorkshop(request: Request, env: WorkshopEnv, send: t
       return new Response(asset.body, { status: asset.status, headers });
     }
     if (route === 'content') {
+      if (!user) {
+        const policy = await readWorkshopPolicy(db, course);
+        if (policy.mode === 'protected') return unauthorized();
+        const curriculum = publicCurriculum(workshopCurriculum(locale, course), policy);
+        if (!curriculum.lessons.length) return unauthorized();
+        return response({ ...curriculum, authenticated: false, preparationAvailable: policy.mode === 'public', progress: { completed: [], current: curriculum.lessons[0].id }, sessionExpiresAt: 0 });
+      }
       const saved = await db.prepare('SELECT completed, current_module FROM workshop_course_progress WHERE code_id = ?1 AND course_id = ?2').bind(user.id, course).first<{completed: string; current_module: string}>();
-      return response({ ...workshopCurriculum(locale, course), progress: { completed: JSON.parse(saved?.completed || '[]'), current: saved?.current_module || 'story' }, sessionExpiresAt: Math.min(user.session_expires, user.expires_at) * 1000 });
+      return response({ ...workshopCurriculum(locale, course), authenticated: true, preparationAvailable: true, progress: { completed: JSON.parse(saved?.completed || '[]'), current: saved?.current_module || 'story' }, sessionExpiresAt: Math.min(user.session_expires, user.expires_at) * 1000 });
     }
+    if (!user) return unauthorized();
     let body: unknown;
     try { body = await readBody(request); } catch { return response({ error: message("Dữ liệu tiến độ không hợp lệ.", "Invalid progress data.") }, 400); }
     if (!isProgress(body, workshopCurriculum(locale, course).syllabus.map(item => item.id))) return response({ error: message("Dữ liệu tiến độ không hợp lệ.", "Invalid progress data.") }, 400);

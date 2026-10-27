@@ -1,11 +1,22 @@
 import { workshopImagePreview, workshopPreviewWidths } from '../content/workshop/image-preview';
 import regeneratedVideos from './workshop-regenerated-videos.json';
+import visualAssets from './workshop-visual-assets.json';
+import type { WorkshopCourseId } from '../content/workshop/access';
+export const workshopFullCourseBundles: Readonly<Record<string, WorkshopCourseId>> = {
+  '/api/workshop/examples/sd25-practice-pack.zip': 'seedance-masterclass',
+};
 // Explicit registry: all files live behind the authenticated workshop API.
 const images = ["fight-slide-start-v1", "fight-vault-start-v1", "fight-camera-start-v1", "fight-projectile-start-v1", "fight-projectile-start-v2", "fight-principles-v1", "fight-start-v1", "director-l1-a-v1", "director-l1-b-v1", "director-l1-b-v2", "director-props-v1", "director-environment-v1", "director-negative-space-v1", "director-negative-fill-v1", "director-depth-a-v1", "director-depth-b-v1", "director-depth-c-v1", "director-wide-v1", "director-close-v1", "overview-shots-vi-v2", "overview-lens-vi-v2", "overview-light-vi-v2", "overview-identity-vi-v2", "overview-shots-v1", "overview-lens-v1", "overview-light-v1", "overview-identity-v1", "frame-linh-v1", "frame-villain-v1", "frame-sheet-v1", "frame-wide-v1", "frame-repair-v1", "frame-close-v1", "frame-medium-v1", "frame-low-v1", "frame-depth-v1", "frame-light-v1", "frame-action-v1", "frame-expand-v1", "frame-emotion-v1", "frame-board-v1", 'rat-s1-leo', 'rat-s1-mio', 'rat-s1-board', 'rat-s1-wide-frame', 'rat-s1-close-frame', 'rat-s1-cut-before', 'lantern-vi-v1', 'lantern-close-vi-v1', 'repairer-front-vi-v1', 'repairer-angle-vi-v1', 'workshop-medium-vi-v1', 'repairer-sheet-vi-v1', 'shot-sizes-vi-v1', 'camera-angles-vi-v1', 'lantern-lit-vi-v1', 'relight-vi-v1', 'wardrobe-vi-v1', 'storyboard-vi-v1', 'workshop-lit-vi-v1'];
 const videos = ["fight-scene-static-v1", "fight-scene-static-v1-125", "fight-scene-tracking-v1", "fight-scene-tracking-v1-125", "fight-scene-orbit-v1", "fight-scene-orbit-v1-125", "fight-scene-projectile-v1", "fight-scene-projectile-v1-125", "fight-scene-slide-v1", "fight-scene-slide-v1-125", "fight-scene-vault-v1", "fight-scene-vault-v1-125", "fight-scene-vague-v1", "fight-scene-vague-v1-125", "fight-scene-rigid-v1", "fight-scene-rigid-v1-125", "fight-scene-slowbeat-v1", "fight-scene-slowbeat-v1-125", "fight-seedance-choreography-v2", "fight-seedance-basic-v1", "fight-orbit-v4", "fight-projectile-v2", "fight-tracking-v2", "fight-static-v1", "fight-speed-v1", "director-wide-static-v1", "director-medium-static-v1", "director-medium-dolly-v1", "director-medium-dolly-v2", "director-lighting-v1", "director-lighting-v2", "director-parallax-v1", 'rat-s1-wide', 'rat-s1-close', 'rat-s1-edit', 'rat-s1-source', 'lantern-text-vi-v1', 'lantern-image-vi-v1', 'camera-static-vi-v1', 'camera-dolly-vi-v1', 'camera-dolly-vi-v2', 'acting-vi-v1', 'endpoints-vi-v1', 'last-lantern-edit-vi-v1', 'reaction-vi-v1', 'missing-reference-vi-v1', 'lantern-hold-vi-v1'];
+images.push('sd25-floorplan-draft', 'sd25-floorplan', 'sd25-start', 'sd25-portrait', 'sd25-turnaround', 'sd25-location', 'sd25-location-sheet', 'sd25-lantern-sheet');
+images.push('sd25-lan-face-gray-v2', 'sd25-lan-outfit-gray-v2', 'sd25-lan-outfit-ghost-v3');
+images.push('sd25-lan-turnaround-v3', 'sd25-lan-master-sheet-v4');
+images.push('sd25-calling-shot-01-start-v1', 'sd25-calling-shot-02-start-v1', 'sd25-calling-shot-03-start-v1', 'sd25-calling-black-end-v1');
+images.push(...visualAssets.map(asset => asset.name.replace(/\.png$/, '')));
 images.push('lantern-insert-start-v2', 'lantern-ignition-start-v2', 'repairer-close-start-v2', 'lantern-hold-start-v2');
 videos.push('last-lantern-edit-vi-v2');
 export const workshopMedia: Readonly<Record<string, string>> = Object.fromEntries([
+  ['/api/workshop/examples/sd25-practice-pack.zip', 'application/zip'],
   ...regeneratedVideos.flatMap(run => [[`/api/workshop/examples/${run.file}.mp4`, 'video/mp4'], [`/api/workshop/examples/${run.file}-poster.jpg`, 'image/jpeg']]),
   ...images.map(name => [`/api/workshop/examples/${name}.png`, 'image/png']),
   ...images.flatMap(name => workshopPreviewWidths.map(width => [workshopImagePreview(`/api/workshop/examples/${name}.png`, width), 'image/webp'])),
