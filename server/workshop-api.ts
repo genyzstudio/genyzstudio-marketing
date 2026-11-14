@@ -3,7 +3,7 @@ import type { PipelineId } from '../content/pipeline';
 import type { WorkshopProgress } from '../content/workshop/types';
 import { workshopCurriculum } from './workshop-content';
 import { workshopMedia } from './workshop-media';
-import { workshopCourses } from '../content/workshop/access';
+import { isWorkshopCourse, workshopCourses } from '../content/workshop/access';
 import { workshopAdminEmail, readWorkshopPolicy, publicCurriculum, isPublicWorkshopMedia } from './workshop-access';
 
 import { normalizeEmail, loginCodeHash, newLoginCode, sendLoginCode, workshopEmailDefaults } from './workshop-email';
@@ -68,7 +68,7 @@ export async function handleWorkshop(request: Request, env: WorkshopEnv, send: t
   const message = (vi: string, en: string) => locale === 'en' ? en : vi;
   const requestedCourse = new URL(request.url).searchParams.get('course');
   const course = !requestedCourse || requestedCourse === 'boat' ? 'clever-rat' : requestedCourse;
-  if (course !== 'clever-rat' && course !== 'five-levels' && course !== 'master-frame' && course !== 'directors-framework' && course !== 'fight-scenes' && course !== 'ai-cinema-workflow' && course !== 'visual-effects' && course !== 'seedance-masterclass') return response({ error: message('Không tìm thấy workshop.', 'Workshop not found.') }, 404);
+  if (!isWorkshopCourse(course)) return response({ error: message('Không tìm thấy workshop.', 'Workshop not found.') }, 404);
   const pathname = new URL(request.url).pathname;
   const exampleType = Object.hasOwn(workshopMedia, pathname) ? workshopMedia[pathname] : undefined;
   const examplePath = Boolean(exampleType);

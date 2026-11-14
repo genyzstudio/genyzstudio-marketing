@@ -21,6 +21,7 @@ import { workshopLessons } from '../server/workshop-lessons';
 import { workshopSyllabus } from '../server/workshop-syllabus';
 import { loginCodeHash, sendLoginCode, workshopEmailDefaults } from '../server/workshop-email';
 import { pipelineIds } from '../content/pipeline';
+import { voiceReferenceTiming } from '../server/workshop-voice-prompts';
 
 const origin = 'https://workshop.test';
 test('workshop previews are smaller responsive images behind the same authentication', async () => {
@@ -74,6 +75,7 @@ async function fixture() {
   sql.exec(readFileSync('migrations/0010_workshop_ai_cinema.sql', 'utf8'));
   sql.exec(readFileSync('migrations/0011_workshop_visual_effects.sql', 'utf8'));
   sql.exec(readFileSync('migrations/0012_workshop_seedance_masterclass.sql', 'utf8'));
+  sql.exec(readFileSync('migrations/0013_workshop_voice_consistency.sql', 'utf8'));
   const now = Math.floor(Date.now() / 1000);
   sql.prepare('INSERT INTO workshop_codes(id, code_hash, created_at, expires_at) VALUES (?, ?, ?, ?)').run('learner-one', await digest(code), now, now + 86400);
   // Numbered placeholders repeat in the access query, so bind by number in the SQLite adapter.
@@ -1041,4 +1043,70 @@ test('Seedance practice archive requires full-course public or enrolled access a
   f.sql.exec("UPDATE workshop_access SET mode='protected' WHERE course_id='seedance-masterclass'");
   const cookie = await f.login();
   assert.equal((await f.request(route, 'GET', undefined, cookie)).status, 200);
+});
+
+test('voice reference timing follows the Voicesheet left-panel table', () => {
+  const table: [number, number, number][] = [[5,2,3],[8,4,2],[10,5,2],[12,6,2],[14,7,2],[15,7,3]];
+  for (const [seconds, shots, first] of table) {
+    const timing = voiceReferenceTiming(seconds);
+    assert.equal(timing.leftShots, shots, `${seconds}s shots`);
+    assert.equal(timing.firstShotSeconds, first, `${seconds}s first shot`);
+    assert.equal(timing.firstShotSeconds + 2 * (timing.leftShots - 1), seconds);
+  }
+  for (const invalid of [4, 16, 12.5, Number.NaN]) assert.throws(() => voiceReferenceTiming(invalid), RangeError);
+});
+
+test('voice consistency course is gated, cites its source and keeps independent progress', async () => {
+  assert.ok(workshopCourses.includes('voice-consistency'));
+  const f = await fixture();
+  assert.equal((await f.request('content?course=voice-consistency')).status, 401);
+  const cookie = await f.login();
+  const progress = {completed:['story','references'],current:'planning'};
+  assert.equal((await f.request('progress?course=voice-consistency','PUT',progress,cookie)).status,200);
+  for (const locale of ['vi','en'] as const) {
+    const result = await f.request(`content?course=voice-consistency&locale=${locale}`,'GET',undefined,cookie);
+    assert.equal(result.status,200);
+    const content = await result.json() as ReturnType<typeof workshopCurriculum> & {progress:WorkshopProgress};
+    assert.deepEqual(content.progress,progress);
+    assert.deepEqual(content.lessons.map(item=>item.id),['story','references','planning','sound','edit','frames','motion','review','delivery']);
+    assert.deepEqual(content.syllabus.map(item=>item.id),content.lessons.map(item=>item.id));
+    assert.ok(content.source?.href.endsWith('r2K2ZvJio7I'));
+    for (const skill of ['Voicesheet','Castkit','Shotcaller']) assert.ok(content.tools.some(tool=>tool.name.includes(skill)),skill);
+    const steps = content.lessons.flatMap(lesson=>lesson.steps);
+    const prompts = steps.flatMap(step=>step.prompt ? [step.prompt] : []).join('\n');
+    assert.ok(prompts.includes('The beige hue on the waters of the loch'));
+    assert.ok(prompts.includes('Bé Mai dặn ông khách già'));
+    assert.ok(prompts.includes('Two side-by-side panels, total 12 seconds'));
+    assert.ok(!/\]\s*\[/.test(prompts), 'one emotion tag per clause');
+    for (const step of steps.filter(item=>item.prompt)) {
+      assert.ok(!step.testedExample, `${step.title} must not claim a tested output`);
+      assert.ok(step.promptEvidence, step.title);
+    }
+    for (const step of steps) for (const image of step.referenceImages || []) { assert.ok(workshopMedia[image.src],image.src); assert.ok(existsSync(`public${image.src}`),image.src); }
+    const gate = renderToStaticMarkup(<WorkshopClassroom locale={locale} course="voice-consistency" />);
+    assert.ok(gate.includes('/en/workshop/voice-consistency'));
+    assert.ok(!gate.includes('Bé Mai dặn ông khách già'));
+  }
+  const other = await (await f.request('content?course=fight-scenes','GET',undefined,cookie)).json() as {progress:WorkshopProgress};
+  assert.deepEqual(other.progress,{completed:[],current:'story'});
+  assert.equal((await f.request('progress?course=voice-consistency','PUT',{completed:['nope'],current:'story'},cookie)).status,400);
+});
+
+test('voice consistency migration preserves all previous progress and access policies',()=>{
+  const db=new DatabaseSync(':memory:');
+  const earlier=['0001_workshop','0002_workshop_email','0003_workshop_courses','0004_workshop_five_levels','0005_workshop_clever_rat','0006_workshop_master_frame','0007_workshop_directors_framework','0008_workshop_fight_scenes','0009_workshop_access','0010_workshop_ai_cinema','0011_workshop_visual_effects','0012_workshop_seedance_masterclass'];
+  for (const file of earlier) db.exec(readFileSync(`migrations/${file}.sql`,'utf8'));
+  db.prepare('INSERT INTO workshop_codes(id,code_hash,created_at,expires_at) VALUES(?,?,?,?)').run('preserve','hash',1,9999999999);
+  const previous=['phoenix','clever-rat','five-levels','master-frame','directors-framework','fight-scenes','ai-cinema-workflow','visual-effects','seedance-masterclass'];
+  for (const course of previous) db.prepare('INSERT INTO workshop_course_progress(code_id,course_id,completed,current_module) VALUES(?,?,?,?)').run('preserve',course,'["story"]','frames');
+  db.prepare('INSERT INTO workshop_access(course_id,mode,public_lessons,updated_by,updated_at) VALUES(?,?,?,?,?)').run('master-frame','partial','["story"]','admin@example.test',1);
+  const progress=db.prepare('SELECT * FROM workshop_course_progress ORDER BY course_id').all();
+  const access=db.prepare('SELECT * FROM workshop_access ORDER BY course_id').all();
+  db.exec(readFileSync('migrations/0013_workshop_voice_consistency.sql','utf8'));
+  assert.deepEqual(db.prepare('SELECT * FROM workshop_course_progress ORDER BY course_id').all(),progress);
+  assert.deepEqual(db.prepare('SELECT * FROM workshop_access ORDER BY course_id').all(),access);
+  db.prepare('INSERT INTO workshop_course_progress(code_id,course_id) VALUES(?,?)').run('preserve','voice-consistency');
+  db.prepare('INSERT INTO workshop_access(course_id,mode,updated_by,updated_at) VALUES(?,?,?,?)').run('voice-consistency','protected','admin@example.test',1);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM workshop_course_progress').get()?.n,previous.length+1);
+  db.close();
 });

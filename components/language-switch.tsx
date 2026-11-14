@@ -1,9 +1,10 @@
 'use client';
 
 import type { Locale } from '../content/locales';
+import type { WorkshopCourseId } from '../content/workshop/access';
 
 /** Keep the current page and section when switching language editions. */
-export function LanguageSwitch({ locale, page = 'home', course = 'clever-rat' }: { locale: Locale; page?: 'home' | 'workshop' | 'library'; course?: 'clever-rat' | 'five-levels' | 'master-frame' | 'directors-framework' | 'fight-scenes' | 'ai-cinema-workflow' | 'visual-effects' | 'seedance-masterclass' }) {
+export function LanguageSwitch({ locale, page = 'home', course = 'clever-rat' }: { locale: Locale; page?: 'home' | 'workshop' | 'library'; course?: WorkshopCourseId }) {
   return <nav className="language-switch" aria-label={locale === 'vi' ? 'Ngôn ngữ' : 'Language'}>
     {(['vi', 'en'] as const).map(language => {
       const href = `${language === 'en' ? '/en' : ''}${page === 'library' ? '/workshops' : page === 'workshop' ? `/workshop${course === 'clever-rat' ? '' : `/${course}`}` : ''}` || '/';
